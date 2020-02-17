@@ -1,6 +1,6 @@
 Package: medrxivr
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.1
+Title: Access MedRxiv Data In R
+Version: 0.0.1.900
 Authors@R: 
     person(given = "Luke",
            family = "McGuinness",
@@ -9,9 +9,15 @@ Authors@R:
            comment = c(ORCID = "0000-0001-8730-9761"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
-VignetteBuilder: 
-    knitr
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/mcguinlu/medrxivr
 BugReports: https://github.com/mcguinlu/medrxivr/issues
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: 
+    knitr, 
+    rmarkdown    
+RoxygenNote: 7.0.1

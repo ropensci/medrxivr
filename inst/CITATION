@@ -1,0 +1,14 @@
+citHeader("To cite medrxivr in publications use:")
+
+citEntry(
+  entry    = "Misc",
+  title    = "medrxivr: Accessing medRxiv data in R",
+  author   = "Luke A McGuinness",
+  year     = "2019",
+  url      = "https://github.com/mcguinlu/medrxivr",
+  textVersion = paste(
+  "Luke A McGuinness (2020).",
+  "medrxivr: Accessing medRxiv data in R",
+  "Available at https://github.com/mcguinlu/medrxivr"
+  )
+)
