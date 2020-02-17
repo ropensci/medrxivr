@@ -1,12 +1,12 @@
 Package: medrxivr
 Title: Access MedRxiv Data In R
 Version: 0.0.1.900
-Authors@R: 
-    person(given = "Luke",
-           family = "McGuinness",
+Authors@R: c(
+    person("Luke", "McGuinness",
            role = c("aut", "cre"),
            email = "luke.mcguinness@bristol.ac.uk",
-           comment = c(ORCID = "0000-0001-8730-9761"))
+           comment = c(ORCID = "0000-0001-8730-9761")),
+    person("Lena", "Schmidt", role = "aut"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
