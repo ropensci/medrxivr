@@ -1,0 +1,15 @@
+Package: medrxivr
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.1
+Authors@R: 
+    person(given = "Luke",
+           family = "McGuinness",
+           role = c("aut", "cre"),
+           email = "luke.mcguinness@bristol.ac.uk",
+           comment = c(ORCID = "0000-0001-8730-9761"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
