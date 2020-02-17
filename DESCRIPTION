@@ -13,3 +13,5 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/mcguinlu/medrxivr
+BugReports: https://github.com/mcguinlu/medrxivr/issues
