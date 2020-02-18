@@ -1,9 +1,15 @@
+mx0 <- mx_search("*")
+
+test_that("Check number of columns", {
+  expect_identical(dim(mx0)[2],12)
+})
+
 mx1 <- mx_search("dementia")
 mx2 <- mx_search(c("dementia"))
 mx3 <- mx_search(list("dementia"))
 
 test_that("Different formats - same search", {
-  expect_equal(length(mx1$node), length(mx1$node))
+  expect_equal(length(mx1$node), length(mx2$node))
   expect_equal(length(mx1$node), length(mx3$node))
   expect_equal(length(mx2$node), length(mx3$node))
 })
@@ -14,3 +20,8 @@ mx5 <- mx_search(list("dementia","lipid"))
 test_that("Different formats - different search", {
   expect_false(length(mx4$node)==length(mx5$node))
 })
+
+test_that("Different formats - different search", {
+  expect_false(length(mx4$node)==length(mx5$node))
+})
+
