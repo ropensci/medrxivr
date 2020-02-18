@@ -7,7 +7,6 @@ sudo: required
 
 r:
   - release
-  - devel
 
 addons:
   apt:

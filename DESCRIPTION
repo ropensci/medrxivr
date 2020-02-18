@@ -26,4 +26,6 @@ Imports:
     rvest,
     methods,
     dplyr,
-    magrittr
+    magrittr,
+    stringr,
+    xml2

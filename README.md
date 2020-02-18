@@ -78,3 +78,9 @@ mx_download(mx_results,     # Object returned by mx_search
             "pdf/",         # Directory to save PDFs to 
             create = TRUE)  # Create the directory if it doesn't exist
 ```
+
+## Code of conduct
+
+Please note that the ‘medrxivr’ project is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.

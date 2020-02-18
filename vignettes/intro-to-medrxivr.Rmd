@@ -22,3 +22,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(medrxivr)
 ```
+
+This will provide an in-depth explanation of the methods used to extract the data and the search functionality. 
+
+
