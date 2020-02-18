@@ -7,3 +7,6 @@
 ^data-raw$
 ^codecov\.yml$
 pdf/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

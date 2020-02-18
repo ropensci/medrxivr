@@ -16,8 +16,8 @@ status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?bra
 coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->
 
-The goal of medrxivr is to provide programmatic access to the medRxiv
-preprint repository.
+The goal of `medrxivr` is to provide programmatic access to the
+*medRxiv* preprint repository.
 
 ## Installation
 
@@ -29,8 +29,8 @@ devtools::install_github("mcguinlu/medrxivr")
 
 ## Example
 
-To get the entire meddataset to play around with, use the following
-command:
+To get the entire *medRxiv* dataset to play around with, use the
+following command:
 
 ``` r
 
@@ -53,7 +53,8 @@ myquery <- c("dementia","vascular","alzheimer's") # Combined with OR
 mx_results <- mx_search(myquery)
 ```
 
-To combine different topic domains:
+To combine different topic domains (currently, you can have up to 5
+topics):
 
 ``` r
 
@@ -64,7 +65,7 @@ myquery <- list(topic1, topic2)                    # Combined with AND
 mx_results <- mx_search(myquery)
 ```
 
-# Download PDFs
+## Download PDFs
 
 Pass the results of your search above to the `mx_download()` function to
 download a copy of the PDF for each record. Note: PDFs are saved using
