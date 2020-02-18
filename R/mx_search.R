@@ -39,7 +39,7 @@ mx_search <- function(query,
       ),
       stringsAsFactors = FALSE)
 
-  mx_data <- mx_data[,C(2:13)]
+  mx_data <- mx_data[,c(2:13)]
 
   mx_info()
 
