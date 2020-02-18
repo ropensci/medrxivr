@@ -21,3 +21,8 @@ VignetteBuilder:
     knitr, 
     rmarkdown    
 RoxygenNote: 7.0.1
+Imports: 
+    rvest,
+    methods,
+    dplyr,
+    magrittr

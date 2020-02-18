@@ -1,4 +1,0 @@
-{
-  "filename": "data_dump.rds",
-  "read": "base::readRDS"
-}
