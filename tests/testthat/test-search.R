@@ -1,7 +1,7 @@
 mx0 <- mx_search("*")
 
 test_that("Check number of columns", {
-  expect_identical(dim(mx0)[2],12)
+  expect_equal(dim(mx0)[2],12)
 })
 
 mx1 <- mx_search("dementia")
