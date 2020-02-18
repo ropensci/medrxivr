@@ -48,15 +48,17 @@ mx_download <- function(mx_results,
     }
 
     while (TRUE) {
-      sleep_time <- runif(1, 10, 13)
-      Sys.sleep(sleep_time)
-      print(paste0("PDF ",
+      print(paste0("Downloading PDF ",
                    number,
                    " of ",
                    length(mx_results$link),
-                   ". ID: ",
+                   " (ID: ",
                    mx_results$node[which(mx_results$pdf ==
-                                                       file_location)]))
+                                                       file_location)],
+                   "). . . "))
+
+      sleep_time <- runif(1, 10, 13)
+      Sys.sleep(sleep_time)
 
       pmx_results <-
         try(download.file(

@@ -16,7 +16,8 @@ BugReports: https://github.com/mcguinlu/medrxivr/issues
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 VignetteBuilder: 
     knitr, 
     rmarkdown    
