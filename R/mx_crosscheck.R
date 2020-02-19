@@ -5,7 +5,6 @@
 #' }
 #' @export
 
-
 mx_crosscheck <- function(){
 
   page <- xml2::read_html("https://www.medrxiv.org/search/%252A")
@@ -26,9 +25,11 @@ mx_crosscheck <- function(){
 
   extracted <- as.numeric(length(unique(data$link)))
 
+  diff <- reference-extracted
+
   if (identical(reference,extracted)==TRUE) {
-    message("Data is current.")
+    message("No new records added to medRxiv since last data dump.")
   } else {
-    message("Data is out of date.")
+    message(paste0(diff, " new record(s) added to medRxiv since last data dump"))
   }
 }
