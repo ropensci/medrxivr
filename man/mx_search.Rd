@@ -11,9 +11,11 @@ mx_search(query, limit = 10, NOT = NULL, deduplicate = FALSE)
 
 \item{limit}{The number of results to return}
 
-\item{NOT}{Vector of regular expressions to exclude from the search. Default is NULL.}
+\item{NOT}{Vector of regular expressions to exclude from the search. Default
+is NULL.}
 
-\item{deduplicate}{Logical. Only return the most recent version of a record. Default is TRUE}
+\item{deduplicate}{Logical. Only return the most recent version of a record.
+Default is TRUE}
 }
 \description{
 Search medRxiv using a string

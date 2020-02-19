@@ -11,7 +11,8 @@ mx_download(mx_results, directory, create = TRUE, print_update = 10)
 
 \item{directory}{The location you want to download the PDF's to}
 
-\item{create}{TRUE or FALSE. If TRUE, creates the directory if it doesn't exist}
+\item{create}{TRUE or FALSE. If TRUE, creates the directory if it doesn't
+exist}
 
 \item{print_update}{How frequently to print an update}
 }

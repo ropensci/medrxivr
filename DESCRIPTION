@@ -11,8 +11,17 @@ Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Language: en-US
 URL: https://github.com/mcguinlu/medrxivr
 BugReports: https://github.com/mcguinlu/medrxivr/issues
+Imports: 
+    rvest,
+    methods,
+    dplyr,
+    magrittr,
+    stringr,
+    xml2,
+    kableExtra
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
@@ -22,10 +31,3 @@ VignetteBuilder:
     knitr, 
     rmarkdown    
 RoxygenNote: 7.0.1
-Imports: 
-    rvest,
-    methods,
-    dplyr,
-    magrittr,
-    stringr,
-    xml2

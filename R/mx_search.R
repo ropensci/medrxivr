@@ -2,8 +2,10 @@
 #' @description Search medRxiv using a string
 #' @param query Character string, vector or list
 #' @param limit The number of results to return
-#' @param NOT Vector of regular expressions to exclude from the search. Default is NULL.
-#' @param deduplicate Logical. Only return the most recent version of a record. Default is TRUE
+#' @param NOT Vector of regular expressions to exclude from the search. Default
+#'   is NULL.
+#' @param deduplicate Logical. Only return the most recent version of a record.
+#'   Default is TRUE
 #' @examples \dontrun{
 #' mx_results <- mx_search("dementia",limit=20)
 #' }
@@ -19,15 +21,20 @@ mx_search <- function(query,
                       deduplicate = FALSE # Change to true at some point
                       ){
 
-  . = NULL
-  abstract = NULL
-  title = NULL
-  node = NULL
-  or_1 = NULL
-  or_2 = NULL
-  or_3 = NULL
-  or_4 = NULL
-  or_5 = NULL
+  . <- NULL
+  abstract <- NULL
+  title <- NULL
+  node <- NULL
+  or_1 <- NULL
+  or_2 <- NULL
+  or_3 <- NULL
+  or_4 <- NULL
+  or_5 <- NULL
+
+
+  # Need to add some error handling here
+  # - Capture bad inputs
+  # - Cpature when people are not connected to the internet
 
 
   mx_data <-
@@ -56,7 +63,9 @@ if (is.list(query)) {
   # General code to find matches
   for (list in 1:length(query)) {
     tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(title, abstract), dplyr::any_vars(grepl(paste(query[[list]], collapse = '|'), .))) %>%
+      dplyr::filter_at(dplyr::vars(title, abstract),
+                       dplyr::any_vars(grepl(paste(query[[list]],
+                                                   collapse = '|'), .))) %>%
       dplyr::select(node)
     tmp <- tmp$node
     assign(paste0("or_",list), tmp)
@@ -75,7 +84,9 @@ if (!is.list(query) & is.vector(query)) {
 
   # General code to find matches
     tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(title, abstract), dplyr::any_vars(grepl(paste(query, collapse = '|'), .))) %>%
+      dplyr::filter_at(dplyr::vars(title, abstract),
+                       dplyr::any_vars(grepl(paste(query,
+                                                   collapse = '|'), .))) %>%
       dplyr::select(node)
 
     and <- tmp$node
@@ -86,7 +97,8 @@ if (is.character(query) & !is.vector(query) & !is.list(query)) {
 
     # General code to find matches
     tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(title, abstract), dplyr::any_vars(grepl(query, .))) %>%
+      dplyr::filter_at(dplyr::vars(title, abstract),
+                       dplyr::any_vars(grepl(query, .))) %>%
       dplyr::select(node)
 
     and <- tmp$node
@@ -107,8 +119,13 @@ if (deduplicate==FALSE) {
   results <- and
 }
 
-
 mx_results <- mx_data[which(mx_data$node %in% results),]
+
+message(paste0("Found ",
+               length(mx_results$node),
+               " records matching your search."))
+
+mx_results
 
 }
 

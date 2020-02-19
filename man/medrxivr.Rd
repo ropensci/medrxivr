@@ -3,8 +3,8 @@
 \docType{package}
 \name{medrxivr}
 \alias{medrxivr}
-\title{medrxivr: Accessing medrXiv data from R}
+\title{medrxivr: Accessing medRxiv data from R}
 \description{
-The medrxivr package enables users to access data from the medrXiv
+The medrxivr package enables users to access data from the medRxiv
 preprint repository from R
 }

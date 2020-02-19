@@ -11,3 +11,46 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r,echo=FALSE}
+# Delete when done
+library(medrxivr)
+library(magrittr)
+library(knitr)
+```
+
+## Download the most recent datadump
+
+```{r, message=FALSE}
+library(medrxivr)
+
+mx_all_data <- mx_search("*")
+
+```
+
+## Dataset description
+
+The dataset contains 12 variables: 
+
+```{r, echo = FALSE}
+
+mx_variables <- data.frame(Variable = c("title", "abstract", "link", "pdf", "date", "subject", "authors", "bibtex", "id", "pdf_name", "extraction_date", "node"), Description = c("Preprint title",
+              "Preprint abstract",
+              "Link to preprint webpage. Note, this only specifes the file path from the base medRxiv url (https://www.medrxiv.org), e.g \"/content/10.1101/19012377v1?versioned=TRUE\". The \"?versioned=TRUE\" is required, as otherwise, the URL will resolve to the most recent version of the article (assuming there is >1 version available).",
+              "Link to preprint PDF. At present, only the most recent version of the PDF is returned in \`mx_download()\`",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""))
+
+
+knitr::kable(mx_variables, format = "html") %>%
+  kableExtra::kable_styling(full_width = F) %>%
+  kableExtra::column_spec(1, bold = T, border_right = T) %>%
+  kableExtra::column_spec(2, width = "30em")
+
+```

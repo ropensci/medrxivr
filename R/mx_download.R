@@ -2,7 +2,8 @@
 #' @description Download PDF's of all the papers in your search results
 #' @param mx_results Vector containing the links to the medRxiv PDFs
 #' @param directory The location you want to download the PDF's to
-#' @param create TRUE or FALSE. If TRUE, creates the directory if it doesn't exist
+#' @param create TRUE or FALSE. If TRUE, creates the directory if it doesn't
+#'   exist
 #' @param print_update How frequently to print an update
 #' @examples \dontrun{
 #' mx_results <- mx_search("ecology",limit=20)

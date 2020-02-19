@@ -30,6 +30,7 @@ mx_crosscheck <- function(){
   if (identical(reference,extracted)==TRUE) {
     message("No new records added to medRxiv since last data dump.")
   } else {
-    message(paste0(diff, " new record(s) added to medRxiv since last data dump"))
+    message(paste0(diff,
+                   " new record(s) added to medRxiv since last data dump"))
   }
 }
