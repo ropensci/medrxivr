@@ -7,7 +7,7 @@ output:
     toc: yes
     toc_depth: 4
 vignette: >
-  %\VignetteIndexEntry{intro-to-medrxivr}
+  %\VignetteIndexEntry{medrxivr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
