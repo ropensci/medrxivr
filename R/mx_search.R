@@ -61,7 +61,10 @@ if (length(query)==1) {
 if (is.list(query)) {
 
   # General code to find matches
-  for (list in 1:length(query)) {
+
+  query_length <- as.numeric(length(query))
+
+  for (list in seq_len(query_length)) {
     tmp <- mx_data %>%
       dplyr::filter_at(dplyr::vars(title, abstract),
                        dplyr::any_vars(grepl(paste(query[[list]],
