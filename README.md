@@ -25,6 +25,7 @@ You can install the development version of this package using:
 
 ``` r
 devtools::install_github("mcguinlu/medrxivr")
+library(medrxivr)
 ```
 
 ## Example

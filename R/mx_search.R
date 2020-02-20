@@ -123,7 +123,7 @@ mx_results <- mx_data[which(mx_data$node %in% results),]
 
 message(paste0("Found ",
                length(mx_results$node),
-               " records matching your search."))
+               " record(s) matching your search."))
 
 mx_results
 
