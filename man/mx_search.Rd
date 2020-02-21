@@ -4,18 +4,30 @@
 \alias{mx_search}
 \title{Search medRxiv}
 \usage{
-mx_search(query, limit = 10, NOT = NULL, deduplicate = FALSE)
+mx_search(
+  query,
+  from.date = NULL,
+  to.date = NULL,
+  NOT = NULL,
+  deduplicate = TRUE
+)
 }
 \arguments{
 \item{query}{Character string, vector or list}
 
-\item{limit}{The number of results to return}
+\item{from.date}{Defines earlist date of interest. Written as a number in
+format YYYYMMDD. Note, records published on the date specified will also be
+returned.}
+
+\item{to.date}{Defines latest date of interest. Written as a number in
+format YYYYMMDD. Note, records published on the date specified will also be
+returned.}
 
 \item{NOT}{Vector of regular expressions to exclude from the search. Default
 is NULL.}
 
 \item{deduplicate}{Logical. Only return the most recent version of a record.
-Default is TRUE}
+Default is TRUE.}
 }
 \description{
 Search medRxiv using a string

@@ -66,6 +66,29 @@ myquery <- list(topic1, topic2)                    # Combined with AND
 mx_results <- mx_search(myquery)
 ```
 
+To limit by date posted on medRxiv:
+
+``` r
+mx_results <- mx_search("dementia",
+                        from.date = 20200101,
+                        to.date = 20200105)
+```
+
+To exclude records containing certain terms:
+
+``` r
+mx_results <- mx_search("dementia",
+                        NOT = "MCI")
+```
+
+To return all versions of a record, rather than just the most recent
+one:
+
+``` r
+mx_results <- mx_search("dementia",
+                        deduplicate = FALSE)
+```
+
 ## Download PDFs
 
 Pass the results of your search above to the `mx_download()` function to

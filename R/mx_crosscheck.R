@@ -17,7 +17,7 @@ mx_crosscheck <- function(){
 
   reference <- as.numeric(stringr::word(reference))
 
-  data <- mx_search("*")
+  data <- suppressMessages(mx_search("*"))
 
   data$link <- gsub("\\?versioned=TRUE","", data$link)
 
@@ -27,10 +27,12 @@ mx_crosscheck <- function(){
 
   diff <- reference-extracted
 
+  mx_info()
+
   if (identical(reference,extracted)==TRUE) {
-    message("No new records added to medRxiv since last data dump.")
+    message("No new records added to medRxiv since last snapshot.")
   } else {
     message(paste0(diff,
-                   " new record(s) added to medRxiv since last data dump"))
+                   " new record(s) added to medRxiv since last snapshot"))
   }
 }

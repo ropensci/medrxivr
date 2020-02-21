@@ -13,7 +13,7 @@ mx_info <- function(){
                                    "mcguinlu/",
                                    "autosynthesis/master/data/timestamp.txt"))
 
-  mess<- paste0("Using medRxiv DataDump - ",
+  mess<- paste0("Using medRxiv snapshot - ",
                 current_time)
   message(mess)
 }

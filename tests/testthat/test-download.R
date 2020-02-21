@@ -1,5 +1,3 @@
-
-
 test_that("Require file", {
   skip_if_offline()
   expect_error(mx_download())
@@ -16,6 +14,7 @@ test_that("Inital output", {
 })
 
 test_that("Already downloaded", {
+  skip_on_cran()
   skip_if_offline()
   expect_output(mx_download(mx_result, "pdf"), regexp = "downloaded")
 })

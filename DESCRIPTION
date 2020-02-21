@@ -22,13 +22,13 @@ Imports:
     dplyr,
     magrittr,
     stringr,
-    xml2,
-    kableExtra
+    xml2
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
-    covr
+    covr,
+    kableExtra
 VignetteBuilder: 
     knitr, 
     rmarkdown    
