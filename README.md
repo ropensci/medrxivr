@@ -16,8 +16,11 @@ status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?bra
 coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->
 
-The goal of `medrxivr` is to provide programmatic access to the
-*medRxiv* preprint repository.
+`medrxivr` provides access to a static snapshot of the *medRxiv*
+preprint repository, which is automatically updated each morning to
+capture new records. `medrxivr` also provides functions to search the
+snapshot using regular expressions and Boolean logic, and provides a
+helper function to download the full-text PDFs of relevant preprints.
 
 ## Installation
 
