@@ -21,7 +21,7 @@ library(knitr)
 
 ## Download the most recent datadump
 
-```{r, message=FALSE}
+```{r, message=FALSE, eval=FALSE}
 library(medrxivr)
 
 mx_all_data <- mx_search("*")
