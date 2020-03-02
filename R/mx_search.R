@@ -108,18 +108,6 @@ if (!is.list(query) & is.vector(query)) {
 
 }
 
-if (is.character(query) & !is.vector(query) & !is.list(query)) {
-
-    # General code to find matches
-    tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(title, abstract),
-                       dplyr::any_vars(grepl(query, .))) %>%
-      dplyr::select(node)
-
-    and <- tmp$node
-
-}
-
 #Exclude those in the NOT category
 
 if (!is.null(NOT)) {
