@@ -12,7 +12,7 @@
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
 #' @examples \dontrun{
-#' mx_results <- mx_search("dementia",limit=20)
+#' mx_results <- mx_search("dementia")
 #' }
 #' @export
 #' @importFrom utils download.file
@@ -44,7 +44,7 @@ mx_search <- function(query,
   # - Cpature when people are not connected to the internet
 
   # Need a way for people to define which snapshot to use
-
+  mx_info()
 
   mx_data <-
     read.csv(
@@ -54,8 +54,6 @@ mx_search <- function(query,
         "medRxiv_abstract_list.csv?"
       ),
       stringsAsFactors = FALSE)
-
-  mx_info()
 
 # Limit by dates
 mx_data$date <- as.numeric(gsub("-","",mx_data$date))
@@ -68,15 +66,6 @@ if (!is.null(from.date)) {
   mx_data <- mx_data %>% dplyr::filter(date >= from.date)
 }
 
-# Return all records
-if (length(query)==1) {
-  if (query=="*") {
-      message(paste0("Found ",
-                    length(mx_data$node),
-                    " record(s) matching your search."))
-      return(mx_data)
-  }
-}
 
 #Code to find common matches
 
@@ -150,9 +139,15 @@ if (!is.null(NOT)) {
 }
 
 
-# Return dataframe with relevant records
-mx_results <- mx_data[which(mx_data$node %in% results),]
-
+if(length(query) > 1){
+  mx_results <- mx_data[which(mx_data$node %in% results),]
+} else {
+  if(query == "*") {
+    mx_results <- mx_data
+  } else {
+    mx_results <- mx_data[which(mx_data$node %in% results),]
+  }
+}
 
 
 if (deduplicate==TRUE) {
@@ -160,14 +155,13 @@ if (deduplicate==TRUE) {
 
   mx_results$version <- substr(mx_results$link,nchar(mx_results$link),nchar(mx_results$link))
 
-  mx_results$link <- substr(mx_results$link,1,nchar(mx_results$link)-2)
+  mx_results$link_group <- substr(mx_results$link,1,nchar(mx_results$link)-2)
 
   mx_results <- mx_results %>%
-    dplyr::group_by(link) %>%
+    dplyr::group_by(link_group) %>%
     dplyr::slice(which.max(version))
 
   mx_results <- mx_results[1:12]
-
 
   # Post message and return dataframe
   message(paste0("Found ",
