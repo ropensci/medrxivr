@@ -5,14 +5,14 @@ test_that("Check number of columns", {
   expect_equal(dim(mx0)[2],12)
 })
 
-mx1 <- mx_search("dementia", from.date = 20190101, to.date = 20200302)
-mx2 <- mx_search(c("dementia"),to.date = 20200302)
-mx3 <- mx_search(list("dementia"),to.date = 20200302)
+mx1 <- mx_search("dementia", from.date = 20190101, to.date = 20200101)
+mx2 <- mx_search(c("dementia"),to.date = 20200101)
+mx3 <- mx_search(list("dementia"),to.date = 20200101)
 
 
 test_that("Different formats - same search", {
   skip_if_offline()
-  expect_equal(length(mx1$node), 44)
+  expect_equal(length(mx1$node), 24)
   expect_equal(length(mx1$node), length(mx2$node))
   expect_equal(length(mx1$node), length(mx3$node))
   expect_equal(length(mx2$node), length(mx3$node))
