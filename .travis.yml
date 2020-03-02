@@ -16,10 +16,6 @@ addons:
 after_success:
   - Rscript -e 'covr::codecov()'
 
-after_failure:
-  - cat /home/travis/build/mcguinlu/medrxivr/medrxivr.Rcheck/00check.log
-
-
 before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 
 deploy:

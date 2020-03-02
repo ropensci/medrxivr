@@ -106,6 +106,13 @@ mx_download(mx_results,     # Object returned by mx_search
             create = TRUE)  # Create the directory if it doesn't exist
 ```
 
+## Planned updates
+
+  - At present, only the title and author fields are searched. I would
+    like to also make the author/topic fields searchable.
+  - At present, only the first author for each record has been
+    extracted. This will be corrected in future updates.
+
 ## Code of conduct
 
 Please note that the `medrxivr` project is released with a [Contributor
