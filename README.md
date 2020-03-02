@@ -73,8 +73,8 @@ To limit by date posted on medRxiv:
 
 ``` r
 mx_results <- mx_search("dementia",
-                        from.date = 20200101,
-                        to.date = 20200105)
+                        from.date = 20200101,      # 1st Jan 2020
+                        to.date = 20200105)        # 5th Jan 2020
 ```
 
 To exclude records containing certain terms:
@@ -95,9 +95,9 @@ mx_results <- mx_search("dementia",
 ## Download PDFs
 
 Pass the results of your search above to the `mx_download()` function to
-download a copy of the PDF for each record. Note: PDFs are saved using
-the value of the `node` column in the dataset, which serves as a unique
-identifier for each record.
+download a copy of the PDF for each record. Note: downloaded PDFs are
+named using the value of the `node` column in the dataset, which serves
+as a unique identifier for each record.
 
 ``` r
 
