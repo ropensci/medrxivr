@@ -34,6 +34,6 @@ Search medRxiv using a string
 }
 \examples{
 \dontrun{
-mx_results <- mx_search("dementia",limit=20)
+mx_results <- mx_search("dementia")
 }
 }
