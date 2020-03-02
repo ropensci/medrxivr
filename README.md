@@ -33,8 +33,8 @@ library(medrxivr)
 
 ## Example
 
-To get the entire *medRxiv* dataset to play around with, use the
-following command:
+To get the entire most recent *medRxiv* snapshot to play around with,
+use the following command:
 
 ``` r
 
@@ -111,3 +111,10 @@ mx_download(mx_results,     # Object returned by mx_search
 Please note that the `medrxivr` project is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
 you agree to abide by its terms.
+
+## Disclaimer
+
+This package and the data it accesses/returns are provided “as is”, with
+no guarantee of accuracy. Please be sure to check the accuracy of the
+data yourself (and do let me know if you find an issue so I can fix it
+for everyone\!)
