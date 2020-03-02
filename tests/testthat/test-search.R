@@ -40,3 +40,13 @@ test_that("NOT", {
   skip_if_offline()
   expect_equal(length(mx8$node), 0)
 })
+
+mx9  <- mx_search(list("dementia","Alz","vascular"))
+mx10 <- mx_search(list("dementia","Alz","vascular", "sex"))
+mx11 <- mx_search(list("dementia","Alz","vascular", "sex","asthma"))
+
+test_that("Multiple topics", {
+  skip_if_offline()
+  expect_true(length(mx10$node)<=length(mx9$node))
+  expect_true(length(mx11$node)<=length(mx10$node))
+})
