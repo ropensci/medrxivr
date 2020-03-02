@@ -7,6 +7,8 @@
 
 mx_crosscheck <- function(){
 
+  mx_info()
+
   page <- xml2::read_html("https://www.medrxiv.org/search/%252A")
 
   reference <- page %>%
@@ -26,8 +28,6 @@ mx_crosscheck <- function(){
   extracted <- as.numeric(length(unique(data$link)))
 
   diff <- reference-extracted
-
-  mx_info()
 
   if (identical(reference,extracted)==TRUE) {
     message("No new records added to medRxiv since last snapshot.")
