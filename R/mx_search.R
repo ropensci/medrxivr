@@ -142,7 +142,9 @@ if(length(query) > 1){
 if (deduplicate==TRUE) {
   mx_results$link <- gsub("\\?versioned=TRUE","", mx_results$link)
 
-  mx_results$version <- substr(mx_results$link,nchar(mx_results$link),nchar(mx_results$link))
+  mx_results$version <- substr(mx_results$link,
+                               nchar(mx_results$link),
+                               nchar(mx_results$link))
 
   mx_results$link_group <- substr(mx_results$link,1,nchar(mx_results$link)-2)
 
