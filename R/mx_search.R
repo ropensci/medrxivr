@@ -31,6 +31,7 @@ mx_search <- function(query,
   abstract <- NULL
   title <- NULL
   node <- NULL
+  link_group <- NULL
   or_1 <- NULL
   or_2 <- NULL
   or_3 <- NULL
