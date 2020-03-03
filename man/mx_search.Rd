@@ -8,7 +8,7 @@ mx_search(
   query,
   from.date = NULL,
   to.date = NULL,
-  NOT = NULL,
+  NOT = "",
   deduplicate = TRUE
 )
 }

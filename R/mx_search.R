@@ -23,7 +23,7 @@
 mx_search <- function(query,
                       from.date = NULL,
                       to.date = NULL,
-                      NOT = NULL,
+                      NOT = "",
                       deduplicate = TRUE # Change to true at some point
                       ){
 
@@ -110,7 +110,7 @@ if (!is.list(query) & is.vector(query)) {
 
 #Exclude those in the NOT category
 
-if (!is.null(NOT)) {
+if (NOT!="") {
   tmp <- mx_data %>%
     dplyr::filter_at(dplyr::vars(title, abstract),
                      dplyr::any_vars(grepl(paste(NOT,
