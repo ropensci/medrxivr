@@ -17,7 +17,7 @@
 #' @export
 #' @importFrom utils download.file
 #' @importFrom utils read.csv
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 
 
 mx_search <- function(query,
@@ -52,9 +52,11 @@ mx_search <- function(query,
       paste0(
         "https://raw.githubusercontent.com/mcguinlu/",
         "autosynthesis/master/data/",
-        "medRxiv_abstract_list.csv?"
-      ),
-      stringsAsFactors = FALSE)
+        "medRxiv_abstract_list.csv"
+      ), sep = ",",
+      stringsAsFactors = FALSE,
+      fileEncoding = "UTF-8",
+      header = TRUE)
 
 # Limit by dates
 mx_data$date <- as.numeric(gsub("-","",mx_data$date))
