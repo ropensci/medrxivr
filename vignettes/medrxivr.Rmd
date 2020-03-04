@@ -15,7 +15,7 @@ vignette: >
 ```{r,echo=FALSE}
 # Delete when done
 library(medrxivr)
-library(magrittr)
+library(dplyr)
 library(knitr)
 ```
 
