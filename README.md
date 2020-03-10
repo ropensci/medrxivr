@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# medrxivr
+# medrxivr <img src="man/figures/hex-medrxivr.png" align="right" width="20%" height="20%" />
 
 <!-- badges: start -->
 
