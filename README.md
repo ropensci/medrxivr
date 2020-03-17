@@ -22,6 +22,12 @@ capture new records. `medrxivr` also provides functions to search the
 snapshot using regular expressions and Boolean logic, and provides a
 helper function to download the full-text PDFs of relevant preprints.
 
+**Note:** `medrxivr` is now available as a web-app, which lets you build
+complex searches via a user-friendly interface, explore the results and
+export them for screening. In an effort to improve reproducibility, it
+also creates the code needed to run the search straight from R. The app
+is available [here.](https://mcguinlu.shinyapps.io/medrxivr/)
+
 ## Installation
 
 You can install the development version of this package using:
