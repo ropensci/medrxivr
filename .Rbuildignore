@@ -12,3 +12,4 @@ pdf/
 ^pkgdown$
 ^CODE_OF_CONDUCT\.md$
 app/
+data-extraction/
