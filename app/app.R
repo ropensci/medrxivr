@@ -363,12 +363,18 @@ server <- function(input, output, session) {
 # Load example searches ---------------------------------------------------
 
   observeEvent(input$loadsearch, {
-    updateTextInput(session, inputId = "topic1", value = "coronavirus\nCOVID\ncovid\n\\\\bncov\\\\b\n\\\\bNCOV\\\\b")
-    updateTextInput(session, inputId = "topic2", value = "test\ndiagnosis\n")
+    updateTextInput(session,
+                    inputId = "topic1",
+                    value = "coronavirus\nCOVID\ncovid\n\\\\bncov\\\\b\n\\\\bNCOV\\\\b")
+    updateTextInput(session,
+                    inputId = "topic2",
+                    value = "test\ndiagnosis\n")
   })
 
   observeEvent(input$loadbasicsearch, {
-    updateTextInput(session, inputId = "basicsearchquery", value = "coronavirus")
+    updateTextInput(session,
+                    inputId = "basicsearchquery",
+                    value = "coronavirus")
   })
 
 # Dynamically render help on advanced search screen -----------------------
@@ -390,7 +396,8 @@ server <- function(input, output, session) {
   # Reset all advanced options to defaults ("") if basic search is performed
   observeEvent(input$basicsearchbutton, {
     btn <- input$addtopic + 3
-    lapply(1:btn, function(i) updateTextAreaInput(session, paste0("topic",i), value = ""))
+    lapply(1:btn, function(i)
+      updateTextAreaInput(session, paste0("topic", i), value = ""))
     updateTextInput(session, "from_date", value = 20190101)
     updateTextInput(session, "to_date", value = todays_date)
     updateTextInput(session, "NOT", value = "")
@@ -572,9 +579,6 @@ server <- function(input, output, session) {
   common_table
   })
 
-
-
-
   output$most_common_count <- renderText({
   })
 
@@ -595,21 +599,26 @@ server <- function(input, output, session) {
 
 # Reproducible code -------------------------------------------------------
 
-  # Output reproducible code
   # Render the code used to define each topic for the advanced search
+  # This looks awful, but allows the app to deal with varying numbers of topics
+
   observe({
-  btn <-  input$addtopic+3
-  lapply(1:btn, function(i)
-  output[[paste0("topic",i)]] <- renderUI({
-    req(input[[paste0("topic",i)]])
-    if (input[[paste0("topic",i)]] != "") {
-      p(em(paste0(
-        "topic",i," <- c(\"", paste0(unlist(strsplit(
-          input[[paste0("topic",i)]], "\n"
-        )), collapse = "\", \""), "\")"
-      )))
-    }
-  }))})
+    btn <-  input$addtopic + 3
+    lapply(1:btn, function(i)
+      output[[paste0("topic", i)]] <- renderUI({
+        req(input[[paste0("topic", i)]])
+        if (input[[paste0("topic", i)]] != "") {
+          p(em(paste0(
+            "topic",
+            i,
+            " <- c(\"",
+            paste0(unlist(strsplit(input[[paste0("topic", i)]], "\n")),
+                   collapse = "\", \""),
+            "\")"
+          )))
+        }
+      }))
+  })
 
 
   # Render code used to define entire query
@@ -628,23 +637,12 @@ server <- function(input, output, session) {
 
         btn <-  input$addtopic + 3
 
-        q<- "topic1"
+        q <- "topic1"
 
         for (list in 2:btn) {
           if (input[[paste0("topic", list)]] != "") {
             q <- c(q, paste0("topic", list))
         }}
-
-
-      # if (input$topic2 != "") {
-      #   q <- c(q, "topic2")
-      # }
-      # if (input$topic3 != "") {
-      #   q <- c(q, "topic3")
-      # }
-      # if (input$topic4 != "") {
-      #   q <- c(q, "topic4")
-      # }
 
       # Output full query
       tagList(p(em(paste0("query <- list(", paste0(q, collapse = ", "), ")"))),
