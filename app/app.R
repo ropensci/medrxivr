@@ -139,7 +139,7 @@ ui <- tagList(
         label = "NOT",
         value = ""
       )),
-      fluidRow(textInput("from_date", "Earlist record date", value = 20190101)),
+      fluidRow(textInput("from_date", "Earlist record date", value = 20190625)),
       fluidRow(uiOutput("dyn_input")),
       div(style = "margin-top:-3px"),
 
@@ -449,13 +449,32 @@ server <- function(input, output, session) {
       }
     })
 
+  # Define terms to exclude, which are passed to the search
+  NOT <-
+    eventReactive(input$basicsearchbutton | input$advsearchbutton, {
+      if (input$basicsearchbutton == 0 && input$advsearchbutton == 0) {
+        return()
+      }
+      if (input$basicsearchquery != "") {
+        c("")
+      } else {
+
+        if (input$NOT == "") {
+          c("")
+        } else {
+          unlist(strsplit(input$NOT, "\n"))
+        }
+      }
+    })
+
+
   # Define results dataset
   mx_data <- reactive({
     mx_search(
       query(),
       to.date = input$to_date,
       from.date = input$from_date,
-      NOT = input$NOT,
+      NOT = NOT(),
       deduplicate = input$deduplicate
     )
   })
@@ -642,13 +661,32 @@ server <- function(input, output, session) {
         for (list in 2:btn) {
           if (input[[paste0("topic", list)]] != "") {
             q <- c(q, paste0("topic", list))
-        }}
+          }}
+
+
+      NOT_char <- paste0(
+        "c(\"",
+        paste0(unlist(strsplit(input$NOT, "\n")),
+               collapse = "\", \""),
+        "\")"
+      )
+
+
+     search <- paste0("mx_results <- mx_search(query",
+                       ", from.date =", input$from_date,
+                       ", to.date =", input$to_date,
+                       ", NOT = ", NOT_char,
+                       ", deduplicate = ", input$deduplicate,
+                       ")")
 
       # Output full query
-      tagList(p(em(paste0("query <- list(", paste0(q, collapse = ", "), ")"))),
-      p(em("mx_results <- mx_search(query)")))
+     tagList(p(em(paste0(
+       "query <- list(", paste0(q, collapse = ", "), ")"
+     ))),
 
-    }
+     p(em(search)))
+
+      }
   })
 
 }
