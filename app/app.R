@@ -48,7 +48,9 @@ ui <- tagList(
       includeMarkdown("text/intro.md"),
       p("To get started, enter a search term (",
         actionLink("loadbasicsearch","click here to load an example"),
-        ") into the box below or go to the \"Advanced search\" tab to design more complex searches. Your search results are presented as a table and are available for easy download as a comma seperated file (CSV). Summary graphics describing your search results are presented. Finally, as this app is designed as a companion to the `medrxivr` R package, the code used to perform your search in R is provided, meaning it is readily reproducible.",        "To see more about the apps background and development, please click ",
+        ") into the box below or go to the \"Advanced search\" tab to design more complex searches. Your search results are presented as a table and are available for easy download as a comma seperated file (CSV). Summary graphics describing your search results are presented. Finally, as this app is designed as a companion to the ",
+        code("medrxivr"),
+        " R package, the code used to perform your search in R is provided, meaning it is readily reproducible.",        "To see more about the apps background and development, please click ",
         actionLink("gotomore", "here.")
       ),
 
@@ -122,16 +124,8 @@ ui <- tagList(
         label = "Topic 3",
         value = ""
       )),
-      fluidRow(textAreaInput(
-        inputId = "topic4",
-        label = "Topic 4",
-        value = ""
-      )),
-      fluidRow(textAreaInput(
-        inputId = "NOT",
-        label = "NOT",
-        value = ""
-      ))
+      tags$div(id = 'placeholder'),
+      fluidRow(actionButton("addtopic", label = "Add topic"))
 
     ),
 
@@ -140,13 +134,21 @@ ui <- tagList(
       width = 6,
       offset = 1,
       fluidRow(h1("Options")),
+      fluidRow(textAreaInput(
+        inputId = "NOT",
+        label = "NOT",
+        value = ""
+      )),
       fluidRow(textInput("from_date", "Earlist record date", value = 20190101)),
       fluidRow(uiOutput("dyn_input")),
+      div(style = "margin-top:-3px"),
+
       fluidRow(
         checkboxInput("deduplicate",
                       "Remove older versions of the same record?",
                       value = TRUE)
       ),
+      div(style = "margin-top:-2px"),
       fluidRow(
         actionButton("advsearchbutton", label = "Start advanced search")
       )
@@ -221,7 +223,7 @@ ui <- tagList(
               width = 4,
               h3("Publication trends over time"),
               p(
-                "The total number of publications in the medRxiv database (grey) and the number matching your search (black) are presented in the graph on the right. Click and drag to zoom in on an area of the plot. Hovering over a point will show you information about that preprint, and clicking on it will open the record in a new tab."
+                "The total number of publications in the medRxiv database (black) and the number matching your search (grey) are presented in the graph on the right. Click and drag to zoom in on an area of the plot. Hovering over a point will show you information about that preprint, and clicking on it will open the record in a new tab."
               ),
               br(),
               p(
@@ -272,10 +274,7 @@ ui <- tagList(
             "devtools::install_github(\"mcguinlu/medrxivr\")"
           )),
           p(em("library(medrxivr)")),
-          uiOutput("topic1"),
-          uiOutput("topic2"),
-          uiOutput("topic3"),
-          uiOutput("topic4"),
+          lapply(1:15, function(i) uiOutput(paste0("topic", i))),
           uiOutput("query"),
 
           br(),
@@ -390,10 +389,8 @@ server <- function(input, output, session) {
 
   # Reset all advanced options to defaults ("") if basic search is performed
   observeEvent(input$basicsearchbutton, {
-    updateTextInput(session, "topic1", value = "")
-    updateTextInput(session, "topic2", value = "")
-    updateTextInput(session, "topic3", value = "")
-    updateTextInput(session, "topic4", value = "")
+    btn <- input$addtopic + 3
+    lapply(1:btn, function(i) updateTextAreaInput(session, paste0("topic",i), value = ""))
     updateTextInput(session, "from_date", value = 20190101)
     updateTextInput(session, "to_date", value = todays_date)
     updateTextInput(session, "NOT", value = "")
@@ -404,6 +401,24 @@ server <- function(input, output, session) {
   observeEvent(input$advsearchbutton, {
     updateTextInput(session, "basicsearchquery", value = "")
   })
+
+  inserted <- c()
+
+  observeEvent(input$addtopic, {
+    btn <- input$addtopic + 3
+    id <- paste0('topic', btn)
+    insertUI(
+      selector = '#placeholder',
+      ## wrap element in a div with id for ease of removal
+      ui = tags$div(
+        fluidRow(textAreaInput(paste0('topic', btn), paste('Topic', btn),value = "")),
+        id = id
+      )
+    )
+    inserted <<- c(id, inserted)
+  })
+
+
 
 # Perform search ----------------------------------------------------------
 
@@ -421,10 +436,9 @@ server <- function(input, output, session) {
       if (input$basicsearchquery != "") {
         input$basicsearchquery
       } else {
-        list(unlist(strsplit(input$topic1, "\n")),
-             unlist(strsplit(input$topic2, "\n")),
-             unlist(strsplit(input$topic3, "\n")),
-             unlist(strsplit(input$topic4, "\n")))
+
+        lapply(1:2, function(i)
+          unlist(strsplit(input[[paste0('topic', i)]], "\n")))
       }
     })
 
@@ -583,44 +597,19 @@ server <- function(input, output, session) {
 
   # Output reproducible code
   # Render the code used to define each topic for the advanced search
-
-  output$topic1 <- renderUI({
-    if (input$topic1 != "") {
+  observe({
+  btn <-  input$addtopic+3
+  lapply(1:btn, function(i)
+  output[[paste0("topic",i)]] <- renderUI({
+    req(input[[paste0("topic",i)]])
+    if (input[[paste0("topic",i)]] != "") {
       p(em(paste0(
-        "topic1 <- c(\"", paste0(unlist(strsplit(
-          input$topic1, "\n"
+        "topic",i," <- c(\"", paste0(unlist(strsplit(
+          input[[paste0("topic",i)]], "\n"
         )), collapse = "\", \""), "\")"
       )))
     }
-  })
-
-  output$topic2 <- renderUI({
-    if (input$topic2 != "") {
-      p(em(paste0(
-        "topic2 <- c(\"", paste0(unlist(strsplit(
-          input$topic2, "\n"
-        )), collapse = "\", \""), "\")"
-      )))
-    }
-  })
-  output$topic3 <- renderUI({
-    if (input$topic3 != "") {
-      p(em(paste0(
-        "topic3 <- c(\"", paste0(unlist(strsplit(
-          input$topic3, "\n"
-        )), collapse = "\", \""), "\")"
-      )))
-    }
-  })
-  output$topic4 <- renderUI({
-    if (input$topic4 != "") {
-      p(em(paste0(
-        "topic4 <- c(\"", paste0(unlist(strsplit(
-          input$topic4, "\n"
-        )), collapse = "\", \""), "\")"
-      )))
-    }
-  })
+  }))})
 
 
   # Render code used to define entire query
@@ -636,16 +625,26 @@ server <- function(input, output, session) {
 
       # If advanced search is used, query is more complicated
       # Build query iteratively based on number of topics with input
-      q <- "topic1"
-      if (input$topic2 != "") {
-        q <- c(q, "topic2")
-      }
-      if (input$topic3 != "") {
-        q <- c(q, "topic3")
-      }
-      if (input$topic4 != "") {
-        q <- c(q, "topic4")
-      }
+
+        btn <-  input$addtopic + 3
+
+        q<- "topic1"
+
+        for (list in 2:btn) {
+          if (input[[paste0("topic", list)]] != "") {
+            q <- c(q, paste0("topic", list))
+        }}
+
+
+      # if (input$topic2 != "") {
+      #   q <- c(q, "topic2")
+      # }
+      # if (input$topic3 != "") {
+      #   q <- c(q, "topic3")
+      # }
+      # if (input$topic4 != "") {
+      #   q <- c(q, "topic4")
+      # }
 
       # Output full query
       tagList(p(em(paste0("query <- list(", paste0(q, collapse = ", "), ")"))),

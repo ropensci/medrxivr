@@ -13,7 +13,7 @@ Some technical aspects of the app:
 * Nice loading screens implemented via `waiter`
 * Prevent loss of work by checking with user when browser back button clicked (JS script )
 * Capture enter key as button click in the Basic search `textAreaInput` (JS script)
-* Consistent theming built around the default "yeti" `Shiny` theme
+* Consistent theming built around the "Yeti" `Shiny` theme
 
 ## About me
 [Luke McGuinness](https://lukemcguinness.com) is a National Insitute of Health Research Doctoral Research Fellow in Evidence Synthesis at Bristol Medical School, where he is examining the relationship between blood lipid levels and dementia risk.

@@ -27,7 +27,8 @@ Imports:
     methods,
     dplyr,
     stringr,
-    xml2
+    xml2,
+    curl
 Suggests: 
     testthat (>= 2.1.0),
     knitr,

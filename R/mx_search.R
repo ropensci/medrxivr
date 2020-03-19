@@ -1,6 +1,8 @@
 #' Search medRxiv
 #' @description Search medRxiv using a string
 #' @param query Character string, vector or list
+#' @param fields Fields of the database to search - default is Title, Abstract,
+#'   First author, Subject, and Link (which includes the DOI)
 #' @param from.date Defines earlist date of interest. Written as a number in
 #'   format YYYYMMDD. Note, records published on the date specified will also be
 #'   returned.
@@ -21,6 +23,7 @@
 
 
 mx_search <- function(query,
+                      fields = c("title","abstract","authors","subject","link"),
                       from.date = NULL,
                       to.date = NULL,
                       NOT = "",
@@ -28,8 +31,6 @@ mx_search <- function(query,
                       ){
 
   . <- NULL
-  abstract <- NULL
-  title <- NULL
   node <- NULL
   link_group <- NULL
   or_1 <- NULL
@@ -40,13 +41,21 @@ mx_search <- function(query,
   link <- NULL
 
 
-  # Need to add some error handling here
-  # - Capture bad inputs
-  # - Cpature when people are not connected to the internet
 
-  # Need a way for people to define which snapshot to use
+# Error handling ----------------------------------------------------------
+
+  # Require internet connection
+  if(curl::has_internet() == FALSE){
+    stop("No internet connect detected - please connect to the internet and try again")
+  }
+
+
+# Search ------------------------------------------------------------------
+
+  # Print information on snapshot being used
   mx_info()
 
+  # Load data
   mx_data <-
     read.csv(
       paste0(
@@ -58,19 +67,24 @@ mx_search <- function(query,
       fileEncoding = "UTF-8",
       header = TRUE)
 
-# Limit by dates
-mx_data$date <- as.numeric(gsub("-","",mx_data$date))
-
-if (!is.null(to.date)) {
-  mx_data <- mx_data %>% dplyr::filter(date <= to.date)
-}
-
-if (!is.null(from.date)) {
-  mx_data <- mx_data %>% dplyr::filter(date >= from.date)
-}
 
 
-#Code to find common matches
+# Implement data limits ---------------------------------------------------
+
+
+  mx_data$date <- as.numeric(gsub("-","",mx_data$date))
+
+  if (!is.null(to.date)) {
+    mx_data <- mx_data %>% dplyr::filter(date <= to.date)
+  }
+
+  if (!is.null(from.date)) {
+    mx_data <- mx_data %>% dplyr::filter(date >= from.date)
+  }
+
+
+# Run search --------------------------------------------------------------
+
 
 if (is.list(query)) {
 
@@ -78,22 +92,19 @@ if (is.list(query)) {
 
   query_length <- as.numeric(length(query))
 
+  and_list <- list()
+
   for (list in seq_len(query_length)) {
     tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(title, abstract),
+      dplyr::filter_at(dplyr::vars(fields),
                        dplyr::any_vars(grepl(paste(query[[list]],
                                                    collapse = '|'), .))) %>%
       dplyr::select(node)
     tmp <- tmp$node
-    assign(paste0("or_",list), tmp)
+    and_list[[list]] <- tmp
   }
 
-  if (length(query)==1) {and <- or_1}
-  if (length(query)==2) {and <- Reduce(intersect, list(or_1, or_2))}
-  if (length(query)==3) {and <- Reduce(intersect, list(or_1, or_2, or_3))}
-  if (length(query)==4) {and <- Reduce(intersect, list(or_1, or_2, or_3, or_4))}
-  if (length(query)==5) {and <- Reduce(intersect, list(or_1, or_2, or_3, or_4,
-                                                       or_5))}
+  and <- Reduce(intersect, and_list)
 
 }
 
@@ -101,7 +112,7 @@ if (!is.list(query) & is.vector(query)) {
 
   # General code to find matches
     tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(title, abstract),
+      dplyr::filter_at(dplyr::vars(fields),
                        dplyr::any_vars(grepl(paste(query,
                                                    collapse = '|'), .))) %>%
       dplyr::select(node)
@@ -114,7 +125,7 @@ if (!is.list(query) & is.vector(query)) {
 
 if (NOT!="") {
   tmp <- mx_data %>%
-    dplyr::filter_at(dplyr::vars(title, abstract),
+    dplyr::filter_at(dplyr::vars(fields),
                      dplyr::any_vars(grepl(paste(NOT,
                                                  collapse = '|'), .))) %>%
     dplyr::select(node)
