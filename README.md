@@ -12,6 +12,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 status](https://travis-ci.com/mcguinlu/medrxivr.svg?branch=master)](https://travis-ci.com/mcguinlu/medrxivr)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?branch=master&svg=true)](https://ci.appveyor.com/project/mcguinlu/medrxivr)
+[![R-CMD-check](https://github.com/mcguinlu/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/mcguinlu/medrxivr/actions?query=workflow%3AR-CMD-check)
 [![Codecov test
 coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->

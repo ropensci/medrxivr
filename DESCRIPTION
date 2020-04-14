@@ -9,13 +9,13 @@ Authors@R: c(
     person("Lena", "Schmidt",
            role = "aut",
            comment = c(ORCID = "0000-0003-0709-8226")))
-Description: medRxiv (https://www.medrxiv.org/) is a free online archive and 
-    distribution server for complete but unpublished manuscripts (preprints) in
-    the medical, clinical, and related health sciences. medrxivr provides 
-    programmatic access to a snapshot of the preprints contained on medRxiv,
-    which is updated daily. Users can search for relevant records using regular
-    expressions and Boolean logic, and can easily download the full-text PDFs
-    of preprints matching their search criteria. 
+Description: The medRxiv <https://www.medrxiv.org/> repository is a free online
+    archive and distribution server for complete but unpublished manuscripts 
+    (preprints) in the medical, clinical, and related health sciences. medrxivr
+    provides programmatic access to a snapshot of the preprints contained on 
+    medRxiv, which is updated daily. Users can search for relevant records using
+    regular expressions and Boolean logic, and can easily download the full-text
+    PDFs of preprints matching their search criteria. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
