@@ -39,14 +39,14 @@ library(medrxivr)
 
 ## Usage
 
-## Perform a simple search
+### Perform a simple search
 
 ``` r
 
 mx_results <- mx_search("dementia")
 ```
 
-## Download PDFs for returned records
+### Download PDFs for returned records
 
 Pass the results of your search above to the `mx_download()` function to
 download a copy of the PDF for each record.
