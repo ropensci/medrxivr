@@ -41,3 +41,8 @@ Search medRxiv using a string
 mx_results <- mx_search("dementia")
 }
 }
+\seealso{
+Other main: 
+\code{\link{mx_download}()}
+}
+\concept{main}

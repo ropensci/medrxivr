@@ -3,6 +3,7 @@
 #' @examples \dontrun{
 #' mx_crosscheck()
 #' }
+#' @family helper
 #' @export
 
 mx_crosscheck <- function(){
@@ -41,11 +42,11 @@ mx_crosscheck <- function(){
 
   data <- suppressMessages(mx_search("*"))
 
-  data$link <- gsub("\\?versioned=TRUE","", data$link)
+  data$link_page <- gsub("\\?versioned=TRUE","", data$link_page)
 
-  data$link <- substr(data$link,1,nchar(data$link)-2)
+  data$link_page <- substr(data$link_page,1,nchar(data$link_page)-2)
 
-  extracted <- as.numeric(length(unique(data$link)))
+  extracted <- as.numeric(length(unique(data$link_page)))
 
   diff <- reference-extracted
 

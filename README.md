@@ -12,7 +12,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 status](https://travis-ci.com/mcguinlu/medrxivr.svg?branch=master)](https://travis-ci.com/mcguinlu/medrxivr)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?branch=master&svg=true)](https://ci.appveyor.com/project/mcguinlu/medrxivr)
-[![R-CMD-check](https://github.com/mcguinlu/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/mcguinlu/medrxivr/actions?query=workflow%3AR-CMD-check)
 [![Codecov test
 coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->
@@ -38,7 +37,9 @@ devtools::install_github("mcguinlu/medrxivr")
 library(medrxivr)
 ```
 
-## Example
+## Usage
+
+## Simple example
 
 To get the entire most recent *medRxiv* snapshot to play around with,
 use the following command:
@@ -55,6 +56,8 @@ For a simple search strategy:
 mx_results <- mx_search("dementia")
 ```
 
+## Build and use complex search strategies
+
 To find records that contain one of many keywords:
 
 ``` r
@@ -64,8 +67,7 @@ myquery <- c("dementia","vascular","alzheimer's") # Combined with OR
 mx_results <- mx_search(myquery)
 ```
 
-To combine different topic domains (currently, you can have up to 5
-topics):
+To combine different topic domains:
 
 ``` r
 
@@ -76,13 +78,7 @@ myquery <- list(topic1, topic2)                    # Combined with AND
 mx_results <- mx_search(myquery)
 ```
 
-To limit by date posted on medRxiv:
-
-``` r
-mx_results <- mx_search("dementia",
-                        from.date = 20200101,      # 1st Jan 2020
-                        to.date = 20200105)        # 5th Jan 2020
-```
+## Additional options
 
 To exclude records containing certain terms:
 
@@ -91,12 +87,29 @@ mx_results <- mx_search("dementia",
                         NOT = "MCI")
 ```
 
-To return all versions of a record, rather than just the most recent
-one:
+To limit by date posted on medRxiv:
+
+``` r
+mx_results <- mx_search("dementia",
+                        from.date = 20200101,      # 1st Jan 2020
+                        to.date = 20200105)        # 5th Jan 2020
+```
+
+To return all versions of a *medRxiv* record, rather than just the most
+recent one:
 
 ``` r
 mx_results <- mx_search("dementia",
                         deduplicate = FALSE)
+```
+
+By default, a range of fields (title, abstract, first author, subject,
+link (which contains DOI)) are searched, but these can be adjusted using
+the `fields` argument:
+
+``` r
+mx_results <- mx_search("10.1101/2020.01.30.20019836",
+                        fields = "link")
 ```
 
 ## Download PDFs
@@ -112,13 +125,6 @@ mx_download(mx_results,     # Object returned by mx_search
             "pdf/",         # Directory to save PDFs to 
             create = TRUE)  # Create the directory if it doesn't exist
 ```
-
-## Planned updates
-
-  - At present, only the title and author fields are searched. I would
-    like to also make the author/topic fields searchable.
-  - At present, only the first author for each record has been
-    extracted. This will be corrected in future updates.
 
 ## Code of conduct
 

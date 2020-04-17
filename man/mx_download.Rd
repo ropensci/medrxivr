@@ -25,3 +25,8 @@ mx_results <- mx_search("ecology",limit=20)
 mx_download(mx_results,"~/medrxivPDF")
 }
 }
+\seealso{
+Other main: 
+\code{\link{mx_search}()}
+}
+\concept{main}

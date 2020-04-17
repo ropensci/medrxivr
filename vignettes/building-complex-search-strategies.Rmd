@@ -1,0 +1,131 @@
+---
+title: "Building complex search strategies"
+author: "Luke A McGuinness"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    toc: yes
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{building-complex-search-strategies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>"
+)
+```
+
+
+## Building your search with Boolean operators
+
+First load the `medrxivr` package:
+
+```{r setup}
+library(medrxivr)
+```
+
+To find records that contain any of many terms, pass the terms as a vector to the `mx_search()` function, as in the code chunk below. Query terms can include regular expression syntax - see the [section at the end of this document](#regex) on common regular expression that may be useful when searching.
+
+``` {r, eval=FALSE}
+myquery <- c("dementia","vascular","alzheimer's") # Combined with Boolean OR
+
+mx_results <- mx_search(query = myquery)
+
+```
+
+To find records relevant to more than one topic domain, create a vector for each topic (note: there is no upper limit on the number of topics your can have) and combine these vectors into a list which is then passed to the `mx_search()` function:
+
+``` {r, eval=FALSE}
+topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
+topic2  <- c("lipids","statins","cholesterol")     # Combined with Boolean OR
+myquery <- list(topic1, topic2)                    # Combined with Boolean AND
+
+mx_results <- mx_search(query = myquery)
+
+```
+
+## Additional filters and options
+
+### Limit search by field
+
+By default, a range of fields (title, abstract, first author, subject, link (which contains DOI)) are searched, but you can limit the search to a subset of these using the `fields` argument:
+
+```{r}
+
+# Limit search to title/abstract
+mx_results <- mx_search(query = "dementia",
+                        fields = c("title","abstract"))
+
+# Search by DOI
+mx_results <- mx_search(query = "10.1101/2020.01.30.20019836",
+                        fields = "link")
+
+```
+
+### Exclude records containing certain terms
+
+Often it is useful to be able to exclude records that contain a certain term that is not relevant to your search. For example, in the search below, we are looking for records related to "dementia" alone by excluding those that mention "mild cognitive impairment":
+
+```{r}
+mx_results <- mx_search(query = "dementia",
+                        NOT = "mild cognitive impairment")
+```
+
+### Limit by date posted
+
+You can define either/both of the earliest and latest date you wish to include records from. Note: the search is inclusive of both dates specified:
+
+```{r}
+mx_results <- mx_search(query = "dementia",
+                        from.date = 20200101,      # 1st Jan 2020
+                        to.date = 20200105)        # 5th Jan 2020
+```
+
+### Return multiple versions of a record
+
+_medRxiv_ allows authors to upload a new version of their preprint as often as they like. By default, `medrxivr` only returns the most recent version of the preprint, but if you are interested in exploring how a record changed over time, you can retrieve all versions of the preprint by setting `deduplicate = FALSE` 
+
+```{r}
+mx_results <- mx_search(query = "dementia",
+                        deduplicate = FALSE)
+```
+
+## Useful regular expression (_regex_) syntaxes for the systematic reviewer {#regex}
+
+### Capitalisation
+
+__Example regex:__ `[Dd]ementia`  
+__Description:__ The search is case sensitive, so this syntax allows you to find both <b>D</b>ementia and <b>d</b>ementia using a single term, rather than having to enter them seperately.
+
+### Wildcard
+
+__Example regex:__ `randomi([[:alpha:]])ation`  
+__Description:__ The `([[:alpha:]])` element defines any single alphanumeric character - in this case, the regex will find both randomi<b>s</b>ation and randomi<b>z</b>ation. 
+
+### NEAR
+
+__Example regex:__ `systematic(\\s)([[:graph:]]+\\s){0,4}review`  
+__Description:__ The `(\\s)([[:graph:]]+\\s){0,4}` element defines that up to four words can be between <b>systematic</b> and <b>review</b> and the search will still find it. To change how far apart the terms are allowed to be, simply change the second number in the curly brackets (e.g. to find terms that are only one word apart, the syntax would be `systematic(\\s)([[:graph:]]+\\s){0,1}review`). **Please note that the search is directional, in that the example regex here will find "systematic methods for the review", but will not find "the review was systematic".**
+
+### Word limits
+
+__Example regex:__ `\\bNCOV\\b`  
+__Description:__ Sometimes it is useful to be able to define the start and end of terms. For example, if you were searching for NCOV-19, simply using `ncov` as your search term would also return records containing u<b>ncov</b>ered. Using `\\b` allows you to define where the term beings and ends, thus excluding false positive matches.
+
+### Example using these regexes
+
+To find records that contain "Mendelian" within 4 words of "randomisation" (with varying capitalisation of "Mendelian" and UK/US spellings of "randomisation"), the following syntax is correct:
+
+``` {r, eval=FALSE}
+mx_results <- mx_search(query = "[Mm]endelian(\\s)([[:graph:]]+\\s){0,4}randomi([[:alpha:]])ation")
+
+```
+
+### Regex tester
+
+To check whether your search term will find what you expect it to, there is a useful [regex tester](https://spannbaueradam.shinyapps.io/r_regex_tester/), designed by [Adam Spannbauer](https://adamspannbauer.github.io/2018/01/16/r-regex-tester-shiny-app/).

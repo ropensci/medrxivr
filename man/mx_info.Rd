@@ -14,3 +14,8 @@ Get information about the data dump you are using
 mx_info()
 }
 }
+\seealso{
+Other helper: 
+\code{\link{mx_crosscheck}()}
+}
+\concept{helper}

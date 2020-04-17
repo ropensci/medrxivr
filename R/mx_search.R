@@ -16,6 +16,7 @@
 #' @examples \dontrun{
 #' mx_results <- mx_search("dementia")
 #' }
+#' @family main
 #' @export
 #' @importFrom utils download.file
 #' @importFrom utils read.csv
@@ -27,7 +28,7 @@ mx_search <- function(query,
                       from.date = NULL,
                       to.date = NULL,
                       NOT = "",
-                      deduplicate = TRUE # Change to true at some point
+                      deduplicate = TRUE
                       ){
 
   . <- NULL
@@ -42,15 +43,18 @@ mx_search <- function(query,
 
 
 
-# Error handling ----------------------------------------------------------
+  # Error handling ----------------------------------------------------------
 
   # Require internet connection
-  if(curl::has_internet() == FALSE){
-    stop("No internet connect detected - please connect to the internet and try again")
+  if (curl::has_internet() == FALSE) {
+    stop(paste0(
+      "No internet connect detected - ",
+      "please connect to the internet and try again"
+    ))
   }
 
 
-# Search ------------------------------------------------------------------
+  # Search ------------------------------------------------------------------
 
   # Print information on snapshot being used
   mx_info()
@@ -62,17 +66,19 @@ mx_search <- function(query,
         "https://raw.githubusercontent.com/mcguinlu/",
         "autosynthesis/master/data/",
         "medRxiv_abstract_list.csv"
-      ), sep = ",",
+      ),
+      sep = ",",
       stringsAsFactors = FALSE,
       fileEncoding = "UTF-8",
-      header = TRUE)
+      header = TRUE
+    )
 
 
 
-# Implement data limits ---------------------------------------------------
+  # Implement data limits ---------------------------------------------------
 
 
-  mx_data$date <- as.numeric(gsub("-","",mx_data$date))
+  mx_data$date <- as.numeric(gsub("-", "", mx_data$date))
 
   if (!is.null(to.date)) {
     mx_data <- mx_data %>% dplyr::filter(date <= to.date)
@@ -83,34 +89,34 @@ mx_search <- function(query,
   }
 
 
-# Run search --------------------------------------------------------------
+  # Run search --------------------------------------------------------------
 
 
-if (is.list(query)) {
+  if (is.list(query)) {
+    # General code to find matches
 
-  # General code to find matches
+    query_length <- as.numeric(length(query))
 
-  query_length <- as.numeric(length(query))
+    and_list <- list()
 
-  and_list <- list()
+    for (list in seq_len(query_length)) {
+      tmp <- mx_data %>%
+        dplyr::filter_at(dplyr::vars(fields),
+                         dplyr::any_vars(grepl(paste(
+                           query[[list]],
+                           collapse = '|'
+                         ), .))) %>%
+        dplyr::select(node)
+      tmp <- tmp$node
+      and_list[[list]] <- tmp
+    }
 
-  for (list in seq_len(query_length)) {
-    tmp <- mx_data %>%
-      dplyr::filter_at(dplyr::vars(fields),
-                       dplyr::any_vars(grepl(paste(query[[list]],
-                                                   collapse = '|'), .))) %>%
-      dplyr::select(node)
-    tmp <- tmp$node
-    and_list[[list]] <- tmp
+    and <- Reduce(intersect, and_list)
+
   }
 
-  and <- Reduce(intersect, and_list)
-
-}
-
-if (!is.list(query) & is.vector(query)) {
-
-  # General code to find matches
+  if (!is.list(query) & is.vector(query)) {
+    # General code to find matches
     tmp <- mx_data %>%
       dplyr::filter_at(dplyr::vars(fields),
                        dplyr::any_vars(grepl(paste(query,
@@ -119,72 +125,118 @@ if (!is.list(query) & is.vector(query)) {
 
     and <- tmp$node
 
-}
-
-#Exclude those in the NOT category
-
-if (NOT!="") {
-  tmp <- mx_data %>%
-    dplyr::filter_at(dplyr::vars(fields),
-                     dplyr::any_vars(grepl(paste(NOT,
-                                                 collapse = '|'), .))) %>%
-    dplyr::select(node)
-
-  `%notin%` <- Negate(`%in%`)
-
-  and <- and[and %notin% tmp$node]
-
-  results <- and
-
-} else {
-  results <- and
-}
-
-
-if(length(query) > 1){
-  mx_results <- mx_data[which(mx_data$node %in% results),]
-} else {
-  if(query == "*") {
-    mx_results <- mx_data
-  } else {
-    mx_results <- mx_data[which(mx_data$node %in% results),]
   }
-}
+
+  # Exclude those in the NOT category ---------------------------------------
+
+  if (NOT!="") {
+    tmp <- mx_data %>%
+      dplyr::filter_at(dplyr::vars(fields),
+                       dplyr::any_vars(grepl(paste(NOT,
+                                                   collapse = '|'), .))) %>%
+      dplyr::select(node)
+
+    `%notin%` <- Negate(`%in%`)
+
+    and <- and[and %notin% tmp$node]
+
+    results <- and
+
+  } else {
+    results <- and
+  }
 
 
-if (deduplicate==TRUE) {
-  mx_results$link <- gsub("\\?versioned=TRUE","", mx_results$link)
+  if (length(query) > 1) {
+    mx_results <- mx_data[which(mx_data$node %in% results), ]
+  } else {
+    if (query == "*") {
+      mx_results <- mx_data
+    } else {
+      mx_results <- mx_data[which(mx_data$node %in% results), ]
+    }
+  }
 
-  mx_results$version <- substr(mx_results$link,
-                               nchar(mx_results$link),
-                               nchar(mx_results$link))
 
-  mx_results$link_group <- substr(mx_results$link,1,nchar(mx_results$link)-2)
+  # Clean and process results -----------------------------------------------
 
-  mx_results <- mx_results %>%
-    dplyr::group_by(link_group) %>%
-    dplyr::slice(which.max(version))
+  if (nrow(mx_results) > 0) {
 
-  mx_results <- mx_results[1:12]
+  colnames(mx_results)[3] <- "link_page"
+  colnames(mx_results)[4] <- "link_pdf"
+  colnames(mx_results)[5] <- "date_posted"
+  colnames(mx_results)[7] <- "first_author"
+  colnames(mx_results)[8] <- "link_bibtex"
+  colnames(mx_results)[12] <- "ID"
 
-  # Post message and return dataframe
-  message(paste0("Found ",
-                 length(mx_results$node),
-                 " record(s) matching your search."))
+    mx_results$doi <-
+      gsub("/content/", "", gsub("v.*", "", mx_results$link_page))
+    mx_results$link_page <-
+      paste0("https://www.medrxiv.org", mx_results$link_page)
+    mx_results$link_pdf <-
+      paste0("https://www.medrxiv.org", mx_results$link_pdf)
+    mx_results$link_bibtex <-
+      paste0("https://www.medrxiv.org", mx_results$link_bibtex)
 
-  mx_results
 
-} else {
+  mx_results <-
+    mx_results[, c(
+      "ID",
+      "title",
+      "abstract",
+      "first_author",
+      "date_posted",
+      "subject",
+      "doi",
+      "link_page",
+      "link_pdf",
+      "link_bibtex"
+    )]
 
-  # Post message and return dataframe
-  message(paste0("Found ",
-                 length(mx_results$node),
-                 " record(s) matching your search.\n",
-                 "Note, there may be >1 version of the same record."))
 
-  mx_results
+  # Deduplicate -------------------------------------------------------------
+  if (deduplicate == TRUE) {
+    mx_results$link_page <- gsub("\\?versioned=TRUE", "", mx_results$link_page)
 
-}
+    mx_results$version <- substr(mx_results$link_page,
+                                 nchar(mx_results$link_page),
+                                 nchar(mx_results$link_page))
+
+    mx_results$link_group <-
+      substr(mx_results$link_page, 1, nchar(mx_results$link_page) - 2)
+
+    mx_results <- mx_results %>%
+      dplyr::group_by(link_group) %>%
+      dplyr::slice(which.max(version))
+
+    mx_results <- mx_results[1:10]
+
+    # Post message and return dataframe
+    message(paste0(
+      "Found ",
+      length(mx_results$ID),
+      " record(s) matching your search."
+    ))
+
+    mx_results
+
+  } else {
+    # Post message and return dataframe
+    message(
+      paste0(
+        "Found ",
+        length(mx_results$ID),
+        " record(s) matching your search.\n",
+        "Note, there may be >1 version of the same record."
+      )
+    )
+
+    mx_results
+
+  }
+  } else {
+    message("No records found matching your search.")
+  }
 
 }
 

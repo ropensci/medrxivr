@@ -12,45 +12,74 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r,echo=FALSE}
+```{r,echo=FALSE, message=FALSE,warning=FALSE}
 # Delete when done
 library(medrxivr)
 library(dplyr)
-library(knitr)
 ```
 
-## Download the most recent datadump
+## Perform a simple search
 
-```{r, message=FALSE, eval=FALSE}
+``` {r, eval=FALSE}
 library(medrxivr)
 
-mx_all_data <- mx_search("*")
+results <- mx_search("dementia")
 
 ```
 
 ## Dataset description
 
-The dataset contains 12 variables: 
+The dataset (in this case, `results`) returned by the search function above contains 10 variables: 
 
 ```{r, echo = FALSE}
 
-mx_variables <- data.frame(Variable = c("title", "abstract", "link", "pdf", "date", "subject", "authors", "bibtex", "id", "pdf_name", "extraction_date", "node"), Description = c("Preprint title",
-              "Preprint abstract",
-              "Link to preprint webpage. Note, this only specifes the file path from the base medRxiv url (https://www.medrxiv.org), e.g \"/content/10.1101/19012377v1?versioned=TRUE\". The \"?versioned=TRUE\" is required, as otherwise, the URL will resolve to the most recent version of the article (assuming there is >1 version available).",
-              "Link to preprint PDF. At present, only the most recent version of the PDF is returned in \`mx_download()\`",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              ""))
+mx_variables <-
+  data.frame(
+    Variable = c(
+      "ID",
+      "title",
+      "abstract",
+      "first_author",
+      "date_posted",
+      "subject",
+      "doi",
+      "link_page",
+      "link_pdf",
+      "link_bibtex"
+    ),
+    Description = c(
+      "Unique identifier",
+      "Preprint title",
+      "Preprint abstract",
+      "Last name of the first author of the preprint. There are plans to update this field to contain all authors names",
+      "Date the preprint was posted, in the format YYYYMMDD",
+      "medRxiv classifies each preprint into one of a set number of subject categories. Not this is not always available for recent preprints.",
+      "Preprint Digital Object Identifier",
+      "Link to preprint webpage. Note, this only specifes the file path from the base medRxiv url (https://www.medrxiv.org), e.g \"/content/10.1101/19012377v1?versioned=TRUE\". The \"?versioned=TRUE\" is required, as otherwise, the URL will resolve to the most recent version of the article (assuming there is >1 version available).",
+      "Link to preprint PDF. This is used by `mx_download()` to download a copy of the PDF for that preprint.",
+      "Link to preprint bibtex file"
+    )
+  )
 
 
 knitr::kable(mx_variables, format = "html") %>%
   kableExtra::kable_styling(full_width = F) %>%
   kableExtra::column_spec(1, bold = T, border_right = T) %>%
   kableExtra::column_spec(2, width = "30em")
+```
+
+## Download PDFs for records identified by your search
+
+Pass the results of your search above (`results`) to the `mx_download()` function to download a copy of the PDF for each record. Note: downloaded PDFs are named using the value of the `ID` column in the dataset, which serves as a unique identifier for each record.
+
+```{r, eval = FALSE}
+
+mx_download(results,        # Object returned by mx_search
+            "pdf/",         # Directory to save PDFs to 
+            create = TRUE)  # Create the directory if it doesn't exist
 
 ```
+
+## Further guidance
+
+Please see the *[Building complex search strategies](https://mcguinlu.github.io/medrxivr/articles/building-complex-search-strategies.html)* vignette for extended guidance on developing search strategies for use with `medrxivr`.

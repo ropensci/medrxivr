@@ -12,8 +12,8 @@ __Description:__ The `([[:alpha:]])` element defines any single alphanumeric cha
 
 ### NEAR
 
-__Example regex:__ `systematic(\\w+){0,4}[[:space:]]review`  
-__Description:__ The `(\\w+){0,4}[[:space:]]` element defines that up to four words can be between <b>systematic</b> and <b>review</b> and the search will still find it. To change how far apart the terms are allowed to be, simply change the second number in the curly brackets (e.g. to find terms that are only one word apart, the syntax would be `systematic(\\w+){0,1}[[:space:]]review`)
+__Example regex:__ `systematic(\\s)([[:graph:]]+\\s){0,4}review`  
+__Description:__ The `(\\s)([[:graph:]]+\\s){0,4}` element defines that up to four words can be between <b>systematic</b> and <b>review</b> and the search will still find it. To change how far apart the terms are allowed to be, simply change the second number in the curly brackets (e.g. to find terms that are only one word apart, the syntax would be `systematic(\\s)([[:graph:]]+\\s){0,1}review`). **Please note that the search is directional, in that the example regex here will find "systematic methods for the review", but will not find "the review was systematic".**
 
 ### WORD LIMITS
 

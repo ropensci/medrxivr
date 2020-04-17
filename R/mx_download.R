@@ -9,6 +9,7 @@
 #' mx_results <- mx_search("ecology",limit=20)
 #' mx_download(mx_results,"~/medrxivPDF")
 #' }
+#' @family main
 #' @export
 #' @importFrom utils download.file
 #' @importFrom methods is
@@ -21,7 +22,7 @@ mx_download <- function(mx_results,
                         print_update = 10){
 
   print(paste0("Estimated time to completion: ",
-               round(length(mx_results$pdf)*13/60/60, 2), " hours"))
+               round(length(mx_results$link_pdf)*13/60/60, 2), " hours"))
 
   if(!file.exists(directory)  && create){
     dir.create(file.path(directory))
@@ -34,12 +35,12 @@ mx_download <- function(mx_results,
 
   number <- 1
 
-  for (file_location in mx_results$pdf) {
+  for (file_location in mx_results$link_pdf) {
     if (file.exists(paste0(directory,
-                           mx_results$node[which(mx_results$pdf ==
+                           mx_results$ID[which(mx_results$link_pdf ==
                                                  file_location)],
                            ".pdf"))) {
-      print(paste0("PDF for ID ", mx_results$node[which(mx_results$pdf ==
+      print(paste0("PDF for ID ", mx_results$ID[which(mx_results$link_pdf ==
                                                            file_location)],
                    " already downloaded."))
 
@@ -52,9 +53,9 @@ mx_download <- function(mx_results,
       print(paste0("Downloading PDF ",
                    number,
                    " of ",
-                   length(mx_results$link),
+                   length(mx_results$link_pdf),
                    " (ID: ",
-                   mx_results$node[which(mx_results$pdf ==
+                   mx_results$ID[which(mx_results$link_pdf ==
                                                        file_location)],
                    "). . . "))
 
@@ -63,8 +64,8 @@ mx_download <- function(mx_results,
 
       pmx_results <-
         try(download.file(
-          url = paste0("https://www.medrxiv.org", file_location),
-          destfile = paste0(directory, mx_results$node[number], ".pdf"),
+          url = file_location,
+          destfile = paste0(directory, mx_results$ID[number], ".pdf"),
           method = "auto",
           mode = "wb"
         ))
@@ -79,9 +80,9 @@ mx_download <- function(mx_results,
         "PDF ",
         number,
         " of ",
-        length(mx_results$link),
+        length(mx_results$link_pdf),
         " downloaded! (",
-        round(number / length(mx_results$link) * 100, 0),
+        round(number / length(mx_results$link_pdf) * 100, 0),
         "%) "
       ))
     }

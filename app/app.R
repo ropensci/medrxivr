@@ -184,7 +184,8 @@ ui <- tagList(
               offset = 3,
               align = "right",
               br(),
-              downloadButton("downloadresults", "Download results", style = "width:65%;"),
+              downloadButton("downloadresults", "Download results (.csv)", style = "width:65%;"),
+              downloadButton("downloadresults_bib", "Download results (.bib)", style = "width:65%;"),
             )
           ),
           fluidRow(
@@ -540,6 +541,33 @@ server <- function(input, output, session) {
       write.csv(mx_data(), file, row.names = FALSE)
     }
   )
+
+  # Download results as .bib
+  output$downloadresults_bib <- downloadHandler(
+    filename = function() {
+      paste("search_results", ".bib", sep = "")
+    },
+    content = function(file) {
+
+      bib_results <- tibble(    title       = mx_data()$title,
+                                abstract    = mx_data()$abstract,
+                                AUTHOR      = mx_data()$authors,
+                                URL         = paste0("https://www.medrxiv.org/", mx_data()$link),
+                                DOI         = gsub("/content/","",gsub("v.*","",mx_data()$link)),
+                                date        = mx_data()$date,
+                                YEAR        = substr(mx_data()$date,1,4),
+                                subject     = mx_data()$subject,
+                                CATEGORY    = rep("Article",dim(mx_data())[1]),
+                                BIBTEXKEY   = seq(1,dim(mx_data())[1]))
+
+      bib_results$BIBTEXKEY <- paste0("mx-",bib_results$BIBTEXKEY)
+
+      bib2df::df2bib(x = bib_results, file = file)
+
+    }
+  )
+
+
 
 # Visualisations ----------------------------------------------------------
 
