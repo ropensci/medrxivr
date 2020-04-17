@@ -39,85 +39,17 @@ library(medrxivr)
 
 ## Usage
 
-## Simple example
-
-To get the entire most recent *medRxiv* snapshot to play around with,
-use the following command:
-
-``` r
-
-mx_results <- mx_search("*")
-```
-
-For a simple search strategy:
+## Perform a simple search
 
 ``` r
 
 mx_results <- mx_search("dementia")
 ```
 
-## Build and use complex search strategies
-
-To find records that contain one of many keywords:
-
-``` r
-
-myquery <- c("dementia","vascular","alzheimer's") # Combined with OR
-
-mx_results <- mx_search(myquery)
-```
-
-To combine different topic domains:
-
-``` r
-
-topic1  <- c("dementia","vascular","alzheimer's")  # Combined with OR
-topic2  <- c("lipids","statins","cholesterol")     # Combined with OR
-myquery <- list(topic1, topic2)                    # Combined with AND
-
-mx_results <- mx_search(myquery)
-```
-
-## Additional options
-
-To exclude records containing certain terms:
-
-``` r
-mx_results <- mx_search("dementia",
-                        NOT = "MCI")
-```
-
-To limit by date posted on medRxiv:
-
-``` r
-mx_results <- mx_search("dementia",
-                        from.date = 20200101,      # 1st Jan 2020
-                        to.date = 20200105)        # 5th Jan 2020
-```
-
-To return all versions of a *medRxiv* record, rather than just the most
-recent one:
-
-``` r
-mx_results <- mx_search("dementia",
-                        deduplicate = FALSE)
-```
-
-By default, a range of fields (title, abstract, first author, subject,
-link (which contains DOI)) are searched, but these can be adjusted using
-the `fields` argument:
-
-``` r
-mx_results <- mx_search("10.1101/2020.01.30.20019836",
-                        fields = "link")
-```
-
-## Download PDFs
+## Download PDFs for returned records
 
 Pass the results of your search above to the `mx_download()` function to
-download a copy of the PDF for each record. Note: downloaded PDFs are
-named using the value of the `node` column in the dataset, which serves
-as a unique identifier for each record.
+download a copy of the PDF for each record.
 
 ``` r
 
