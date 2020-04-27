@@ -3,9 +3,9 @@ plot_results <- function(df_total, result_list){
   # Clean data for search hits ----
   df_search <- data.frame(
     Title = result_list$title,
-    url = paste0("http://medrxiv.org", gsub("\\?.*", "", result_list$link)),
-    doi = gsub("v.*", "", gsub("/content/", "", result_list$link)),
-    First_posted = as.Date(strptime(result_list$date, "%Y%m%d")),
+    url = gsub("\\?.*", "", result_list$link_page),
+    doi = gsub("v*", "", gsub("https://www.medrxiv.org/content/", "", result_list$link_page)),
+    First_posted = as.Date(strptime(result_list$date_posted, "%Y%m%d")),
     Group = "Search hits"
   )
 
@@ -21,9 +21,9 @@ plot_results <- function(df_total, result_list){
   # Clean data for total number of results ----
   df_all <- data.frame(
     Title = df_total$title,
-    url = paste0("http://medrxiv.org", gsub("\\?.*", "", df_total$link)),
-    doi = gsub("v.*", "", gsub("/content/", "", df_total$link)),
-    First_posted = as.Date(strptime(df_total$date, "%Y%m%d")),
+    url = gsub("\\?.*", "", df_total$link_page),
+    doi = gsub("v*", "", gsub("https://www.medrxiv.org/content/", "", df_total$link_page)),
+    First_posted = as.Date(strptime(df_total$date_posted, "%Y%m%d")),
     Group = "All papers"
   )
 
@@ -111,10 +111,10 @@ plot_histogram <- function(result_list){
   # Clean data ----
   df_search <- data.frame(
     Title = result_list$title,
-    url = paste0("http://medrxiv.org", gsub("\\?.*", "", result_list$link)),
-    doi = gsub("v.*", "", gsub("/content/", "", result_list$link)),
+    url = gsub("\\?.*", "", result_list$link_page),
+    doi = gsub("v*", "", gsub("https://www.medrxiv.org/content/", "", result_list$link_page)),
     subject = result_list$subject,
-    First_posted = as.Date(strptime(result_list$date, "%Y%m%d")),
+    First_posted = as.Date(strptime(result_list$date_posted, "%Y%m%d")),
     Group = ""
   )
 

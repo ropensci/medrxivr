@@ -445,7 +445,7 @@ server <- function(input, output, session) {
         input$basicsearchquery
       } else {
 
-        lapply(1:2, function(i)
+        lapply(1:(3+length(inserted)), function(i)
           unlist(strsplit(input[[paste0('topic', i)]], "\n")))
       }
     })
@@ -498,15 +498,17 @@ server <- function(input, output, session) {
 
     # Render table
     output$results <- renderTable({
-      mx_data <- mx_data()[, c(12, 1, 2, 7, 5, 6)]
+      if(!is.null(mx_data())){
 
-      mx_data$date <-
+      mx_data <- mx_data()[, c("ID", "title", "abstract", "first_author", "date_posted", "subject")]
+
+      mx_data$date_posted <-
         paste0(
-          substring(mx_data$date, 1, 4),
+          substring(mx_data$date_posted, 1, 4),
           "-",
-          substring(mx_data$date, 5, 6),
+          substring(mx_data$date_posted, 5, 6),
           "-",
-          substring(mx_data$date, 7, 8)
+          substring(mx_data$date_posted, 7, 8)
         )
 
       mx_data$abstract <- gsub("Â","",mx_data$abstract)
@@ -522,13 +524,19 @@ server <- function(input, output, session) {
 
       # Show first X records, to make sure search worked properly
 
-        head(mx_data, as.numeric(input$nres))
+      head(mx_data, as.numeric(input$nres))
+      }
 
     }, striped = TRUE, width = "100%")
 
     # Show number of results for basic search
     output$results_no <- renderText({
+      if(!is.null(mx_data())){
       paste0("Number of results: ", dim(mx_data())[1])
+      } else {
+        paste0("No results matching your search string were found.")
+
+      }
     })
   })
 
@@ -551,11 +559,10 @@ server <- function(input, output, session) {
 
       bib_results <- tibble(    title       = mx_data()$title,
                                 abstract    = mx_data()$abstract,
-                                AUTHOR      = mx_data()$authors,
-                                URL         = paste0("https://www.medrxiv.org/", mx_data()$link),
-                                DOI         = gsub("/content/","",gsub("v.*","",mx_data()$link)),
-                                date        = mx_data()$date,
-                                YEAR        = substr(mx_data()$date,1,4),
+                                AUTHOR      = mx_data()$first_author,
+                                URL         = mx_data()$link_page,
+                                DOI         = mx_data()$doi,
+                                YEAR        = substr(mx_data()$date_posted,1,4),
                                 subject     = mx_data()$subject,
                                 CATEGORY    = rep("Article",dim(mx_data())[1]),
                                 BIBTEXKEY   = seq(1,dim(mx_data())[1]))

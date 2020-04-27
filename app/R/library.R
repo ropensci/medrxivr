@@ -16,3 +16,4 @@ library(tidyr)           # for creating tidy data from text
 library(shinyjs)         # to include JavaScript operations in Shiny apps
 library(RColorBrewer)    # to get nice colour palettes
 library(bib2df)          # to export results as .bib file
+library(handlr)

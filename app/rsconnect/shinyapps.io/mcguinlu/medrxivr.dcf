@@ -5,8 +5,8 @@ account: mcguinlu
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1896109
-bundleId: 3011227
+bundleId: 3072011
 url: https://mcguinlu.shinyapps.io/medrxivr/
-when: 1586864138.79765
+when: 1587998318.17446
 asMultiple: FALSE
 asStatic: FALSE
