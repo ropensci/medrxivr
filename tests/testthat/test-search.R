@@ -2,7 +2,7 @@ mx0 <- mx_search("*")
 
 test_that("Check number of columns", {
   skip_if_offline()
-  expect_equal(dim(mx0)[2],10)
+  expect_equal(dim(mx0)[2],14)
 })
 
 mx1 <- mx_search("dementia", from.date = 20190101, to.date = 20200101)
@@ -51,3 +51,4 @@ test_that("Multiple topics", {
   expect_true(length(mx10$ID)<=length(mx9$ID))
   expect_true(length(mx11$ID)<=length(mx10$ID))
 })
+

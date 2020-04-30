@@ -12,7 +12,7 @@ mx_info <- function(){
 
   current_time <- readLines(paste0("https://raw.githubusercontent.com/",
                                    "mcguinlu/",
-                                   "autosynthesis/master/data/timestamp.txt"))
+                                   "medrxivr-data/master/timestamp.txt"))
 
   mess<- paste0("Using medRxiv snapshot - ",
                 current_time)

@@ -42,11 +42,7 @@ mx_crosscheck <- function(){
 
   data <- suppressMessages(mx_search("*"))
 
-  data$link_page <- gsub("\\?versioned=TRUE","", data$link_page)
-
-  data$link_page <- substr(data$link_page,1,nchar(data$link_page)-2)
-
-  extracted <- as.numeric(length(unique(data$link_page)))
+  extracted <- as.numeric(length(unique(data$doi)))
 
   diff <- reference-extracted
 

@@ -500,27 +500,24 @@ server <- function(input, output, session) {
     output$results <- renderTable({
       if(!is.null(mx_data())){
 
-      mx_data <- mx_data()[, c("ID", "title", "abstract", "first_author", "date_posted", "subject")]
+      mx_data <- mx_data()[, c("ID", "title", "abstract", "authors", "date", "category")]
 
-      mx_data$date_posted <-
+      mx_data$date <-
         paste0(
-          substring(mx_data$date_posted, 1, 4),
+          substring(mx_data$date, 1, 4),
           "-",
-          substring(mx_data$date_posted, 5, 6),
+          substring(mx_data$date, 5, 6),
           "-",
-          substring(mx_data$date_posted, 7, 8)
+          substring(mx_data$date, 7, 8)
         )
-
-      mx_data$abstract <- gsub("Â","",mx_data$abstract)
-      mx_data$abstract <- gsub("\\\\","",mx_data$abstract)
 
       # Renames columns for nice presentation
       colnames(mx_data)[1] <- "ID"
       colnames(mx_data)[2] <- "Title"
       colnames(mx_data)[3] <- "Abstract"
-      colnames(mx_data)[4] <- "First author"
+      colnames(mx_data)[4] <- "Authors"
       colnames(mx_data)[5] <- "Publication date"
-      colnames(mx_data)[6] <- "Subject area"
+      colnames(mx_data)[6] <- "Category"
 
       # Show first X records, to make sure search worked properly
 
@@ -557,17 +554,17 @@ server <- function(input, output, session) {
     },
     content = function(file) {
 
-      bib_results <- tibble(    title       = mx_data()$title,
-                                abstract    = mx_data()$abstract,
-                                AUTHOR      = mx_data()$first_author,
+      bib_results <- tibble(    TITLE       = mx_data()$title,
+                                ABSTRACT    = mx_data()$abstract,
+                                AUTHOR      = gsub(";"," and ",mx_data()$authors),
                                 URL         = mx_data()$link_page,
                                 DOI         = mx_data()$doi,
-                                YEAR        = substr(mx_data()$date_posted,1,4),
-                                subject     = mx_data()$subject,
+                                YEAR        = substr(mx_data()$date,1,4),
+                                NOTE        = paste0("Category: ",mx_data()$category,
+                                                     "\nPublished DOI :", mx_data()$published),
                                 CATEGORY    = rep("Article",dim(mx_data())[1]),
-                                BIBTEXKEY   = seq(1,dim(mx_data())[1]))
+                                BIBTEXKEY   = paste0("mx-",seq(1,dim(mx_data())[1])))
 
-      bib_results$BIBTEXKEY <- paste0("mx-",bib_results$BIBTEXKEY)
 
       bib2df::df2bib(x = bib_results, file = file)
 
@@ -627,14 +624,12 @@ server <- function(input, output, session) {
 
   common <- reactive({
   common <- mx_data()
-  common$subject[is.na(common$subject)] <- "No category recorded"
-  common$subject <- gsub("\\n","",common$subject)
-  common_table <- as.data.frame(table(common$subject))
+  common$category[is.na(common$category)] <- "No category recorded"
+  common$category <- gsub("\\n","",common$category)
+  common_table <- as.data.frame(table(common$category))
   common_table
   })
 
-  output$most_common_count <- renderText({
-  })
 
   output$common_text <- renderText({
     sub <- common()[which(common()$Freq == max(common()$Freq)), 1]
