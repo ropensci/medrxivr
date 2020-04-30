@@ -6,7 +6,7 @@
 \usage{
 mx_search(
   query,
-  fields = c("title", "abstract", "authors", "subject", "link"),
+  fields = c("title", "abstract", "authors", "category", "doi"),
   from.date = NULL,
   to.date = NULL,
   NOT = "",
