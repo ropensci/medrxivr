@@ -36,28 +36,36 @@ The dataset (in this case, `results`) returned by the search function above cont
 mx_variables <-
   data.frame(
     Variable = c(
-      "ID",
-      "title",
-      "abstract",
-      "first_author",
-      "date_posted",
-      "subject",
-      "doi",
-      "link_page",
-      "link_pdf",
-      "link_bibtex"
+         "ID"      ,
+         "title"   ,
+         "abstract",
+         "authors" ,
+         "date"    ,
+         "category",
+         "doi"     ,
+         "version" ,
+         "author_corresponding",
+         "author_corresponding_institution",
+         "link_page",
+         "link_pdf" ,
+         "license"  ,
+         "published"
     ),
     Description = c(
       "Unique identifier",
       "Preprint title",
       "Preprint abstract",
-      "Last name of the first author of the preprint. There are plans to update this field to contain all authors names",
-      "Date the preprint was posted, in the format YYYYMMDD",
-      "medRxiv classifies each preprint into one of a set number of subject categories. Not this is not always available for recent preprints.",
-      "Preprint Digital Object Identifier",
-      "Link to preprint webpage. Note, this only specifes the file path from the base medRxiv url (https://www.medrxiv.org), e.g \"/content/10.1101/19012377v1?versioned=TRUE\". The \"?versioned=TRUE\" is required, as otherwise, the URL will resolve to the most recent version of the article (assuming there is >1 version available).",
+      "Author list in the format 'LastName, InitalOfFirstName.' (e.g. McGuinness, L.). Authors are seperated by a semi-colon.",
+      "Date the preprint was posted, in the format YYYYMMDD.",
+      "On submission, medRxiv asks authors to classify their preprint into one of a set number of subject categories.",
+      "Preprint Digital Object Identifier.",
+      "Preprint version number. As authors can update their preprint at any time, this indicates which version of a given preprint the record refers to.", 
+      "Corresponding authors name.",
+      "Corresponding author's institution.",
+      "Link to preprint webpage. The \"?versioned=TRUE\" is required, as otherwise, the URL will resolve to the most recent version of the article (assuming there is >1 version available).",
       "Link to preprint PDF. This is used by `mx_download()` to download a copy of the PDF for that preprint.",
-      "Link to preprint bibtex file"
+      "Preprint license",
+      "If the preprint was subsequently published in a peer-reviewed journal, this variable contains the DOI of the published version."
     )
   )
 
