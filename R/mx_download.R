@@ -40,7 +40,7 @@ mx_download <- function(mx_results,
                            mx_results$ID[which(mx_results$link_pdf ==
                                                  file_location)],
                            ".pdf"))) {
-      print(paste0("PDF for ID ", mx_results$ID[which(mx_results$link_pdf ==
+      message(paste0("PDF for ID ", mx_results$ID[which(mx_results$link_pdf ==
                                                            file_location)],
                    " already downloaded."))
 
@@ -50,7 +50,7 @@ mx_download <- function(mx_results,
     }
 
     while (TRUE) {
-      print(paste0("Downloading PDF ",
+      message(paste0("Downloading PDF ",
                    number,
                    " of ",
                    length(mx_results$link_pdf),
@@ -76,7 +76,7 @@ mx_download <- function(mx_results,
 
 
     if ((number %% print_update == 0) == TRUE) {
-      print(paste0(
+      message(paste0(
         "PDF ",
         number,
         " of ",
