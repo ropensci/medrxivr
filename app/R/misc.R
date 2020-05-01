@@ -28,6 +28,6 @@ snapshot_info <- paste0("Using medRxiv snapshot - ",
                           paste0(
                             "https://raw.githubusercontent.com/",
                             "mcguinlu/",
-                            "autosynthesis/master/data/timestamp.txt"
+                            "medrxivr-data/master/timestamp.txt"
                           )
                         ))
