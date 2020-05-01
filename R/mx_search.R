@@ -24,7 +24,7 @@
 
 
 mx_search <- function(query,
-                      fields = c("title","abstract","authors","subject","link"),
+                      fields = c("title","abstract","authors","category","doi"),
                       from.date = NULL,
                       to.date = NULL,
                       NOT = "",
@@ -34,11 +34,7 @@ mx_search <- function(query,
   . <- NULL
   node <- NULL
   link_group <- NULL
-  or_1 <- NULL
-  or_2 <- NULL
-  or_3 <- NULL
-  or_4 <- NULL
-  or_5 <- NULL
+  doi <- NULL
   link <- NULL
 
 
@@ -62,11 +58,10 @@ mx_search <- function(query,
   # Load data
   mx_data <-
     read.csv(
-      paste0(
-        "https://raw.githubusercontent.com/mcguinlu/",
-        "autosynthesis/master/data/",
-        "medRxiv_abstract_list.csv"
-      ),
+
+      paste0("https://raw.githubusercontent.com/",
+             "/mcguinlu/medrxivr-data/master/snapshot.csv"),
+
       sep = ",",
       stringsAsFactors = FALSE,
       fileEncoding = "UTF-8",
@@ -162,21 +157,15 @@ mx_search <- function(query,
 
   if (nrow(mx_results) > 0) {
 
-  colnames(mx_results)[3] <- "link_page"
-  colnames(mx_results)[4] <- "link_pdf"
-  colnames(mx_results)[5] <- "date_posted"
-  colnames(mx_results)[7] <- "first_author"
-  colnames(mx_results)[8] <- "link_bibtex"
-  colnames(mx_results)[12] <- "ID"
+  names(mx_results)[names(mx_results) == "link"] <- "link_page"
+  names(mx_results)[names(mx_results) == "pdf"] <- "link_pdf"
+  names(mx_results)[names(mx_results) == "date_posted"] <- "link_pdf"
+  names(mx_results)[names(mx_results) == "node"] <- "ID"
 
-    mx_results$doi <-
-      gsub("/content/", "", gsub("v.*", "", mx_results$link_page))
-    mx_results$link_page <-
+  mx_results$link_page <-
       paste0("https://www.medrxiv.org", mx_results$link_page)
-    mx_results$link_pdf <-
+  mx_results$link_pdf <-
       paste0("https://www.medrxiv.org", mx_results$link_pdf)
-    mx_results$link_bibtex <-
-      paste0("https://www.medrxiv.org", mx_results$link_bibtex)
 
 
   mx_results <-
@@ -184,32 +173,27 @@ mx_search <- function(query,
       "ID",
       "title",
       "abstract",
-      "first_author",
-      "date_posted",
-      "subject",
+      "authors",
+      "date",
+      "category",
       "doi",
+      "version",
+      "author_corresponding",
+      "author_corresponding_institution",
       "link_page",
       "link_pdf",
-      "link_bibtex"
+      "license",
+      "published"
     )]
 
 
   # Deduplicate -------------------------------------------------------------
   if (deduplicate == TRUE) {
-    mx_results$link_page <- gsub("\\?versioned=TRUE", "", mx_results$link_page)
-
-    mx_results$version <- substr(mx_results$link_page,
-                                 nchar(mx_results$link_page),
-                                 nchar(mx_results$link_page))
-
-    mx_results$link_group <-
-      substr(mx_results$link_page, 1, nchar(mx_results$link_page) - 2)
 
     mx_results <- mx_results %>%
-      dplyr::group_by(link_group) %>%
+      dplyr::group_by(doi) %>%
       dplyr::slice(which.max(version))
 
-    mx_results <- mx_results[1:10]
 
     # Post message and return dataframe
     message(paste0(
