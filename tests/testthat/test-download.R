@@ -11,14 +11,14 @@ test_that("Inital output", {
   skip_on_cran()
   skip_on_travis()
   skip_if_offline()
-  expect_output(mx_download(mx_result, "pdf"), regexp = "Downloading")
+  expect_message(mx_download(mx_result, "pdf"), regexp = "Downloading")
 })
 
 test_that("Already downloaded", {
   skip_on_cran()
   skip_on_travis()
   skip_if_offline()
-  expect_output(mx_download(mx_result, "pdf"), regexp = "downloaded")
+  expect_message(mx_download(mx_result, "pdf"), regexp = "downloaded")
 })
 
 if (dir.exists("pdf")==TRUE){
@@ -29,7 +29,7 @@ test_that("Status update", {
   skip_on_cran()
   skip_on_travis()
   skip_if_offline()
-  expect_output(mx_download(mx_result, "pdf", print_update = 1), regexp = "%")
+  expect_message(mx_download(mx_result, "pdf", print_update = 1), regexp = "%")
 })
 
 if (dir.exists("pdf")==TRUE){
