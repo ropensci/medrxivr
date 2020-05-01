@@ -2,7 +2,7 @@
 #' @description Search medRxiv using a string
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
-#'   First author, Subject, and Link (which includes the DOI)
+#'   Authors, Category, and DOI.
 #' @param from.date Defines earlist date of interest. Written as a number in
 #'   format YYYYMMDD. Note, records published on the date specified will also be
 #'   returned.

@@ -17,7 +17,7 @@ mx_search(
 \item{query}{Character string, vector or list}
 
 \item{fields}{Fields of the database to search - default is Title, Abstract,
-First author, Subject, and Link (which includes the DOI)}
+Authors, Category, and DOI.}
 
 \item{from.date}{Defines earlist date of interest. Written as a number in
 format YYYYMMDD. Note, records published on the date specified will also be
