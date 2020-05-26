@@ -3,6 +3,7 @@
 Major changes:
 
 * Following the release of the [medRxiv API](https://api.biorxiv.org/), the way the snapshot of the medRxiv site is taken has changed, resulting in a more accurate snapshot of the entire repository being taken daily (as opposed to just new articles being captured, as was previously the case). This has introduced some breaking changes (e.g. in the `fields` argument, "subject" has become "category", and "link" has become "doi"), but will result in better long-term stability of the package.
+* TWo new functions, `mx_api_content()` and `mx_api_doi()`, have been added to allow users to interact with the medRxiv API endpoints directly. A new vignette documenting these functions has been added. 
 * The API has also allowed for improved data collection. The "authors" variable searched/returned now contains all authors of the paper as opposed to just the first one. Several additional fields are now returned, including corresponding author's institution, preprint license, and the DOI of the published, peer-reviewed version of preprint (if available).
 * A companion app was launched, which allows you to build the search strategy using a user-friendly interface and then export the code needed to run it directly from R. The app can be found [here](https://mcguinlu.shinyapps.io/medrxivr/).
 * You can now define the field(s) you wish to search. By default, the Title, Abstract, First Author, Subject, and Link (which includes the DOI) fields are searched. 

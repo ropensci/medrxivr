@@ -4,8 +4,9 @@ test_that("Require file", {
 })
 
 
-mx_result <- data.frame(link_pdf = "https://medrxiv.org/content/10.1101/19007328v2.full.pdf",
-                        ID = "69465")
+mx_result <-
+data.frame(link_pdf = "https://medrxiv.org/content/10.1101/19007328v2.full.pdf",
+           ID = "69465")
 
 test_that("Inital output", {
   skip_on_cran()

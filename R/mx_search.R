@@ -1,5 +1,8 @@
 #' Search medRxiv
 #' @description Search medRxiv using a string
+#' @param data Users can define a dataset they have created themselves using the
+#' API (see mx_raw()). The default (data = NULL) is to use a daily static
+#' snapshot of the database rather than requerying the API.
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
 #'   Authors, Category, and DOI.
@@ -14,7 +17,8 @@
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
 #' @examples \dontrun{
-#' mx_results <- mx_search("dementia")
+#' mx_results <- mx_raw() %>%
+#' mx_search(query = "dementia")
 #' }
 #' @family main
 #' @export
@@ -23,7 +27,8 @@
 #' @importFrom dplyr %>%
 
 
-mx_search <- function(query,
+mx_search <- function(data = NULL,
+                      query,
                       fields = c("title","abstract","authors","category","doi"),
                       from.date = NULL,
                       to.date = NULL,
@@ -52,10 +57,15 @@ mx_search <- function(query,
 
   # Search ------------------------------------------------------------------
 
+
+
+  # Load data
+
+  if (is.null(data)) {
+  # If data argument is NULL use the static snapshot
   # Print information on snapshot being used
   mx_info()
 
-  # Load data
   mx_data <-
     read.csv(
 
@@ -67,6 +77,10 @@ mx_search <- function(query,
       fileEncoding = "UTF-8",
       header = TRUE
     )
+  } else {
+    #Alternatively, use the dataset provided (most likely from mx_raw())
+    mx_data <- data
+  }
 
 
 

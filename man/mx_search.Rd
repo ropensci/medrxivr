@@ -5,6 +5,7 @@
 \title{Search medRxiv}
 \usage{
 mx_search(
+  data = NULL,
   query,
   fields = c("title", "abstract", "authors", "category", "doi"),
   from.date = NULL,
@@ -14,6 +15,10 @@ mx_search(
 )
 }
 \arguments{
+\item{data}{Users can define a dataset they have created themselves using the
+API (see mx_raw()). The default (data = NULL) is to use a daily static
+snapshot of the database rather than requerying the API.}
+
 \item{query}{Character string, vector or list}
 
 \item{fields}{Fields of the database to search - default is Title, Abstract,
@@ -38,7 +43,8 @@ Search medRxiv using a string
 }
 \examples{
 \dontrun{
-mx_results <- mx_search("dementia")
+mx_results <- mx_raw() \%>\%
+mx_search(query = "dementia")
 }
 }
 \seealso{

@@ -13,6 +13,9 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+library(medrxivr)
+library(dplyr)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   eval = FALSE,
