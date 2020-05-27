@@ -1,0 +1,55 @@
+---
+title: "Interacting with the medRxiv API"
+author: "Luke A McGuinness"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    toc: yes
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{medrxiv-api}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r,echo=FALSE, message=FALSE,warning=FALSE}
+# Delete when done
+library(medrxivr)
+library(dplyr)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>"
+)
+
+```
+
+## Background
+
+The [medRxiv API](https://api.biorxiv.org/) provides a direct interface to the medRxiv database. **However, the API does not allow you to perform searches,** instead providing two endpoints that return either all content between two specified dates or all information held on a particular DOI. 
+
+`medrxivr` provides two convience functions for importing the data provided by these endpoints in R: `mx_api_content()` and `mx_api_doi()`. The results of either function can then be passed to `mx_search()` for searching.
+
+### By date range (`mx_api_content()`)
+
+The format of this endpoint is https://api.biorxiv.org/details/medrxiv/[interval]/[cursor] where 'interval' must be two YYYY-MM-DD dates separted by '/'. Where metadata for multiple papers is returned, results are paginated with 100 papers served in a call. The 'cursor' value can be used to iterate through the result. 
+
+`mx_api_content()` automatically moves through the pages for you, capturing all records returned by the endpoint and returning them as an R object. For instance, https://api.biorxiv.org/details/medrxiv/2020-01-01/2020-01-31/0 will output 100 results (if that many remain) within the date range of 2020-01-01 to 2020-01-31 beginning from result 1. To import this into R as a dataframe:
+
+``` {r}
+medrxiv_data <- mx_api_content(from.date = "2020-01-01", 
+                               to.date = "2020-01-31")
+```
+
+### By DOI (`mx_api_doi()`)
+
+https://api.biorxiv.org/details/[server]/[DOI] returns detail for a single manuscript. For instance, https://api.biorxiv.org/details/medrxiv/10.1101/2020.02.25.20021568 will output metadata for the medrxiv paper with DOI 10.1101/2020.02.25.20021568. To import the results from this endpoitn into R as a dataframe:
+
+``` {r}
+medrxiv_data <- mx_api_doi(doi = "10.1101/2020.02.25.20021568")
+```
+
+## Notes
+
+Both functions contain a `clean` argument with is set to `TRUE` by default. This is to ensure that the datasets returned by the `mx_api_*()` functions can immediately be passed to `mc_search()`. Howevever, there may be occasions where this is not required, and so setting this argument to `FALSE` will return the raw data provided by the API endpoints.

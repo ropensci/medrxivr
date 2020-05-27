@@ -16,14 +16,46 @@ vignette: >
 # Delete when done
 library(medrxivr)
 library(dplyr)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>"
+)
+
 ```
 
-## Perform a simple search
+## Perform a simple search using a copy of the database from the API
+
+`medrxivr` provides programmatic access to the medRxiv API. However, the API does not allow you to search the database. Instead, you can download a copy of the database yourself via `mx_api_content()`, and then pass the resulting object to the `mx_search()` function for searching (i.e. rather than using the daily snapshot). This can be useful if you wish to document the exact time and data of your extraction, or if the daily snapshot is not updating.
+
+``` {r, eval=FALSE}
+
+medrxiv_data <- mx_api_content()
+
+results <- mx_search(data = medrxiv_data, 
+                     query ="dementia")
+
+```
+
+Alternatively, this can be done all in one step using a piped workflow:
+
+``` {r, eval=FALSE}
+library(dplyr)
+
+results <- mx_api() %>%
+           mx_search(query ="dementia")
+
+```
+
+## Perform a simple search using the daily snapshot of the database
+
+An alternative to the approach detailed above is to search a daily snapshot of the database, taken each morning using the `mx_api_content()` function. Searches performed using this method do not rely on the API (which can become unavilable during peak times) and are usually faster (as it reads data from a CSV rather than having to re-extract it from the API).
 
 ``` {r, eval=FALSE}
 library(medrxivr)
 
-results <- mx_search("dementia")
+results <- mx_search(query ="dementia")
 
 ```
 
@@ -87,6 +119,7 @@ mx_download(results,        # Object returned by mx_search
             create = TRUE)  # Create the directory if it doesn't exist
 
 ```
+
 
 ## Further guidance
 

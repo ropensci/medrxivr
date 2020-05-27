@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->
 
-`medrxivr` provides access to a static snapshot of the _medRxiv_ preprint repository, which is automatically updated each morning to capture new records. `medrxivr` also provides functions to search the snapshot using regular expressions and Boolean logic, and provides a helper function to download the full-text PDFs of relevant preprints.
+`medrxivr` provides programmatic access to the [medRxiv API](https://api.biorxiv.org/), in addition to a static snapshot of the _medRxiv_ preprint repository which is automatically updated each morning. `medrxivr` also provides functions to search medRxiv records using regular expressions and Boolean logic, and provides a helper function to download the full-text PDFs of relevant preprints.
 
 __Note:__ `medrxivr` is now available as a web-app, which lets you build complex searches via a user-friendly interface, explore the results and export them for screening. In an effort to improve reproducibility, it also creates the code needed to run the search straight from R. The app is available [here.](https://mcguinlu.shinyapps.io/medrxivr/)
 
@@ -40,11 +40,37 @@ library(medrxivr)
 
 ## Usage
 
-### Perform a simple search
+### Perform a simple search using a copy of the database from the API
+
+`mx_api_content()` provides programmatic access to the medRxiv API. However, the API does not allow you to search the database. Instead, you can download a copy of the database yourself via the medRxiv API, and then pass the resulting object to the `mx_search()` function for searching. This can be useful if you wish to document the exact time and data of your extraction.
 
 ``` {r, eval=FALSE}
 
-mx_results <- mx_search("dementia")
+medrxiv_data <- mx_api_content()
+
+results <- mx_search(data = medrxiv_data,
+                     query ="dementia")
+
+```
+
+Alternatively, this can be done all in one step using a piped workflow:
+
+``` {r, eval=FALSE}
+library(dplyr)
+
+results <- mx_api() %>%
+           mx_search(query = "dementia")
+
+```
+
+### Perform a simple search using the daily snapshot of the database
+
+An alternative to the approach detailed above is to search a daily snapshot of the database, taken each morning using the `mx_api_content()` function. Searches performed using this method do not rely on the API (which can become unavilable during peak times) and are usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Information on the snapshot you are using is reported.
+
+``` {r, eval=TRUE}
+library(medrxivr)
+
+results <- mx_search(query = "dementia")
 
 ```
 

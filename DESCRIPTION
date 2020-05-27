@@ -27,7 +27,11 @@ Imports:
     methods,
     dplyr,
     xml2,
-    curl
+    curl,
+    jsonlite,
+    httr,
+    stringr,
+    rlang
 Suggests: 
     testthat (>= 2.1.0),
     knitr,

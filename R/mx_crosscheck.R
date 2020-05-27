@@ -40,7 +40,7 @@ mx_crosscheck <- function(){
 
 # Get number of unique records extracted ----------------------------------
 
-  data <- suppressMessages(mx_search("*"))
+  data <- suppressMessages(mx_search(query = "*"))
 
   extracted <- as.numeric(length(unique(data$doi)))
 

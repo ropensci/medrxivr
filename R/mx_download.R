@@ -21,6 +21,9 @@ mx_download <- function(mx_results,
                         create = TRUE,
                         print_update = 10){
 
+  mx_results$filename <- paste0(mx_results$doi,"v",mx_results$version)
+  mx_results$filename <- gsub("/","-",mx_results$filename)
+
   print(paste0("Estimated time to completion: ",
                round(length(mx_results$link_pdf)*13/60/60, 2), " hours"))
 
@@ -37,12 +40,13 @@ mx_download <- function(mx_results,
 
   for (file_location in mx_results$link_pdf) {
     if (file.exists(paste0(directory,
-                           mx_results$ID[which(mx_results$link_pdf ==
-                                                 file_location)],
+                           mx_results$filename[which(mx_results$link_pdf ==
+                                                     file_location)],
                            ".pdf"))) {
-      message(paste0("PDF for ID ", mx_results$ID[which(mx_results$link_pdf ==
-                                                           file_location)],
-                   " already downloaded."))
+      message(paste0("PDF for ID ",
+                     mx_results$filename[which(mx_results$link_pdf ==
+                                                                file_location)],
+                     " already downloaded."))
 
       number <- number + 1
 
@@ -54,8 +58,8 @@ mx_download <- function(mx_results,
                    number,
                    " of ",
                    length(mx_results$link_pdf),
-                   " (ID: ",
-                   mx_results$ID[which(mx_results$link_pdf ==
+                   " (DOI: ",
+                   mx_results$filename[which(mx_results$link_pdf ==
                                                        file_location)],
                    "). . . "))
 
@@ -65,7 +69,7 @@ mx_download <- function(mx_results,
       pmx_results <-
         try(download.file(
           url = file_location,
-          destfile = paste0(directory, mx_results$ID[number], ".pdf"),
+          destfile = paste0(directory, mx_results$filename[number], ".pdf"),
           method = "auto",
           mode = "wb"
         ))
