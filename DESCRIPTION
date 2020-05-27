@@ -30,7 +30,8 @@ Imports:
     curl,
     jsonlite,
     httr,
-    stringr
+    stringr,
+    rlang
 Suggests: 
     testthat (>= 2.1.0),
     knitr,

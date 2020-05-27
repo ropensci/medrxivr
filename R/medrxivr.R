@@ -4,4 +4,5 @@
 #' preprint repository from R
 #' @docType package
 #' @name medrxivr
-NULL
+
+globalVariables(c("doi"))

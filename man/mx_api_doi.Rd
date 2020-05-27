@@ -12,10 +12,6 @@ data on.}
 
 \item{clean}{Logical, indicating whether to clean the data returned for use
 with other mx_* functions.}
-
-\item{include.info}{Logical, indicating whether to include variables
-containing information returned by the API (e.g. cursor number, total count
-of papers, etc). Default is FALSE.}
 }
 \value{
 Dataframe containing details on the preprint identified by the DOI.

@@ -18,6 +18,7 @@
 #' mx_data <- mx_api()
 #' }
 #' @importFrom dplyr %>%
+#' @importFrom rlang .data
 
 mx_api_content <- function(from.date = "2019-06-01",
                            to.date = Sys.Date(),
@@ -108,9 +109,6 @@ df
 #'
 #' @param doi Digital object identifier of the preprint you wish to retrieve
 #'   data on.
-#' @param include.info Logical, indicating whether to include variables
-#'   containing information returned by the API (e.g. cursor number, total count
-#'   of papers, etc). Default is FALSE.
 #' @param clean Logical, indicating whether to clean the data returned for use
 #'   with other mx_* functions.
 #'
@@ -123,6 +121,7 @@ df
 #' mx_data <- mx_api_doi("10.1101/2020.02.25.20021568")
 #' }
 #' @importFrom dplyr %>%
+#' @importFrom rlang .data
 
 mx_api_doi <- function(doi,
                        clean = TRUE){
@@ -138,8 +137,6 @@ df <- details$collection
 # Clean data
 
 if (clean == TRUE) {
-
-
 
   df$node <- seq_len(nrow(df))
 
