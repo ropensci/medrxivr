@@ -16,8 +16,8 @@ mx_search(
 }
 \arguments{
 \item{data}{Users can define a dataset they have created themselves using the
-API (see mx_raw()). The default (data = NULL) is to use a daily static
-snapshot of the database rather than requerying the API.}
+API (see mx_api_content()). The default (data = NULL) is to use a daily static
+snapshot of the database rather than querying the API.}
 
 \item{query}{Character string, vector or list}
 
@@ -43,7 +43,7 @@ Search medRxiv using a string
 }
 \examples{
 \dontrun{
-mx_results <- mx_raw() \%>\%
+mx_results <- mx_api_content() \%>\%
 mx_search(query = "dementia")
 }
 }

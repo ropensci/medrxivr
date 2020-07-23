@@ -8,8 +8,12 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-8730-9761")),
     person("Lena", "Schmidt",
            role = "aut",
-           comment = c(ORCID = "0000-0003-0709-8226")))
-Description: The medRxiv <https://www.medrxiv.org/> repository is a free online
+           comment = c(ORCID = "0000-0003-0709-8226")),
+    person("Tuija", "Sonkkila",
+           role = "rev"),
+    person("Najko", "Jahn",
+           role = "rev"))
+Description: The medRxiv <https://www.medRxiv.org/> repository is a free online
     archive and distribution server for complete but unpublished manuscripts 
     (preprints) in the medical, clinical, and related health sciences. medrxivr
     provides programmatic access to both medRxiv API <https://api.biorxiv.org/>
@@ -32,7 +36,12 @@ Imports:
     jsonlite,
     httr,
     stringr,
-    rlang
+    rlang,
+    vroom,
+    bib2df,
+    tibble,
+    progress,
+    lubridate
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
