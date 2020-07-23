@@ -76,7 +76,7 @@ Often it is useful to be able to exclude records that contain a certain term tha
 
 ```{r}
 mx_results <- mx_search(query = "dementia",
-                        NOT = "mild cognitive impairment")
+                        NOT = "[Mm]ild cognitive impairment")
 ```
 
 ### Limit by date posted
@@ -85,8 +85,8 @@ You can define either/both of the earliest and latest date you wish to include r
 
 ```{r}
 mx_results <- mx_search(query = "dementia",
-                        from.date = 20200101,      # 1st Jan 2020
-                        to.date = 20200105)        # 5th Jan 2020
+                        from_date = "2020-01-01",      # 1st Jan 2020
+                        to_date = "2020-01-05")        # 5th Jan 2020
 ```
 
 ### Return multiple versions of a record
@@ -98,12 +98,12 @@ mx_results <- mx_search(query = "dementia",
                         deduplicate = FALSE)
 ```
 
-## Useful regular expression (_regex_) syntaxes for the systematic reviewer {#regex}
+## Useful regular expression (_regex_) syntax for the systematic reviewer {#regex}
 
 ### Capitalisation
 
 __Example regex:__ `[Dd]ementia`  
-__Description:__ The search is case sensitive, so this syntax allows you to find both <b>D</b>ementia and <b>d</b>ementia using a single term, rather than having to enter them seperately.
+__Description:__ The search is case sensitive, so this syntax allows you to find both <b>D</b>ementia and <b>d</b>ementia using a single term, rather than having to enter them separately.
 
 ### Wildcard
 
