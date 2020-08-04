@@ -22,4 +22,5 @@ Returns formatted snapshot of the medRxiv database for use with mx_search()
 \dontrun{
 mx_data <- mx_snapshot()
 }
+
 }

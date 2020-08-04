@@ -29,8 +29,8 @@ Download PDF's of all the papers in your search results
 }
 \examples{
 \dontrun{
-mx_results <- mx_search(query = "molecular")
-mx_download(mx_results,"medrxiv-PDF")
+mx_results <- mx_search(mx_snapshot(), query = "molecular")
+mx_download(mx_results, "medrxiv-PDF")
 }
 }
 \seealso{

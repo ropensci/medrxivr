@@ -19,7 +19,8 @@ Export results of medRxiv search to a .bib file
 }
 \examples{
 \dontrun{
-mx_results <- mx_search(query = "brain")
+mx_results <- mx_search(mx_snapshot(), query = "brain")
 mx_export(mx_results, "references.bib")
 }
+
 }

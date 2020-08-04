@@ -21,5 +21,6 @@ Provide information on the snapshot used to perform the search
 \dontrun{
 mx_info()
 }
+
 }
 \keyword{Internal}

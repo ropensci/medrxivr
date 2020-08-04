@@ -5,7 +5,7 @@
 \title{Access medRxiv API}
 \usage{
 mx_api_content(
-  from_date = "2019-06-01",
+  from_date = "2013-01-01",
   to_date = as.character(Sys.Date()),
   clean = TRUE,
   server = "medrxiv",
