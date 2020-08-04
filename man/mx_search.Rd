@@ -6,10 +6,10 @@
 \usage{
 mx_search(
   data = NULL,
-  query,
+  query = NULL,
   fields = c("title", "abstract", "authors", "category", "doi"),
-  from.date = NULL,
-  to.date = NULL,
+  from_date = NULL,
+  to_date = NULL,
   NOT = "",
   deduplicate = TRUE
 )
@@ -24,11 +24,11 @@ snapshot of the database rather than querying the API.}
 \item{fields}{Fields of the database to search - default is Title, Abstract,
 Authors, Category, and DOI.}
 
-\item{from.date}{Defines earlist date of interest. Written as a number in
+\item{from_date}{Defines earliest date of interest. Written as a number in
 format YYYYMMDD. Note, records published on the date specified will also be
 returned.}
 
-\item{to.date}{Defines latest date of interest. Written as a number in
+\item{to_date}{Defines latest date of interest. Written as a number in
 format YYYYMMDD. Note, records published on the date specified will also be
 returned.}
 
@@ -43,8 +43,12 @@ Search medRxiv using a string
 }
 \examples{
 \dontrun{
+# Using data from the API
 mx_results <- mx_api_content() \%>\%
 mx_search(query = "dementia")
+
+# Using the daily snapshot
+mx_results <- mx_search(query = "dementia")
 }
 }
 \seealso{

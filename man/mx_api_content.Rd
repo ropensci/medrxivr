@@ -2,23 +2,27 @@
 % Please edit documentation in R/mx_api.R
 \name{mx_api_content}
 \alias{mx_api_content}
-\title{Access medrxiv API}
+\title{Access medRxiv API}
 \usage{
 mx_api_content(
-  from.date = "2019-06-01",
-  to.date = Sys.Date(),
+  from_date = "2019-06-01",
+  to_date = as.character(Sys.Date()),
   clean = TRUE,
+  server = "medrxiv",
   include.info = FALSE
 )
 }
 \arguments{
-\item{from.date}{Earliest date of interst. Defaults to 1st June 2019
+\item{from_date}{Earliest date of interest. Defaults to 1st June 2019
 (earliest medRxiv record was posted on 25th June 2019).}
 
-\item{to.date}{Latest date of interest. Defaults to current date.}
+\item{to_date}{Latest date of interest. Defaults to current date.}
 
 \item{clean}{Logical, indicating whether to clean the data returned for use
 with other mx_* functions.}
+
+\item{server}{Specify the server you wish to use: "medrxiv" (default) or
+"biorxiv"}
 
 \item{include.info}{Logical, indicating whether to include variables
 containing information returned by the API (e.g. cursor number, total count
@@ -28,11 +32,11 @@ of papers, etc). Default is FALSE.}
 Dataframe with 1 record per row
 }
 \description{
-Access medrxiv API
+Access medRxiv API
 }
 \examples{
 \dontrun{
-mx_data <- mx_api()
+mx_data <- mx_api_content()
 }
 }
 \seealso{

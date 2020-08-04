@@ -1,20 +1,28 @@
-#' Search medRxiv
-#' @description Get information about the data dump you are using
-#' @examples \dontrun{
+#' Provide information on the snapshot used to perform the search
+#'
+#' @param commit Commit hash for the snapshot, taken from
+#'   https://github.com/mcguinlu/medrxivr-data. Defaults to "master", which will
+#'   return info on the most recent snapshot.
+#' @keywords Internal
+#' @return Message with snapshot details
+#'
+#' @examples
+#' \dontrun{
 #' mx_info()
 #' }
-#' @family helper
+#'
+mx_info <- function(commit = "master") {
+  current_time <- readLines(paste0(
+    "https://raw.githubusercontent.com/",
+    "mcguinlu/",
+    "medrxivr-data/",
+    commit,
+    "/timestamp.txt"
+  ))
 
-
-mx_info <- function(){
-
-  # Need code to read current version of it
-
-  current_time <- readLines(paste0("https://raw.githubusercontent.com/",
-                                   "mcguinlu/",
-                                   "medrxivr-data/master/timestamp.txt"))
-
-  mess<- paste0("Using medRxiv snapshot - ",
-                current_time)
+  mess <- paste0(
+    "Using medRxiv snapshot - ",
+    current_time
+  )
   message(mess)
 }

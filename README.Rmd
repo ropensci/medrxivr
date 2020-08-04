@@ -8,10 +8,14 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   eval = FALSE,
+  message = FALSE,
+  warning = FALSE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+library(medrxivr)
 ```
 
 # medrxivr <img src="man/figures/hex-medrxivr.png" align="right" width="20%" height="20%" />
@@ -19,6 +23,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![rOpenSci Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
 <br>
 [![Travis build status](https://travis-ci.com/mcguinlu/medrxivr.svg?branch=master)](https://travis-ci.com/mcguinlu/medrxivr)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?branch=master&svg=true)](https://ci.appveyor.com/project/mcguinlu/medrxivr)
@@ -40,51 +45,67 @@ library(medrxivr)
 
 ## Usage
 
-### Perform a simple search using a copy of the database from the API
+### Data sources
 
-`mx_api_content()` provides programmatic access to the medRxiv API. However, the API does not allow you to search the database. Instead, you can download a copy of the database yourself via the medRxiv API, and then pass the resulting object to the `mx_search()` function for searching. This can be useful if you wish to document the exact time and data of your extraction.
+`medrixvr` provides access to methods to access medRxiv data (see figure, below):  
 
-``` {r, eval=FALSE}
+  - `mx_api_content()` creates a local copy of all data available from the medRxiv API at the time the function is run.
+  
+  - `mx_snapshot()` provides acces to a static snapshot of the database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  
+``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
 
+knitr::include_graphics("figs/data_sources.png")
+```
+  
+  
+## Perform a simple search
+
+### Using data from the API
+
+``` {r}
+
+# Get a copy of the database from the live API
 medrxiv_data <- mx_api_content()
 
+# Perform a simple search
 results <- mx_search(data = medrxiv_data,
                      query ="dementia")
 
 ```
 
-Alternatively, this can be done all in one step using a piped workflow:
+### Using the daily snapshot
 
-``` {r, eval=FALSE}
-library(dplyr)
+``` {r}
 
-results <- mx_api() %>%
-           mx_search(query = "dementia")
+# Get a copy of the database from the daily snapshot
+medrxiv_data <- mx_snapshot()
 
-```
-
-### Perform a simple search using the daily snapshot of the database
-
-An alternative to the approach detailed above is to search a daily snapshot of the database, taken each morning using the `mx_api_content()` function. Searches performed using this method do not rely on the API (which can become unavilable during peak times) and are usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Information on the snapshot you are using is reported.
-
-``` {r, eval=TRUE}
-library(medrxivr)
-
-results <- mx_search(query = "dementia")
+# Perform a simple search
+results <- mx_search(data = medrxiv_data,
+                     query ="dementia")
 
 ```
 
-### Download PDFs for returned records
+### Download PDFs for records returned by your search
 
 Pass the results of your search above to the `mx_download()` function to download a copy of the PDF for each record.
 
 ```{r, eval = FALSE}
 
-mx_download(mx_results,     # Object returned by mx_search
+mx_download(results,        # Object returned by mx_search(), above
             "pdf/",         # Directory to save PDFs to 
             create = TRUE)  # Create the directory if it doesn't exist
 
 ```
+
+## Detailed guidance
+
+Detailed guidance, including advice on how to design complex search strategies, is available on the [`medrxivr` website](https://mcguinlu.github.io/medrxivr/)
+
+## Linked repositories
+
+See here for the [code used to take the daily snapshot](https://github.com/mcguinlu/medrxivr-data) and [the code that powers the `medrxivr` web app](https://github.com/mcguinlu/medrxivr-app).
 
 ## Code of conduct
 

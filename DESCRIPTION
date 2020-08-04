@@ -28,7 +28,6 @@ Language: en-US
 URL: https://github.com/mcguinlu/medrxivr
 BugReports: https://github.com/mcguinlu/medrxivr/issues
 Imports: 
-    rvest,
     methods,
     dplyr,
     xml2,
