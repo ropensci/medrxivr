@@ -14,8 +14,4 @@ Cross-check whether the dataset you are using is current
 mx_crosscheck()
 }
 }
-\seealso{
-Other helper: 
-\code{\link{mx_info}()}
-}
 \concept{helper}

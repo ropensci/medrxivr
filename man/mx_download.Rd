@@ -4,7 +4,13 @@
 \alias{mx_download}
 \title{Download PDF's}
 \usage{
-mx_download(mx_results, directory, create = TRUE, print_update = 10)
+mx_download(
+  mx_results,
+  directory,
+  create = TRUE,
+  name = c("ID", "DOI"),
+  print_update = 10
+)
 }
 \arguments{
 \item{mx_results}{Vector containing the links to the medRxiv PDFs}
@@ -14,6 +20,8 @@ mx_download(mx_results, directory, create = TRUE, print_update = 10)
 \item{create}{TRUE or FALSE. If TRUE, creates the directory if it doesn't
 exist}
 
+\item{name}{How to name the donwloaded PDF. By default, both the ID number of the record and the DOI are used.}
+
 \item{print_update}{How frequently to print an update}
 }
 \description{
@@ -21,8 +29,8 @@ Download PDF's of all the papers in your search results
 }
 \examples{
 \dontrun{
-mx_results <- mx_search("ecology",limit=20)
-mx_download(mx_results,"~/medrxivPDF")
+mx_results <- mx_search(mx_snapshot(), query = "molecular")
+mx_download(mx_results, "medrxiv-PDF")
 }
 }
 \seealso{

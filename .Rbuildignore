@@ -11,7 +11,7 @@ pdf/
 ^docs$
 ^pkgdown$
 ^CODE_OF_CONDUCT\.md$
-app/
 data-extraction/
 .github/
 ropensci.*
+figs/

@@ -4,11 +4,14 @@
 \alias{mx_api_doi}
 \title{Access medRxiv API, based on single DOI}
 \usage{
-mx_api_doi(doi, clean = TRUE)
+mx_api_doi(doi, server = "medrxiv", clean = TRUE)
 }
 \arguments{
 \item{doi}{Digital object identifier of the preprint you wish to retrieve
 data on.}
+
+\item{server}{Specify the server you wish to use: "medrxiv" (default) or
+"biorxiv"}
 
 \item{clean}{Logical, indicating whether to clean the data returned for use
 with other mx_* functions.}

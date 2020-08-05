@@ -2,20 +2,25 @@
 % Please edit documentation in R/mx_info.R
 \name{mx_info}
 \alias{mx_info}
-\title{Search medRxiv}
+\title{Provide information on the snapshot used to perform the search}
 \usage{
-mx_info()
+mx_info(commit = "master")
+}
+\arguments{
+\item{commit}{Commit hash for the snapshot, taken from
+https://github.com/mcguinlu/medrxivr-data. Defaults to "master", which will
+return info on the most recent snapshot.}
+}
+\value{
+Message with snapshot details
 }
 \description{
-Get information about the data dump you are using
+Provide information on the snapshot used to perform the search
 }
 \examples{
 \dontrun{
 mx_info()
 }
+
 }
-\seealso{
-Other helper: 
-\code{\link{mx_crosscheck}()}
-}
-\concept{helper}
+\keyword{Internal}

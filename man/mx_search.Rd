@@ -6,29 +6,29 @@
 \usage{
 mx_search(
   data = NULL,
-  query,
+  query = NULL,
   fields = c("title", "abstract", "authors", "category", "doi"),
-  from.date = NULL,
-  to.date = NULL,
+  from_date = NULL,
+  to_date = NULL,
   NOT = "",
   deduplicate = TRUE
 )
 }
 \arguments{
 \item{data}{Users can define a dataset they have created themselves using the
-API (see mx_raw()). The default (data = NULL) is to use a daily static
-snapshot of the database rather than requerying the API.}
+API (see mx_api_content()). The default (data = NULL) is to use a daily static
+snapshot of the database rather than querying the API.}
 
 \item{query}{Character string, vector or list}
 
 \item{fields}{Fields of the database to search - default is Title, Abstract,
 Authors, Category, and DOI.}
 
-\item{from.date}{Defines earlist date of interest. Written as a number in
+\item{from_date}{Defines earliest date of interest. Written as a number in
 format YYYYMMDD. Note, records published on the date specified will also be
 returned.}
 
-\item{to.date}{Defines latest date of interest. Written as a number in
+\item{to_date}{Defines latest date of interest. Written as a number in
 format YYYYMMDD. Note, records published on the date specified will also be
 returned.}
 
@@ -43,8 +43,13 @@ Search medRxiv using a string
 }
 \examples{
 \dontrun{
-mx_results <- mx_raw() \%>\%
-mx_search(query = "dementia")
+# Using data from the API
+mx_results <- mx_api_content() \%>\%
+  mx_search(query = "dementia")
+
+# Using the daily snapshot
+mx_results <- mx_snapshot() \%>\%
+  mx_search(query = "dementia")
 }
 }
 \seealso{
