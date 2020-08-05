@@ -15,21 +15,20 @@ mx_search(
 )
 }
 \arguments{
-\item{data}{Users can define a dataset they have created themselves using the
-API (see mx_api_content()). The default (data = NULL) is to use a daily static
-snapshot of the database rather than querying the API.}
+\item{data}{The medRxiv dataset that is to be searched, created either using
+mx_api_content() or mx_snapshot()}
 
 \item{query}{Character string, vector or list}
 
 \item{fields}{Fields of the database to search - default is Title, Abstract,
 Authors, Category, and DOI.}
 
-\item{from_date}{Defines earliest date of interest. Written as a number in
-format YYYYMMDD. Note, records published on the date specified will also be
+\item{from_date}{Defines earliest date of interest. Written in the format
+"YYYY-MM-DD". Note, records published on the date specified will also be
 returned.}
 
-\item{to_date}{Defines latest date of interest. Written as a number in
-format YYYYMMDD. Note, records published on the date specified will also be
+\item{to_date}{Defines latest date of interest. Written in the format
+"YYYY-MM-DD". Note, records published on the date specified will also be
 returned.}
 
 \item{NOT}{Vector of regular expressions to exclude from the search. Default
@@ -54,6 +53,7 @@ mx_results <- mx_snapshot() \%>\%
 }
 \seealso{
 Other main: 
-\code{\link{mx_download}()}
+\code{\link{mx_download}()},
+\code{\link{mx_export}()}
 }
 \concept{main}

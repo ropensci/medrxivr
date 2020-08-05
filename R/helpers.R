@@ -12,7 +12,7 @@ internet_check <- function() {
   }
 }
 
-#' Concert API data to data frame
+#' Convert API data to data frame
 #'
 #' @param url API endpoint from which to extract and format data
 #'

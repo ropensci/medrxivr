@@ -1,16 +1,15 @@
 #' Search medRxiv
 #' @description Search medRxiv using a string
-#' @param data Users can define a dataset they have created themselves using the
-#' API (see mx_api_content()). The default (data = NULL) is to use a daily static
-#' snapshot of the database rather than querying the API.
+#' @param data The medRxiv dataset that is to be searched, created either using
+#'   mx_api_content() or mx_snapshot()
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
 #'   Authors, Category, and DOI.
-#' @param from_date Defines earliest date of interest. Written as a number in
-#'   format YYYYMMDD. Note, records published on the date specified will also be
+#' @param from_date Defines earliest date of interest. Written in the format
+#'   "YYYY-MM-DD". Note, records published on the date specified will also be
 #'   returned.
-#' @param to_date Defines latest date of interest. Written as a number in
-#'   format YYYYMMDD. Note, records published on the date specified will also be
+#' @param to_date Defines latest date of interest. Written in the format
+#'   "YYYY-MM-DD". Note, records published on the date specified will also be
 #'   returned.
 #' @param NOT Vector of regular expressions to exclude from the search. Default
 #'   is NULL.

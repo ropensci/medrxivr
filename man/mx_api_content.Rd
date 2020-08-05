@@ -40,7 +40,8 @@ mx_data <- mx_api_content()
 }
 }
 \seealso{
-Other api: 
-\code{\link{mx_api_doi}()}
+Other data-source: 
+\code{\link{mx_api_doi}()},
+\code{\link{mx_snapshot}()}
 }
-\concept{api}
+\concept{data-source}

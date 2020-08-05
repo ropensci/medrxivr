@@ -1,5 +1,5 @@
 ---
-title: "Interacting with the medRxiv API"
+title: "Interacting with the API"
 author: "Luke A McGuinness"
 date: "`r Sys.Date()`"
 output:

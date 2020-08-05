@@ -5,7 +5,8 @@
 #'
 #' @return Exports a formatted .BIB file, for import into a reference manager
 #' @export
-#'
+#' @family main
+
 #' @examples
 #' \dontrun{
 #' mx_results <- mx_search(mx_snapshot(), query = "brain")

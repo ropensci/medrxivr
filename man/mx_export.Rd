@@ -24,3 +24,9 @@ mx_export(mx_results, "references.bib")
 }
 
 }
+\seealso{
+Other main: 
+\code{\link{mx_download}()},
+\code{\link{mx_search}()}
+}
+\concept{main}

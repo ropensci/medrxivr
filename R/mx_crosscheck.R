@@ -1,5 +1,7 @@
 #' Live check against medRxiv
-#' @description Cross-check whether the dataset you are using is current
+#' @description Provides information on how up-to-date the snapshot is by
+#'   checking whether there have been any records added to/updated in the
+#'   medRxiv repository since the last snapshot was taken.
 #' @examples
 #' \dontrun{
 #' mx_crosscheck()

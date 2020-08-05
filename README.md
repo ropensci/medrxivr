@@ -18,12 +18,17 @@ status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?bra
 coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->
 
-`medrxivr` provides programmatic access to the [medRxiv
-API](https://api.biorxiv.org/), in addition to a static snapshot of the
-*medRxiv* preprint repository which is automatically updated each
-morning. `medrxivr` also provides functions to search medRxiv records
-using regular expressions and Boolean logic, and provides a helper
-function to download the full-text PDFs of relevant preprints.
+[medRxiv](https://www.medrxiv.org/) is a free online repository for
+complete but unpublished manuscripts (preprints) in the medical,
+clinical, and related health sciences. The `medrxivr` package provides
+programmatic access to metadata (title, authors, date, etc.) on the
+preprints contained in the repository via the [medRxiv
+API](https://api.biorxiv.org/) or a maintained static snapshot (see
+[Data sources](#data-sources).) `medrxivr` also provides functions to
+search medRxiv records using regular expressions and Boolean logic, in
+addition to helper functions to export your search results to a .BIB
+file for easy import to a reference manager and to download the
+full-text PDFs of relevant preprints.
 
 **Note:** `medrxivr` is now available as a web-app, which lets you build
 complex searches via a user-friendly interface, explore the results and
@@ -44,8 +49,7 @@ library(medrxivr)
 
 ### Data sources
 
-`medrixvr` provides access to methods to access medRxiv data (see
-figure, below):
+`medrixvr` provides two ways to access medRxiv data:
 
   - `mx_api_content()` creates a local copy of all data available from
     the medRxiv API at the time the function is run.
@@ -59,6 +63,9 @@ figure, below):
     rather than having to re-extract it from the API). Discrepancies
     between the most recent static snapshot and the live database can be
     assessed using `mx_crosscheck()`.
+
+The relationship between the two methods is summarised in the figure
+below:
 
 <img src="figs/data_sources.png" width="500px" height="400px" />
 

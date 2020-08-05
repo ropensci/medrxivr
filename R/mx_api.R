@@ -13,7 +13,7 @@
 #'
 #' @return Dataframe with 1 record per row
 #'
-#' @family api
+#' @family data-source
 #' @export
 #'
 #' @examples
@@ -99,7 +99,7 @@ mx_api_content <- function(from_date = "2013-01-01",
 #'
 #' @return Dataframe containing details on the preprint identified by the DOI.
 #'
-#' @family api
+#' @family data-source
 #' @export
 #'
 #' @examples
