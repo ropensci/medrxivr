@@ -40,8 +40,7 @@ Imports:
     bib2df,
     tibble,
     progress,
-    lubridate,
-    here
+    lubridate
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
