@@ -28,7 +28,8 @@ mx_data <- mx_api_doi("10.1101/2020.02.25.20021568")
 }
 }
 \seealso{
-Other api: 
-\code{\link{mx_api_content}()}
+Other data-source: 
+\code{\link{mx_api_content}()},
+\code{\link{mx_snapshot}()}
 }
-\concept{api}
+\concept{data-source}

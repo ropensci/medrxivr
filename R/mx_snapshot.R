@@ -7,7 +7,7 @@
 #'
 #' @return Formatted dataframe
 #' @export
-#'
+#' @family data-source
 #' @examples
 #' \dontrun{
 #' mx_data <- mx_snapshot()

@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{api_to_df}
 \alias{api_to_df}
-\title{Concert API data to data frame}
+\title{Convert API data to data frame}
 \usage{
 api_to_df(url)
 }
@@ -13,7 +13,7 @@ api_to_df(url)
 Raw API data in a dataframe
 }
 \description{
-Concert API data to data frame
+Convert API data to data frame
 }
 \examples{
 \dontrun{

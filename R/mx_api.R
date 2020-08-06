@@ -1,4 +1,4 @@
-#' Access medRxiv API
+#' Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv
 #'
 #' @param from_date Earliest date of interest. Defaults to 1st June 2019
 #'   (earliest medRxiv record was posted on 25th June 2019).
@@ -9,11 +9,11 @@
 #' @param server Specify the server you wish to use: "medrxiv" (default) or
 #'   "biorxiv"
 #' @param clean Logical, indicating whether to clean the data returned for use
-#'   with other mx_* functions.
+#'   with other mx_* functions. Default is TRUE.
 #'
 #' @return Dataframe with 1 record per row
 #'
-#' @family api
+#' @family data-source
 #' @export
 #'
 #' @examples
@@ -99,7 +99,7 @@ mx_api_content <- function(from_date = "2013-01-01",
 #'
 #' @return Dataframe containing details on the preprint identified by the DOI.
 #'
-#' @family api
+#' @family data-source
 #' @export
 #'
 #' @examples

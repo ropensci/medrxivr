@@ -24,3 +24,9 @@ mx_data <- mx_snapshot()
 }
 
 }
+\seealso{
+Other data-source: 
+\code{\link{mx_api_content}()},
+\code{\link{mx_api_doi}()}
+}
+\concept{data-source}

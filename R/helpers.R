@@ -12,7 +12,7 @@ internet_check <- function() {
   }
 }
 
-#' Concert API data to data frame
+#' Convert API data to data frame
 #'
 #' @param url API endpoint from which to extract and format data
 #'
@@ -40,6 +40,22 @@ api_to_df <- function(url) {
       "static daily snapshot (available for medRxiv only)"
     )
   )
+
+  code <- details$status_code
+
+  message <- httr::content(details, as = "text", encoding = "UTF-8")
+
+  if (code == 200 & message == "Error : (2002) Connection refused") {
+    stop(paste("API connection refused.",
+         "As this is usually due to current user load,",
+      "please try again in a little while, or use the maintained",
+      "static daily snapshot (available for medRxiv only)"))
+  }
+
+  if (code == 200 & grepl("no posts found", message)) {
+    stop(paste("No records found. Please double check your date range,",
+               "as this is the usual cause of this error."))
+  }
 
   details <- details %>%
     httr::content(as = "text", encoding = "UTF-8") %>%
@@ -101,4 +117,29 @@ clean_api_df <- function(df) {
     dplyr::select(-c(.data$server, .data$link, .data$pdf))
 
   df
+}
+
+
+#' Skips API tests if API isn't working correctly
+#'
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' skip_if_api_message()
+#' }
+skip_if_api_message <- function() {
+  details <- httr::RETRY(
+    verb = "GET",
+    times = 3,
+    url = "https://api.biorxiv.org/details/medrxiv/2020-06-21/2020-08-28/45",
+    httr::timeout(30)
+  )
+  code <- details$status_code
+
+  message <- httr::content(details, as = "text", encoding = "UTF-8")
+
+  if (code == 200 & message == "Error : (2002) Connection refused") {
+    testthat::skip("API connection refused")
+  }
 }

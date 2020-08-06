@@ -4,7 +4,7 @@
 #' @param directory The location you want to download the PDF's to
 #' @param create TRUE or FALSE. If TRUE, creates the directory if it doesn't
 #'   exist
-#' @param name How to name the donwloaded PDF. By default, both the ID number of the record and the DOI are used.
+#' @param name How to name the downloaded PDF. By default, both the ID number of the record and the DOI are used.
 #' @param print_update How frequently to print an update
 #' @examples
 #' \dontrun{

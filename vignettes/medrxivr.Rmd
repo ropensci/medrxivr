@@ -25,17 +25,58 @@ knitr::opts_chunk$set(
 
 ```
 
+[medRxiv](https://www.medrxiv.org/) is a free online repository for complete but unpublished manuscripts (preprints) in the medical, clinical, and related health sciences. The `medrxivr` package provides programmatic access to the [medRxiv API](https://api.biorxiv.org/), in addition to a static snapshot of the _medRxiv_ preprint repository which is automatically updated each morning (see [Data sources](#data-sources)). 
+
 ## Usage
 
 ### Data sources
 
+`medrixvr` provides two ways to access medRxiv data:  
 
+  - `mx_api_content()` creates a local copy of all data available from the medRxiv API at the time the function is run.
+  
+  - `mx_snapshot()` provides access to a static snapshot of the database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  
+The relationship between the two methods is summarised in the figure below:
+  
+``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
+
+knitr::include_graphics("data_sources.png")
+```
+  
+## Perform a simple search
+
+### Using data from the API
+
+``` {r}
+
+# Get a copy of the database from the live API
+medrxiv_data <- mx_api_content()
+
+# Perform a simple search
+results <- mx_search(data = medrxiv_data,
+                     query ="dementia")
+
+```
+
+### Using the daily snapshot
+
+``` {r}
+
+# Get a copy of the database from the daily snapshot
+medrxiv_data <- mx_snapshot()
+
+# Perform a simple search
+results <- mx_search(data = medrxiv_data,
+                     query ="dementia")
+
+```
 
 ### Using a copy of the database from the API
 
 `mx_api_content()` provides programmatic access to the medRxiv API. However, the API does not allow you to search the database. Instead, you can download a copy of the database yourself via the medRxiv API, and then pass the resulting object to the `mx_search()` function for searching. This can be useful if you wish to document the exact time and data of your extraction.
 
-``` {r, eval=FALSE}
+``` {r}
 
 medrxiv_data <- mx_api_content()
 
@@ -46,7 +87,7 @@ results <- mx_search(data = medrxiv_data,
 
 Alternatively, this can be done all in one step using a piped workflow:
 
-``` {r, eval=FALSE}
+``` {r}
 library(dplyr)
 
 results <- mx_api_content() %>%
@@ -58,7 +99,7 @@ results <- mx_api_content() %>%
 
 The dataset (in this case, `results`) returned by the search function above contains 10 variables: 
 
-```{r, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE}
 
 mx_variables <-
   data.frame(
@@ -101,6 +142,17 @@ knitr::kable(mx_variables, format = "html") %>%
   kableExtra::kable_styling(full_width = F) %>%
   kableExtra::column_spec(1, bold = T, border_right = T) %>%
   kableExtra::column_spec(2, width = "30em")
+```
+
+## Export records identified by your search to a .BIB file
+
+`medrxivr` provides a helper function to export your search results to a .BIB file so that they can be easily imported into a reference manager (e.g. Zotero, Mendeley)
+
+```{r, eval = FALSE}
+
+mx_export(data = mx_results,
+          file = "mx_search_results.bib")
+
 ```
 
 ## Download PDFs for records identified by your search
