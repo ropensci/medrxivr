@@ -41,7 +41,7 @@ The relationship between the two methods is summarised in the figure below:
   
 ``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
 
-knitr::include_graphics("figs/data_sources.png")
+knitr::include_graphics("../figs/data_sources.png")
 ```
   
 ## Perform a simple search
