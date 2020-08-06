@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_api.R
 \name{mx_api_content}
 \alias{mx_api_content}
-\title{Access medRxiv API}
+\title{Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv}
 \usage{
 mx_api_content(
   from_date = "2013-01-01",
@@ -19,7 +19,7 @@ mx_api_content(
 \item{to_date}{Latest date of interest. Defaults to current date.}
 
 \item{clean}{Logical, indicating whether to clean the data returned for use
-with other mx_* functions.}
+with other mx_* functions. Default is TRUE.}
 
 \item{server}{Specify the server you wish to use: "medrxiv" (default) or
 "biorxiv"}
@@ -32,7 +32,7 @@ of papers, etc). Default is FALSE.}
 Dataframe with 1 record per row
 }
 \description{
-Access medRxiv API
+Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv
 }
 \examples{
 \dontrun{

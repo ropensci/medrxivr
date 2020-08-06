@@ -54,9 +54,9 @@ library(medrxivr)
   - `mx_api_content()` creates a local copy of all data available from
     the medRxiv API at the time the function is run.
 
-  - `mx_snapshot()` provides acces to a static snapshot of the database.
-    The snapshot is created each morning at 6am using `mx_api_content()`
-    and is stored as CSV file in the [medrxivr-data
+  - `mx_snapshot()` provides access to a static snapshot of the
+    database. The snapshot is created each morning at 6am using
+    `mx_api_content()` and is stored as CSV file in the [medrxivr-data
     repository](https://github.com/mcguinlu/medrxivr-data). This method
     does not rely on the API (which can become unavailable during peak
     usage times) and is usually faster (as it reads data from a CSV
@@ -67,7 +67,7 @@ library(medrxivr)
 The relationship between the two methods is summarised in the figure
 below:
 
-<img src="figs/data_sources.png" width="500px" height="400px" />
+<img src="vignettes/data_sources.png" width="500px" height="400px" />
 
 ## Perform a simple search
 
@@ -95,6 +95,20 @@ results <- mx_search(data = medrxiv_data,
                      query ="dementia")
 ```
 
+## Further functionality
+
+### Export records identified by your search to a .BIB file
+
+`medrxivr` provides a helper function to export your search results to a
+.BIB file so that they can be easily imported into a reference manager
+(e.g. Zotero, Mendeley)
+
+``` r
+
+mx_export(data = results,
+          file = "mx_search_results.bib")
+```
+
 ### Download PDFs for records returned by your search
 
 Pass the results of your search above to the `mx_download()` function to
@@ -111,7 +125,7 @@ mx_download(results,        # Object returned by mx_search(), above
 
 Detailed guidance, including advice on how to design complex search
 strategies, is available on the [`medrxivr`
-website](https://mcguinlu.github.io/medrxivr/)
+website.](https://mcguinlu.github.io/medrxivr/)
 
 ## Linked repositories
 
