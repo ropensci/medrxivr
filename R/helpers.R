@@ -46,15 +46,19 @@ api_to_df <- function(url) {
   message <- httr::content(details, as = "text", encoding = "UTF-8")
 
   if (code == 200 & message == "Error : (2002) Connection refused") {
-    stop(paste("API connection refused.",
-         "As this is usually due to current user load,",
+    stop(paste(
+      "API connection refused.",
+      "As this is usually due to current user load,",
       "please try again in a little while, or use the maintained",
-      "static daily snapshot (available for medRxiv only)"))
+      "static daily snapshot (available for medRxiv only)"
+    ))
   }
 
   if (code == 200 & grepl("no posts found", message)) {
-    stop(paste("No records found. Please double check your date range,",
-               "as this is the usual cause of this error."))
+    stop(paste(
+      "No records found. Please double check your date range,",
+      "as this is the usual cause of this error."
+    ))
   }
 
   details <- details %>%

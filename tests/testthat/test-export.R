@@ -7,8 +7,9 @@ if (file.exists("medrxiv_export.bib") == TRUE) {
 }
 
 mx_result <- mx_search(mx_snapshot(),
-                       query = c("dementia"),
-                       to_date = "2020-01-01")
+  query = c("dementia"),
+  to_date = "2020-01-01"
+)
 
 test_that("Inital output", {
   skip_if_offline()

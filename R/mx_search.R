@@ -34,16 +34,17 @@
 
 mx_search <- function(data = NULL,
                       query = NULL,
-                      fields = c("title",
-                                 "abstract",
-                                 "authors",
-                                 "category",
-                                 "doi"),
+                      fields = c(
+                        "title",
+                        "abstract",
+                        "authors",
+                        "category",
+                        "doi"
+                      ),
                       from_date = NULL,
                       to_date = NULL,
                       NOT = "",
                       deduplicate = TRUE) {
-
   . <- NULL
   node <- NULL
   link_group <- NULL
