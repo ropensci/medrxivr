@@ -19,7 +19,9 @@ library(dplyr)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
-  eval = FALSE,
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE,
   comment = "#>"
 )
 

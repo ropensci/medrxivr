@@ -97,7 +97,7 @@ results <- mx_api_content() %>%
 
 ## Dataset description
 
-The dataset (in this case, `results`) returned by the search function above contains 10 variables: 
+The dataset (in this case, `results`) returned by the search function above contains 14 variables: 
 
 ```{r, eval = TRUE, echo = FALSE}
 
@@ -170,4 +170,4 @@ mx_download(results,        # Object returned by mx_search
 
 ## Further guidance
 
-Please see the *[Building complex search strategies](https://mcguinlu.github.io/medrxivr/articles/building-complex-search-strategies.html)* vignette for extended guidance on developing search strategies for use with `medrxivr`.
+Please see the *[medrxivr website](https://mcguinlu.github.io/medrxivr/index.html)* vignette for extended guidance on developing search strategies and for detailed instructions on interacting with the Cold Springs Harbour API for medRxiv and bioRxiv.
