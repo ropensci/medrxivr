@@ -21,7 +21,9 @@ mx_crosscheck <- function() {
   reference <- details$messages[1, 6]
 
   # Get number of unique records extracted ----------------------------------
-  data <- suppressMessages(mx_search(mx_snapshot(), query = "*", deduplicate = FALSE))
+  data <- suppressMessages(mx_search(mx_snapshot(),
+                                     query = "*",
+                                     deduplicate = FALSE))
 
   extracted <- nrow(data)
 

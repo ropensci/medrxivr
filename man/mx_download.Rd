@@ -20,7 +20,8 @@ mx_download(
 \item{create}{TRUE or FALSE. If TRUE, creates the directory if it doesn't
 exist}
 
-\item{name}{How to name the downloaded PDF. By default, both the ID number of the record and the DOI are used.}
+\item{name}{How to name the downloaded PDF. By default, both the ID number of
+the record and the DOI are used.}
 
 \item{print_update}{How frequently to print an update}
 }
