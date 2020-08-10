@@ -23,4 +23,4 @@ mx_info()
 }
 
 }
-\keyword{Internal}
+\keyword{internal}

@@ -22,4 +22,4 @@ link <- api_link("details", "10.1101/2020.02.25.20021568")
 }
 
 }
-\keyword{Internal}
+\keyword{internal}
