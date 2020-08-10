@@ -16,3 +16,6 @@ data-extraction/
 ropensci.*
 figs/
 .here
+^\.github$
+^vignettes/medrxiv-api.Rmd
+^vignettes/building-complex-search-strategies.Rmd
