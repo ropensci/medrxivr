@@ -30,7 +30,6 @@ BugReports: https://github.com/mcguinlu/medrxivr/issues
 Imports: 
     methods,
     dplyr,
-    xml2,
     curl,
     jsonlite,
     httr,
@@ -46,7 +45,8 @@ Suggests:
     knitr,
     rmarkdown,
     covr,
-    kableExtra
+    kableExtra,
+    spelling
 VignetteBuilder: 
     knitr, 
     rmarkdown    
