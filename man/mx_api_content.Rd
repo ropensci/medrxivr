@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_api.R
 \name{mx_api_content}
 \alias{mx_api_content}
-\title{Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv}
+\title{Access Cold Spring Harbour Laboratory API, which serves both medRxiv and bioRxiv}
 \usage{
 mx_api_content(
   from_date = "2013-01-01",
@@ -32,7 +32,7 @@ of papers, etc). Default is FALSE.}
 Dataframe with 1 record per row
 }
 \description{
-Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv
+Access Cold Spring Harbour Laboratory API, which serves both medRxiv and bioRxiv
 }
 \examples{
 \dontrun{

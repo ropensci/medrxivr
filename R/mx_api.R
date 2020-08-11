@@ -1,4 +1,4 @@
-#' Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv
+#' Access Cold Spring Harbour Laboratory API, which serves both medRxiv and bioRxiv
 #'
 #' @param from_date Earliest date of interest. Defaults to 1st June 2019
 #'   (earliest medRxiv record was posted on 25th June 2019).

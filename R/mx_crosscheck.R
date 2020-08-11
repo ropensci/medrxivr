@@ -1,4 +1,4 @@
-#' Cross-check the medRxiv snapshot against the Cold Springs Harbour API
+#' Cross-check the medRxiv snapshot against the Cold Spring Harbour Laboratory API
 #' @description Provides information on how up-to-date the maintained medRxiv
 #'   snapshot is by checking whether there have been any records added
 #'   to/updated in the medRxiv repository since the last snapshot was taken.
@@ -10,6 +10,8 @@
 #' @export
 
 mx_crosscheck <- function() {
+
+  internet_check()
   mx_info()
 
   # Get number of unique records in the medRxiv archive ---------------------
