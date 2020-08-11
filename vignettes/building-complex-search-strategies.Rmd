@@ -20,7 +20,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   eval = TRUE,
   warning = FALSE,
-  message = FALSE,
   comment = "#>"
 )
 ```
@@ -37,7 +36,7 @@ library(medrxivr)
 
 To find records that contain any of many terms, pass the terms as a vector to the `mx_search()` function, as in the code chunk below. Query terms can include regular expression syntax - see the [section at the end of this document](#regex) on common regular expression that may be useful when searching.
 
-``` {r, eval=FALSE}
+``` {r}
 myquery <- c("dementia","vascular","alzheimer's") # Combined with Boolean OR
 
 mx_results <- mx_search(data = mx_snapshot(),     # Use daily snapshot for data
@@ -47,7 +46,7 @@ mx_results <- mx_search(data = mx_snapshot(),     # Use daily snapshot for data
 
 To find records relevant to more than one topic domain, create a vector for each topic (note: there is no upper limit on the number of topics your can have) and combine these vectors into a list which is then passed to the `mx_search()` function:
 
-``` {r, eval=FALSE}
+``` {r}
 topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
 topic2  <- c("lipids","statins","cholesterol")     # Combined with Boolean OR
 myquery <- list(topic1, topic2)                    # Combined with Boolean AND
@@ -95,7 +94,7 @@ You can define either/both of the earliest and latest date you wish to include r
 mx_results <- mx_search(data = mx_snapshot(),
                         query = "dementia",
                         from_date = "2020-01-01",      # 1st Jan 2020
-                        to_date = "2020-01-05")        # 5th Jan 2020
+                        to_date = "2020-01-08")        # 8th Jan 2020
 ```
 
 ### Return multiple versions of a record
@@ -135,7 +134,7 @@ __Description:__ Sometimes it is useful to be able to define the start and end o
 
 To find records that contain "Mendelian" within 4 words of "randomisation" (with varying capitalisation of "Mendelian" and UK/US spellings of "randomisation"), the following syntax is correct:
 
-``` {r, eval=FALSE}
+``` {r}
 mx_results <- mx_search(data = mx_snapshot(),
                         query = "[Mm]endelian(\\s)([[:graph:]]+\\s){0,4}randomi([[:alpha:]])ation")
 
