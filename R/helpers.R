@@ -1,15 +1,15 @@
 #' Checks whether the user has internet, and returns a helpful message it not.
 #'
 #' @return Informative error if not connected to the internet
-#' @keywords Internal
+#' @keywords internal
 
 internet_check <- function() {
-  if (curl::has_internet() == FALSE) {
+  if (curl::has_internet() == FALSE) { # nocov start
     stop(paste0(
       "No internet connect detected - ",
       "please connect to the internet and try again"
     ))
-  }
+  } # nocov end
 }
 
 #' Convert API data to data frame
@@ -17,7 +17,7 @@ internet_check <- function() {
 #' @param url API endpoint from which to extract and format data
 #'
 #' @return Raw API data in a dataframe
-#' @keywords Internal
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -45,16 +45,21 @@ api_to_df <- function(url) {
 
   message <- httr::content(details, as = "text", encoding = "UTF-8")
 
-  if (code == 200 & message == "Error : (2002) Connection refused") {
-    stop(paste("API connection refused.",
-         "As this is usually due to current user load,",
+  if (code == 200 &
+      message == "Error : (2002) Connection refused") { # nocov start
+    stop(paste(
+      "API connection refused.",
+      "As this is usually due to current user load,",
       "please try again in a little while, or use the maintained",
-      "static daily snapshot (available for medRxiv only)"))
-  }
+      "static daily snapshot (available for medRxiv only)"
+    ))
+  } # nocov end
 
   if (code == 200 & grepl("no posts found", message)) {
-    stop(paste("No records found. Please double check your date range,",
-               "as this is the usual cause of this error."))
+    stop(paste(
+      "No records found. Please double check your date range,",
+      "as this is the usual cause of this error."
+    ))
   }
 
   details <- details %>%
@@ -67,7 +72,7 @@ api_to_df <- function(url) {
 #' @param ... Arguments to specify the path to the API endpoint
 #'
 #' @return Formatted link to API endpoint
-#' @keywords Internal
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -91,7 +96,7 @@ api_link <- function(...) {
 #' @param df Raw dataframe from API
 #'
 #' @return Cleaned dataframe
-#' @keywords Internal
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -140,6 +145,6 @@ skip_if_api_message <- function() {
   message <- httr::content(details, as = "text", encoding = "UTF-8")
 
   if (code == 200 & message == "Error : (2002) Connection refused") {
-    testthat::skip("API connection refused")
+    testthat::skip("API connection refused") # nocov
   }
 }

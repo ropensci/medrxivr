@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_search.R
 \name{mx_search}
 \alias{mx_search}
-\title{Search medRxiv}
+\title{Search preprint data}
 \usage{
 mx_search(
   data = NULL,
@@ -15,7 +15,7 @@ mx_search(
 )
 }
 \arguments{
-\item{data}{The medRxiv dataset that is to be searched, created either using
+\item{data}{The preprint dataset that is to be searched, created either using
 mx_api_content() or mx_snapshot()}
 
 \item{query}{Character string, vector or list}
@@ -38,7 +38,7 @@ is NULL.}
 Default is TRUE.}
 }
 \description{
-Search medRxiv using a string
+Search preprint data
 }
 \examples{
 \dontrun{
@@ -50,10 +50,5 @@ mx_results <- mx_api_content() \%>\%
 mx_results <- mx_snapshot() \%>\%
   mx_search(query = "dementia")
 }
-}
-\seealso{
-Other main: 
-\code{\link{mx_download}()},
-\code{\link{mx_export}()}
 }
 \concept{main}

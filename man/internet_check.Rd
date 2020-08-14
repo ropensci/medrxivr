@@ -12,4 +12,4 @@ Informative error if not connected to the internet
 \description{
 Checks whether the user has internet, and returns a helpful message it not.
 }
-\keyword{Internal}
+\keyword{internal}

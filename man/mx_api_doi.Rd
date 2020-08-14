@@ -2,7 +2,8 @@
 % Please edit documentation in R/mx_api.R
 \name{mx_api_doi}
 \alias{mx_api_doi}
-\title{Access medRxiv API, based on single DOI}
+\title{Access data on a single medRxiv/bioRxiv record via the Cold Spring Harbour
+Laboratory API}
 \usage{
 mx_api_doi(doi, server = "medrxiv", clean = TRUE)
 }
@@ -20,7 +21,8 @@ with other mx_* functions.}
 Dataframe containing details on the preprint identified by the DOI.
 }
 \description{
-Access medRxiv API, based on single DOI
+Provides programmatic access to data on a single preprint
+  identified by a unique Digital Object Identifier (DOI).
 }
 \examples{
 \dontrun{

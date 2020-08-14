@@ -1,6 +1,6 @@
 Package: medrxivr
 Title: Access MedRxiv Preprint Data
-Version: 0.0.2
+Version: 0.0.2.900
 Authors@R: c(
     person("Luke", "McGuinness",
            role = c("aut", "cre"),
@@ -13,14 +13,20 @@ Authors@R: c(
            role = "rev"),
     person("Najko", "Jahn",
            role = "rev"))
-Description: The medRxiv <https://www.medRxiv.org/> repository is a free online
-    archive and distribution server for complete but unpublished manuscripts 
-    (preprints) in the medical, clinical, and related health sciences. medrxivr
-    provides programmatic access to both medRxiv API <https://api.biorxiv.org/>
-    and a static snapshot of database, which is updated daily. Users can then 
-    search for relevant records using regular expressions and Boolean logic, and
-    can easily download the full-text PDFs of preprints matching their search 
-    criteria. 
+Description: An increasingly important source of health-related bibliographic 
+    content are preprints - preliminary versions of research articles that have
+    yet to undergo peer review. The two preprint repositories most relevant to 
+    health-related sciences are medRxiv <https://www.medrxiv.org/> and
+    bioRxiv <https://www.biorxiv.org/>, both of which are operated by the Cold 
+    Spring Harbor Laboratory. medrixvr provides programmatic access to the 
+    Cold Spring Harbour Laboratory (CSHL) API <https://api.biorxiv.org/>,
+    allowing users to easily download medRxiv and bioRxiv preprint metadata
+    (e.g. title, abstract, publication date, author list, etc) into R. 
+    medrxivr also provides functions to search the downloaded preprint records 
+    using regular expressions and Boolean logic, as well as helper functions 
+    that allow users to export their search results to a .BIB file for easy 
+    import to a reference manager and to download the full-text PDFs of 
+    preprints matching their search criteria.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -30,7 +36,6 @@ BugReports: https://github.com/mcguinlu/medrxivr/issues
 Imports: 
     methods,
     dplyr,
-    xml2,
     curl,
     jsonlite,
     httr,
@@ -46,7 +51,8 @@ Suggests:
     knitr,
     rmarkdown,
     covr,
-    kableExtra
+    kableExtra,
+    spelling
 VignetteBuilder: 
     knitr, 
     rmarkdown    

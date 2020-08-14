@@ -20,4 +20,4 @@ Helper script to clean data from API to make it compatible with mx_search()
 df <- clean_api_df(df)
 }
 }
-\keyword{Internal}
+\keyword{internal}

@@ -1,9 +1,9 @@
-#' Provide information on the snapshot used to perform the search
+#' Provide information on the medRxiv snapshot used to perform the search
 #'
 #' @param commit Commit hash for the snapshot, taken from
 #'   https://github.com/mcguinlu/medrxivr-data. Defaults to "master", which will
 #'   return info on the most recent snapshot.
-#' @keywords Internal
+#' @keywords internal
 #' @return Message with snapshot details
 #'
 #' @examples

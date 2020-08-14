@@ -1,5 +1,5 @@
 ---
-title: "Interacting with the API"
+title: "Interacting with the Cold Spring Harbour Laboratory API"
 author: "Luke A McGuinness"
 date: "`r Sys.Date()`"
 output:
@@ -12,14 +12,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r,echo=FALSE, message=FALSE,warning=FALSE}
+```{r,echo=FALSE, message=FALSE, warning=FALSE}
 # Delete when done
 library(medrxivr)
 library(dplyr)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
-  eval = FALSE,
+  eval = TRUE,
+  warning = FALSE,
   comment = "#>"
 )
 
@@ -27,19 +28,25 @@ knitr::opts_chunk$set(
 
 ## Background
 
-The [medRxiv API](https://api.biorxiv.org/) provides a direct interface to the medRxiv database. **However, the API does not allow you to perform searches,** instead providing two endpoints that return either all content between two specified dates or all information held on a particular DOI. 
+The [Cold Spring Harbour Laboratory API](https://api.biorxiv.org/) provides a direct interface to the medRxiv and bioRxiv databases. **However, the API does not allow you to perform searches,** instead providing two endpoints that return either all content between two specified dates or all information held on a particular DOI. 
 
 `medrxivr` provides two convenience functions for importing the data provided by these endpoints in R: `mx_api_content()` and `mx_api_doi()`. The results of either function can then be passed to `mx_search()` for searching.
 
 ### By date range (`mx_api_content()`)
 
-The format of this endpoint is https://api.biorxiv.org/details/medrxiv/[interval]/[cursor] where 'interval' must be two YYYY-MM-DD dates separated by '/'. Where metadata for multiple papers is returned, results are paginated with 100 papers served in a call. The 'cursor' value can be used to iterate through the result. 
+The format of this endpoint is https://api.biorxiv.org/details/[server]/[interval]/[cursor] where 'interval' must be two YYYY-MM-DD dates separated by '/'. Where metadata for multiple papers is returned, results are paginated with 100 papers served in a call. The 'cursor' value can be used to iterate through the result. 
 
 `mx_api_content()` automatically moves through the pages for you, capturing all records returned by the endpoint and returning them as an R object. For instance, https://api.biorxiv.org/details/medrxiv/2020-01-01/2020-01-31/0 will output 100 results (if that many remain) within the date range of 2020-01-01 to 2020-01-31 beginning from result 1. To import this into R as a dataframe:
 
 ``` {r}
 medrxiv_data <- mx_api_content(from_date = "2020-01-01", 
-                               to_date = "2020-01-31")
+                               to_date = "2020-01-05")
+
+
+biorxiv_data <- mx_api_content(server = "biorxiv",
+                               from_date = "2020-01-01", 
+                               to_date = "2020-01-05")
+
 ```
 
 ### By DOI (`mx_api_doi()`)
@@ -48,6 +55,7 @@ https://api.biorxiv.org/details/[server]/[DOI] returns detail for a single manus
 
 ``` {r}
 medrxiv_data <- mx_api_doi(doi = "10.1101/2020.02.25.20021568")
+
 ```
 
 ## Notes

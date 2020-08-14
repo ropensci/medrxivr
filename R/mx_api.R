@@ -1,9 +1,12 @@
-#' Access Cold Springs Harbour API, which serves both medRxiv and bioRxiv
+#' Access medRxiv/bioRxiv data via the Cold Spring Harbour Laboratory API
 #'
+#' @description Provides programmatic access to all preprints available through
+#'   the Cold Spring Harbour Laboratory API, which serves both the medRxiv and
+#'   bioRxiv preprint repositories.
 #' @param from_date Earliest date of interest. Defaults to 1st June 2019
 #'   (earliest medRxiv record was posted on 25th June 2019).
 #' @param to_date Latest date of interest. Defaults to current date.
-#' @param include.info Logical, indicating whether to include variables
+#' @param include_info Logical, indicating whether to include variables
 #'   containing information returned by the API (e.g. cursor number, total count
 #'   of papers, etc). Default is FALSE.
 #' @param server Specify the server you wish to use: "medrxiv" (default) or
@@ -27,11 +30,22 @@ mx_api_content <- function(from_date = "2013-01-01",
                            to_date = as.character(Sys.Date()),
                            clean = TRUE,
                            server = "medrxiv",
-                           include.info = FALSE) {
+                           include_info = FALSE) {
 
 
   # Check that the user is connected to the internet
   internet_check()
+
+  # Check server
+
+  "%notin%" <- Negate("%in%")
+
+  if (server %notin% c("medrxiv", "biorxiv")) {
+    stop(paste(
+      "Server not recognised -",
+      "must be one of \"medrxiv\" or \"biorxiv\""
+    ))
+  }
 
   # Get descriptive details and page number
   details_link <- api_link(server, from_date, to_date, "0")
@@ -78,7 +92,7 @@ mx_api_content <- function(from_date = "2013-01-01",
     df <- clean_api_df(df)
   }
 
-  if (include.info == TRUE) {
+  if (include_info == TRUE) {
     details <-
       details$messages %>% dplyr::slice(rep(1:dplyr::n(), each = nrow(df)))
     df <- cbind(df, details)
@@ -88,8 +102,11 @@ mx_api_content <- function(from_date = "2013-01-01",
 }
 
 
-#' Access medRxiv API, based on single DOI
+#' Access data on a single medRxiv/bioRxiv record via the Cold Spring Harbour
+#' Laboratory API
 #'
+#' @description Provides programmatic access to data on a single preprint
+#'   identified by a unique Digital Object Identifier (DOI).
 #' @param doi Digital object identifier of the preprint you wish to retrieve
 #'   data on.
 #' @param server Specify the server you wish to use: "medrxiv" (default) or
@@ -112,6 +129,15 @@ mx_api_content <- function(from_date = "2013-01-01",
 mx_api_doi <- function(doi,
                        server = "medrxiv",
                        clean = TRUE) {
+  "%notin%" <- Negate("%in%")
+
+  if (server %notin% c("medrxiv", "biorxiv")) {
+    stop(paste(
+      "Server not recognised -",
+      "must be one of \"medrxiv\" or \"biorxiv\""
+    ))
+  }
+
   details <- api_to_df(api_link(server, doi))
 
   df <- details$collection

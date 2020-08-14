@@ -3,8 +3,11 @@
 \docType{package}
 \name{medrxivr}
 \alias{medrxivr}
-\title{medrxivr: Accessing medRxiv data from R}
+\title{medrxivr: Accessing medRxiv and bioRxiv preprint data from R}
 \description{
-The medrxivr package enables users to access data from the medRxiv
-preprint repository from R
+The medrxivr package enables users to access data on preprints in the medRxiv
+and bioRxiv preprints repositories, both of which are run by the Cold Spring
+Harbour Laboratory.It also provides functions to search the preprint data,
+export it to a .bib file, and download the PDFs associated with specified
+records.
 }

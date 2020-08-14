@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_info.R
 \name{mx_info}
 \alias{mx_info}
-\title{Provide information on the snapshot used to perform the search}
+\title{Provide information on the medRxiv snapshot used to perform the search}
 \usage{
 mx_info(commit = "master")
 }
@@ -15,7 +15,7 @@ return info on the most recent snapshot.}
 Message with snapshot details
 }
 \description{
-Provide information on the snapshot used to perform the search
+Provide information on the medRxiv snapshot used to perform the search
 }
 \examples{
 \dontrun{
@@ -23,4 +23,4 @@ mx_info()
 }
 
 }
-\keyword{Internal}
+\keyword{internal}

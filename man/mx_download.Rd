@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_download.R
 \name{mx_download}
 \alias{mx_download}
-\title{Download PDF's}
+\title{Download PDF's of preprints returned by a search}
 \usage{
 mx_download(
   mx_results,
@@ -20,7 +20,8 @@ mx_download(
 \item{create}{TRUE or FALSE. If TRUE, creates the directory if it doesn't
 exist}
 
-\item{name}{How to name the downloaded PDF. By default, both the ID number of the record and the DOI are used.}
+\item{name}{How to name the downloaded PDF. By default, both the ID number of
+the record and the DOI are used.}
 
 \item{print_update}{How frequently to print an update}
 }
@@ -34,8 +35,8 @@ mx_download(mx_results, "medrxiv-PDF")
 }
 }
 \seealso{
-Other main: 
-\code{\link{mx_export}()},
-\code{\link{mx_search}()}
+Other helper: 
+\code{\link{mx_crosscheck}()},
+\code{\link{mx_export}()}
 }
-\concept{main}
+\concept{helper}

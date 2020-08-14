@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_export.R
 \name{mx_export}
 \alias{mx_export}
-\title{Export results of medRxiv search to a .bib file}
+\title{Export references for preprints returning by a search to a .bib file}
 \usage{
 mx_export(data, file = "medrxiv_export.bib")
 }
@@ -15,7 +15,7 @@ mx_export(data, file = "medrxiv_export.bib")
 Exports a formatted .BIB file, for import into a reference manager
 }
 \description{
-Export results of medRxiv search to a .bib file
+Export references for preprints returning by a search to a .bib file
 }
 \examples{
 \dontrun{
@@ -25,8 +25,8 @@ mx_export(mx_results, "references.bib")
 
 }
 \seealso{
-Other main: 
-\code{\link{mx_download}()},
-\code{\link{mx_search}()}
+Other helper: 
+\code{\link{mx_crosscheck}()},
+\code{\link{mx_download}()}
 }
-\concept{main}
+\concept{helper}

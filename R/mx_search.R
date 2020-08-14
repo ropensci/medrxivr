@@ -1,6 +1,5 @@
-#' Search medRxiv
-#' @description Search medRxiv using a string
-#' @param data The medRxiv dataset that is to be searched, created either using
+#' Search preprint data
+#' @param data The preprint dataset that is to be searched, created either using
 #'   mx_api_content() or mx_snapshot()
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
@@ -34,7 +33,13 @@
 
 mx_search <- function(data = NULL,
                       query = NULL,
-                      fields = c("title", "abstract", "authors", "category", "doi"),
+                      fields = c(
+                        "title",
+                        "abstract",
+                        "authors",
+                        "category",
+                        "doi"
+                      ),
                       from_date = NULL,
                       to_date = NULL,
                       NOT = "",
@@ -51,7 +56,7 @@ mx_search <- function(data = NULL,
   if (is.null(data)) {
     stop(
       paste0(
-        "Please provide medRxiv data to search, accessed from either ",
+        "Please provide preprint data to search, accessed from either ",
         "from either the mx_api_content(), or mx_snapshot() functions."
       )
     )
@@ -62,12 +67,12 @@ mx_search <- function(data = NULL,
   }
 
   # Require internet connection
-  if (curl::has_internet() == FALSE) {
+  if (curl::has_internet() == FALSE) { # nocov start
     stop(paste0(
       "No internet connect detected - ",
       "please connect to the internet and try again"
     ))
-  }
+  } # nocov end
 
 
   # Search ------------------------------------------------------------------
