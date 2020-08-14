@@ -26,10 +26,10 @@ R/mx_snapshot.R: 100.00%
   I have run this and commited the changes.
 
 * **ml7: On the website, the Reference tab shows "All functions". Maybe you can help users navigate this reference by grouping functions in some meaningful way? (see https://pkgdown.r-lib.org/reference/build_reference.html).**
-  I had added keywords to the functions already, but hadn't realised that you needed to alter the `.pkgdown` file in order to group the functions. This has now been implemented, and functions are grouped into three categories: "Accessing medRxiv/bioRxiv data", "Performing the search", and "Helper functions". 
+  I had added keywords to the functions already, but hadn't realised that you needed to alter the `_pkgdown.yml` file in order to group the functions. This has now been implemented, and functions are grouped into three categories: "Accessing medRxiv/bioRxiv data", "Performing the search", and "Helper functions". 
   
 * **ml8: You may want to consider setting up a CI services for a wider range of environments. Here are two workflows you may use -- [standard](https://usethis.r-lib.org/reference/use_github_action.html#use-github-action-check-standard-), and [full](https://usethis.r-lib.org/reference/use_github_action.html#use-github-action-check-full-).**
-  Thanks for the recommendation - I have gone with the Standard workflow.
+  Thanks for the recommendation - I have gone with the standard workflow, and R CMD passes in all environments.
 
 * **ml9: I see three .Rmd files inside vignettes/ but only two in the Articles section of the website. Is this intentional?  Also, vignettes are great, but they can make the installation heavier.  Consider the [difference between `use_vignette()` and `use_article()`](https://usethis.r-lib.org/reference/use_vignette.html).**
   Yes, this is intentional. When you include a `.Rmd` file with the same name as the package in the `vignette/` folder, `pkgdown` treats this as a special type of vignette ("Get Started"). From the `pkgdown` website:
@@ -39,7 +39,7 @@ R/mx_snapshot.R: 100.00%
   I have also taken your advice and converted the two vignettes covering advanced topics to articles, and signposted to them in the final introductory vignette.
 
 * **ml10: I recommend walking through the steps listed by   [`use_release_issue()`](https://usethis.r-lib.org/reference/use_release_issue.html) or [`devtools::release()`](https://devtools.r-lib.org/reference/release.html). Even if you don't submit to CRAN, walking through the process can help you find details to improve.**
-  As a result of this, the following changes were made:
+  As a result of this process, the following changes were made:
   - `xml2` was removed from the `DESCRIPTION` as it is now longer needed now that the package does not perform any web-scraping.
   - Titles of some of the functions were edited to be more comprehensive, so that the `pkgdown` function list is more useful.
   - README.html was removed from the top level directory.
