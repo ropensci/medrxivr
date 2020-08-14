@@ -31,9 +31,9 @@ library(medrxivr)
 [![Codecov test coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
 <!-- badges: end -->
 
-[medRxiv](https://www.medrxiv.org/) is a free online repository for complete but unpublished manuscripts (preprints) in the medical, clinical, and related health sciences. The `medrxivr` package provides programmatic access to metadata (title, authors, date, etc.) on the preprints contained in the repository via the [medRxiv API](https://api.biorxiv.org/) or a maintained static snapshot (see [Data sources](#data-sources).) `medrxivr` also provides functions to search medRxiv records using regular expressions and Boolean logic, in addition to helper functions to export your search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of relevant preprints.
+An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and [bioRxiv](https://www.biorxiv.org/), both of which are operated by the Cold Spring Harbor Laboratory.
 
-__Note:__ `medrxivr` is now available as a web-app, which lets you build complex searches via a user-friendly interface, explore the results and export them for screening. In an effort to improve reproducibility, it also creates the code needed to run the search straight from R. The app is available [here.](https://mcguinlu.shinyapps.io/medrxivr/)
+The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [Cold Spring Harbour Laboratory (CSHL) API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
 
 ## Installation
 
@@ -44,56 +44,70 @@ devtools::install_github("mcguinlu/medrxivr")
 library(medrxivr)
 ```
 
-## Usage
+## Data sources
 
-### Data sources
+### medRxiv data
 
 `medrixvr` provides two ways to access medRxiv data:  
 
-  - `mx_api_content()` creates a local copy of all data available from the medRxiv API at the time the function is run.
+  - `mx_api_content(server = "medrxiv")` creates a local copy of all data available from the medRxiv API at the time the function is run.
   
-  - `mx_snapshot()` provides access to a static snapshot of the database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+``` {r}
+# Get a copy of the database from the live medRxiv API endpoint
+preprint_data <- mx_api_content()  
+```
   
-The relationship between the two methods is summarised in the figure below:
+  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  
+``` {r}
+# Get a copy of the database from the daily snapshot
+preprint_data <- mx_snapshot()  
+```
+  
+The relationship between the two methods for the medRxiv database is summarised in the figure below:
   
 ``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
 
 knitr::include_graphics("vignettes/data_sources.png")
 ```
   
-## Perform a simple search
+### bioRxiv data
 
-### Using data from the API
+Only one data source exists for the bioRxiv repository: 
+
+  - `mx_api_content(server = "biorxiv")` creates a local copy of all data available from the bioRxiv API endpoint at the time the function is run. __Note__: due to it's size, downloading a complete copy of the bioRxiv repository in this manner takes a long time (~ 1 hour). 
+
+``` {r}
+# Get a copy of the database from the live bioRxiv API endpoint
+preprint_data <- mx_api_content(server = "biorxiv")
+```
+
+## Performing your search
+
+Once you have created a local copy of either the medRxiv or bioRxiv preprint database, you can pass this object (`preprint_data` in the examples above) to `mx_search()` to search the preprint records using an advanced search strategy.
 
 ``` {r}
 
-# Get a copy of the database from the live API
-medrxiv_data <- mx_api_content()
-
 # Perform a simple search
-results <- mx_search(data = medrxiv_data,
+results <- mx_search(data = preprint_data,
                      query ="dementia")
+
+# Perform an advanced search
+topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
+topic2  <- c("lipids","statins","cholesterol")     # Combined with Boolean OR
+myquery <- list(topic1, topic2)                    # Combined with Boolean AND
+
+results <- mx_search(data = preprint_data,
+                     query = myquery)
 
 ```
 
-### Using the daily snapshot
-
-``` {r}
-
-# Get a copy of the database from the daily snapshot
-medrxiv_data <- mx_snapshot()
-
-# Perform a simple search
-results <- mx_search(data = medrxiv_data,
-                     query ="dementia")
-
-```
 
 ## Further functionality
 
 ### Export records identified by your search to a .BIB file
 
-`medrxivr` provides a helper function to export your search results to a .BIB file so that they can be easily imported into a reference manager (e.g. Zotero, Mendeley)
+Pass the results of your search above (the `results` object) to the `mx_export()` to export references for preprints matching your search results to a .BIB file so that they can be easily imported into a reference manager (e.g. Zotero, Mendeley).
 
 ```{r, eval = FALSE}
 
@@ -104,7 +118,7 @@ mx_export(data = results,
 
 ### Download PDFs for records returned by your search
 
-Pass the results of your search above to the `mx_download()` function to download a copy of the PDF for each record.
+Pass the results of your search above (the `results` object) to the `mx_download()` function to download a copy of the PDF for each record found by your search.
 
 ```{r, eval = FALSE}
 
