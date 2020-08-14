@@ -1,4 +1,4 @@
-#' Export results of medRxiv search to a .bib file
+#' Export references for preprints returning by a search to a .bib file
 #'
 #' @param data Dataframe returned by mx_search()
 #' @param file File location to save to. Must have the .bib file extension

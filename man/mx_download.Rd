@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_download.R
 \name{mx_download}
 \alias{mx_download}
-\title{Download PDF's}
+\title{Download PDF's of preprints returned by a search}
 \usage{
 mx_download(
   mx_results,

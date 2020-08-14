@@ -2,7 +2,7 @@
 % Please edit documentation in R/mx_snapshot.R
 \name{mx_snapshot}
 \alias{mx_snapshot}
-\title{Returns formatted snapshot of the medRxiv database for use with mx_search()}
+\title{Access a static snapshot of the medRxiv repository}
 \usage{
 mx_snapshot(commit = "master")
 }
@@ -16,7 +16,10 @@ Defaults to "master", which will return the most recent snapshot.}
 Formatted dataframe
 }
 \description{
-Returns formatted snapshot of the medRxiv database for use with mx_search()
+[Available for medRxiv only] Rather than downloading a copy of
+  the medRxiv database from the API, which can become unavailable at peak
+  usage times, this allows users to import a maintained static snapshot of
+  the medRxiv repository.
 }
 \examples{
 \dontrun{

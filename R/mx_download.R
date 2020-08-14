@@ -1,4 +1,4 @@
-#' Download PDF's
+#' Download PDF's of preprints returned by a search
 #' @description Download PDF's of all the papers in your search results
 #' @param mx_results Vector containing the links to the medRxiv PDFs
 #' @param directory The location you want to download the PDF's to

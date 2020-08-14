@@ -2,14 +2,15 @@
 % Please edit documentation in R/mx_crosscheck.R
 \name{mx_crosscheck}
 \alias{mx_crosscheck}
-\title{Cross-check the medRxiv snapshot against the Cold Spring Harbour Laboratory API}
+\title{Check how up-to-date the maintained medRxiv snapshot is}
 \usage{
 mx_crosscheck()
 }
 \description{
 Provides information on how up-to-date the maintained medRxiv
-  snapshot is by checking whether there have been any records added
-  to/updated in the medRxiv repository since the last snapshot was taken.
+  snapshot provided by `mx_snapshot()` is by checking whether there have been
+  any records added to, or updated in, the medRxiv repository since the last
+  snapshot was taken.
 }
 \examples{
 \dontrun{

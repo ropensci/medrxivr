@@ -1,4 +1,9 @@
-#' Returns formatted snapshot of the medRxiv database for use with mx_search()
+#' Access a static snapshot of the medRxiv repository
+#'
+#' @description [Available for medRxiv only] Rather than downloading a copy of
+#'   the medRxiv database from the API, which can become unavailable at peak
+#'   usage times, this allows users to import a maintained static snapshot of
+#'   the medRxiv repository.
 #'
 #' @param commit Commit hash for the snapshot, taken from
 #'   https://github.com/mcguinlu/medrxivr-data. Allows for reproducible

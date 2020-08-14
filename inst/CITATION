@@ -2,14 +2,14 @@ citHeader("To cite medrxivr in publications use:")
 
 citEntry(
   entry    = "Misc",
-  title    = "medrxivr: Accessing medRxiv data in R",
+  title    = "medrxivr: Accessing medRxiv and bioRxiv data in R",
   author   = "Luke A. McGuinness and Lena Schmidt",
   year     = "2020",
   url      = "https://github.com/mcguinlu/medrxivr",
 
   textVersion = paste(
   "Luke A. McGuinness & Lena Schmidt (2020).",
-  "medrxivr: Accessing medRxiv data in R",
+  "medrxivr: Accessing medRxiv and bioRxiv data in R",
   "Available at https://github.com/mcguinlu/medrxivr"
   )
 )
