@@ -39,7 +39,6 @@ test_that("Check number of columns in include.info output", {
 })
 
 test_that("Check number of columns in output", {
-
   expect_equal(ncol(mx_api_doi("10.1101/2020.02.25.20021568")), 14)
 })
 

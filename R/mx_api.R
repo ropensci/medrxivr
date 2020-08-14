@@ -38,11 +38,13 @@ mx_api_content <- function(from_date = "2013-01-01",
 
   # Check server
 
-  '%notin%' <- Negate('%in%')
+  "%notin%" <- Negate("%in%")
 
-  if (server %notin% c("medrxiv","biorxiv")) {
-    stop(paste("Server not recognised -",
-    "must be one of \"medrxiv\" or \"biorxiv\""))
+  if (server %notin% c("medrxiv", "biorxiv")) {
+    stop(paste(
+      "Server not recognised -",
+      "must be one of \"medrxiv\" or \"biorxiv\""
+    ))
   }
 
   # Get descriptive details and page number
@@ -126,12 +128,13 @@ mx_api_content <- function(from_date = "2013-01-01",
 mx_api_doi <- function(doi,
                        server = "medrxiv",
                        clean = TRUE) {
+  "%notin%" <- Negate("%in%")
 
-  '%notin%' <- Negate('%in%')
-
-  if (server %notin% c("medrxiv","biorxiv")) {
-    stop(paste("Server not recognised -",
-               "must be one of \"medrxiv\" or \"biorxiv\""))
+  if (server %notin% c("medrxiv", "biorxiv")) {
+    stop(paste(
+      "Server not recognised -",
+      "must be one of \"medrxiv\" or \"biorxiv\""
+    ))
   }
 
   details <- api_to_df(api_link(server, doi))

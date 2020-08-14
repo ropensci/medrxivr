@@ -13,7 +13,6 @@
 #' @export
 
 mx_crosscheck <- function() {
-
   internet_check()
   mx_info()
 
