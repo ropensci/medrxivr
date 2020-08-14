@@ -17,4 +17,9 @@ Provides information on how up-to-date the maintained medRxiv
 mx_crosscheck()
 }
 }
+\seealso{
+Other helper: 
+\code{\link{mx_download}()},
+\code{\link{mx_export}()}
+}
 \concept{helper}

@@ -12,7 +12,7 @@
 #' mx_results <- mx_search(mx_snapshot(), query = "molecular")
 #' mx_download(mx_results, "medrxiv-PDF")
 #' }
-#' @family main
+#' @family helper
 #' @export
 #' @importFrom utils download.file
 #' @importFrom methods is
@@ -33,7 +33,7 @@ mx_download <- function(mx_results,
     }
 
     if (name == "DOI") {
-      mx_results$filename <- mx_results$DOI
+      mx_results$filename <- mx_results$doi
     }
   }
 

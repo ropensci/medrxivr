@@ -67,12 +67,12 @@ mx_search <- function(data = NULL,
   }
 
   # Require internet connection
-  if (curl::has_internet() == FALSE) {
+  if (curl::has_internet() == FALSE) { # nocov start
     stop(paste0(
       "No internet connect detected - ",
       "please connect to the internet and try again"
     ))
-  }
+  } # nocov end
 
 
   # Search ------------------------------------------------------------------

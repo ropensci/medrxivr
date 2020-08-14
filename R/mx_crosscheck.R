@@ -35,7 +35,7 @@ mx_crosscheck <- function() {
   diff <- reference - extracted
 
   if (identical(reference, extracted) == TRUE) {
-    message("No records added/updated since last snapshot.")
+    message("No records added/updated since last snapshot.") # nocov
   } else {
     message(paste0(
       diff,

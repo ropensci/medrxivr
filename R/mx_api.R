@@ -1,4 +1,4 @@
-#' Access the Cold Spring Harbour Laboratory API
+#' Access medRxiv/bioRxiv data via the Cold Spring Harbour Laboratory API
 #'
 #' @description Provides programmatic access to all preprints available through
 #'   the Cold Spring Harbour Laboratory API, which serves both the medRxiv and
@@ -6,7 +6,7 @@
 #' @param from_date Earliest date of interest. Defaults to 1st June 2019
 #'   (earliest medRxiv record was posted on 25th June 2019).
 #' @param to_date Latest date of interest. Defaults to current date.
-#' @param include.info Logical, indicating whether to include variables
+#' @param include_info Logical, indicating whether to include variables
 #'   containing information returned by the API (e.g. cursor number, total count
 #'   of papers, etc). Default is FALSE.
 #' @param server Specify the server you wish to use: "medrxiv" (default) or
@@ -30,7 +30,7 @@ mx_api_content <- function(from_date = "2013-01-01",
                            to_date = as.character(Sys.Date()),
                            clean = TRUE,
                            server = "medrxiv",
-                           include.info = FALSE) {
+                           include_info = FALSE) {
 
 
   # Check that the user is connected to the internet
@@ -92,7 +92,7 @@ mx_api_content <- function(from_date = "2013-01-01",
     df <- clean_api_df(df)
   }
 
-  if (include.info == TRUE) {
+  if (include_info == TRUE) {
     details <-
       details$messages %>% dplyr::slice(rep(1:dplyr::n(), each = nrow(df)))
     df <- cbind(df, details)
@@ -102,7 +102,8 @@ mx_api_content <- function(from_date = "2013-01-01",
 }
 
 
-#' Access data on a single record from the Cold Spring Harbour Laboratory API
+#' Access data on a single medRxiv/bioRxiv record via the Cold Spring Harbour
+#' Laboratory API
 #'
 #' @description Provides programmatic access to data on a single preprint
 #'   identified by a unique Digital Object Identifier (DOI).

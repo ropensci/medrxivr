@@ -2,14 +2,14 @@
 % Please edit documentation in R/mx_api.R
 \name{mx_api_content}
 \alias{mx_api_content}
-\title{Access the Cold Spring Harbour Laboratory API}
+\title{Access medRxiv/bioRxiv data via the Cold Spring Harbour Laboratory API}
 \usage{
 mx_api_content(
   from_date = "2013-01-01",
   to_date = as.character(Sys.Date()),
   clean = TRUE,
   server = "medrxiv",
-  include.info = FALSE
+  include_info = FALSE
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ with other mx_* functions. Default is TRUE.}
 \item{server}{Specify the server you wish to use: "medrxiv" (default) or
 "biorxiv"}
 
-\item{include.info}{Logical, indicating whether to include variables
+\item{include_info}{Logical, indicating whether to include variables
 containing information returned by the API (e.g. cursor number, total count
 of papers, etc). Default is FALSE.}
 }

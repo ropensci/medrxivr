@@ -51,9 +51,4 @@ mx_results <- mx_snapshot() \%>\%
   mx_search(query = "dementia")
 }
 }
-\seealso{
-Other main: 
-\code{\link{mx_download}()},
-\code{\link{mx_export}()}
-}
 \concept{main}

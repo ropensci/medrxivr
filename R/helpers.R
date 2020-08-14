@@ -4,12 +4,12 @@
 #' @keywords internal
 
 internet_check <- function() {
-  if (curl::has_internet() == FALSE) {
+  if (curl::has_internet() == FALSE) { # nocov start
     stop(paste0(
       "No internet connect detected - ",
       "please connect to the internet and try again"
     ))
-  }
+  } # nocov end
 }
 
 #' Convert API data to data frame
@@ -45,14 +45,15 @@ api_to_df <- function(url) {
 
   message <- httr::content(details, as = "text", encoding = "UTF-8")
 
-  if (code == 200 & message == "Error : (2002) Connection refused") {
+  if (code == 200 &
+      message == "Error : (2002) Connection refused") { # nocov start
     stop(paste(
       "API connection refused.",
       "As this is usually due to current user load,",
       "please try again in a little while, or use the maintained",
       "static daily snapshot (available for medRxiv only)"
     ))
-  }
+  } # nocov end
 
   if (code == 200 & grepl("no posts found", message)) {
     stop(paste(
@@ -144,6 +145,6 @@ skip_if_api_message <- function() {
   message <- httr::content(details, as = "text", encoding = "UTF-8")
 
   if (code == 200 & message == "Error : (2002) Connection refused") {
-    testthat::skip("API connection refused")
+    testthat::skip("API connection refused") # nocov
   }
 }

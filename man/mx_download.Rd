@@ -35,8 +35,8 @@ mx_download(mx_results, "medrxiv-PDF")
 }
 }
 \seealso{
-Other main: 
-\code{\link{mx_export}()},
-\code{\link{mx_search}()}
+Other helper: 
+\code{\link{mx_crosscheck}()},
+\code{\link{mx_export}()}
 }
-\concept{main}
+\concept{helper}

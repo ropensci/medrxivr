@@ -1,3 +1,9 @@
+test_that("Error handling", {
+  expect_error(mx_search())
+  expect_error(mx_search(data = 2))
+})
+
+
 mx_data <- mx_snapshot()
 
 mx0 <- mx_search(mx_data, query = "*")

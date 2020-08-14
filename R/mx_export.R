@@ -5,7 +5,7 @@
 #'
 #' @return Exports a formatted .BIB file, for import into a reference manager
 #' @export
-#' @family main
+#' @family helper
 
 #' @examples
 #' \dontrun{

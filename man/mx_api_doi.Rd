@@ -2,7 +2,8 @@
 % Please edit documentation in R/mx_api.R
 \name{mx_api_doi}
 \alias{mx_api_doi}
-\title{Access data on a single record from the Cold Spring Harbour Laboratory API}
+\title{Access data on a single medRxiv/bioRxiv record via the Cold Spring Harbour
+Laboratory API}
 \usage{
 mx_api_doi(doi, server = "medrxiv", clean = TRUE)
 }

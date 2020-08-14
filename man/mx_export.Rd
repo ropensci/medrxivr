@@ -25,8 +25,8 @@ mx_export(mx_results, "references.bib")
 
 }
 \seealso{
-Other main: 
-\code{\link{mx_download}()},
-\code{\link{mx_search}()}
+Other helper: 
+\code{\link{mx_crosscheck}()},
+\code{\link{mx_download}()}
 }
-\concept{main}
+\concept{helper}

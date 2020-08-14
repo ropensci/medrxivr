@@ -62,7 +62,7 @@ The relationship between the two methods for the medRxiv database is summarised 
   
 ``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
 
-knitr::include_graphics("vignettes/data_sources.png")
+knitr::include_graphics("data_sources.png")
 ```
   
 ### bioRxiv data
