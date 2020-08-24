@@ -33,7 +33,7 @@ containing information returned by the API (e.g. API status, cursor number,
 total count of papers, etc). Default is FALSE.}
 }
 \value{
-Tibble with 1 record per row
+Dataframe with 1 record per row
 }
 \description{
 Provides programmatic access to all preprints available through

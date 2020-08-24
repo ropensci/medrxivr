@@ -18,7 +18,7 @@
 #'   "title", "abstract" and "authors" variables are converted to title case.
 #'   Finally, the "type" and "server" variables are dropped.
 #'
-#' @return Tibble with 1 record per row
+#' @return Dataframe with 1 record per row
 #'
 #' @family data-source
 #' @export
