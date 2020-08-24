@@ -54,10 +54,14 @@ biorxiv_data <- mx_api_content(server = "biorxiv",
 https://api.biorxiv.org/details/[server]/[DOI] returns detail for a single manuscript. For instance, https://api.biorxiv.org/details/medrxiv/10.1101/2020.02.25.20021568 will output metadata for the medRxiv paper with DOI 10.1101/2020.02.25.20021568. To import the results from this endpoint into R as a dataframe:
 
 ``` {r}
-medrxiv_data <- mx_api_doi(doi = "10.1101/2020.02.25.20021568")
+mx_api_doi(doi = "10.1101/2020.02.25.20021568")
 
 ```
 
-## Notes
+## Accessing the raw API data
 
-Both functions contain a `clean` argument with is set to `TRUE` by default. This is to ensure that the datasets returned by the `mx_api_*()` functions can immediately be passed to `mc_search()`. However, there may be occasions where this is not required, and so setting this argument to `FALSE` will return the raw data provided by the API endpoints.
+Both functions contain a `clean` argument with is set to `TRUE` by default. This is to ensure that the datasets returned by the `mx_api_*()` functions can immediately be passed to `mx_search()`. However, there may be occasions where this is not required, and so setting this argument to `FALSE` will return the raw data provided by the API endpoints. For example:
+
+``` {r}
+mx_api_content(to_date = "2019-07-01", clean = TRUE)
+```
