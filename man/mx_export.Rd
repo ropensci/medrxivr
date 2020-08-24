@@ -7,7 +7,7 @@
 mx_export(data, file = "medrxiv_export.bib")
 }
 \arguments{
-\item{data}{Dataframe returned by mx_search()}
+\item{data}{Dataframe returned by mx_search() or mx_api_*() functions}
 
 \item{file}{File location to save to. Must have the .bib file extension}
 }

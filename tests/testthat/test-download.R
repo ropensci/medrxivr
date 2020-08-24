@@ -20,7 +20,7 @@ test_that("Already downloaded", {
   expect_message(mx_download(mx_result, "pdf"), regexp = "downloaded")
 })
 
-test_that("Naming of downloaded PDFs",{
+test_that("Naming of downloaded PDFs", {
   skip_if_offline()
   mx_download(mx_result, "pdf", name = "ID")
   expect_equal(file.exists("pdf/271.pdf"), TRUE)

@@ -46,7 +46,7 @@ api_to_df <- function(url) {
   message <- httr::content(details, as = "text", encoding = "UTF-8")
 
   if (code == 200 &
-      message == "Error : (2002) Connection refused") { # nocov start
+    message == "Error : (2002) Connection refused") { # nocov start
     stop(paste(
       "API connection refused.",
       "As this is usually due to current user load,",
