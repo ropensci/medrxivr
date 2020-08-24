@@ -154,6 +154,22 @@ mx_download(results,        # Object returned by mx_search(), above
             create = TRUE)  # Create the directory if it doesn't exist
 ```
 
+## Accessing the raw API data
+
+By default, the `mx_api_*()` functions clean the data returned by the
+API for use with other `medrxivr` functions.
+
+To access the raw data returned by the API, the `clean` argument should
+set to `FALSE`:
+
+``` r
+mx_api_content(to_date = "2019-07-01", clean = TRUE)
+```
+
+See [this
+article](https://mcguinlu.github.io/medrxivr/articles/medrxiv-api.html#accesing-the-raw-api-data)
+for more details.
+
 ## Detailed guidance
 
 Detailed guidance, including advice on how to design complex search
