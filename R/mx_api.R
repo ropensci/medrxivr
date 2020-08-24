@@ -7,14 +7,18 @@
 #'   (earliest medRxiv record was posted on 25th June 2019).
 #' @param to_date Latest date of interest. Defaults to current date.
 #' @param include_info Logical, indicating whether to include variables
-#'   containing information returned by the API (e.g. cursor number, total count
-#'   of papers, etc). Default is FALSE.
+#'   containing information returned by the API (e.g. API status, cursor number,
+#'   total count of papers, etc). Default is FALSE.
 #' @param server Specify the server you wish to use: "medrxiv" (default) or
 #'   "biorxiv"
-#' @param clean Logical, indicating whether to clean the data returned for use
-#'   with other mx_* functions. Default is TRUE.
+#' @param clean Logical, defaulting to TRUE, indicating whether to clean the
+#'   data returned by the API. If TRUE, variables containing absolute paths to
+#'   the preprints web-page ("link_page") and PDF ("link_pdf") are generated
+#'   from the "server", "DOI", and "version" variables returned by the API. The
+#'   "title", "abstract" and "authors" variables are converted to title case.
+#'   Finally, the "type" and "server" variables are dropped.
 #'
-#' @return Dataframe with 1 record per row
+#' @return Tibble with 1 record per row
 #'
 #' @family data-source
 #' @export
@@ -98,7 +102,7 @@ mx_api_content <- function(from_date = "2013-01-01",
     df <- cbind(df, details)
   }
 
-  df
+  tibble::as_tibble(unclass(df))
 }
 
 
@@ -111,8 +115,12 @@ mx_api_content <- function(from_date = "2013-01-01",
 #'   data on.
 #' @param server Specify the server you wish to use: "medrxiv" (default) or
 #'   "biorxiv"
-#' @param clean Logical, indicating whether to clean the data returned for use
-#'   with other mx_* functions.
+#' @param clean Logical, defaulting to TRUE, indicating whether to clean the
+#'   data returned by the API. If TRUE, variables containing absolute paths to
+#'   the preprints web-page ("link_page") and PDF ("link_pdf") are generated
+#'   from the "server", "DOI", and "version" variables returned by the API. The
+#'   "title", "abstract" and "authors" variables are converted to title case.
+#'   Finally, the "type" and "server" variables are dropped.
 #'
 #' @return Dataframe containing details on the preprint identified by the DOI.
 #'
@@ -148,5 +156,5 @@ mx_api_doi <- function(doi,
     df <- clean_api_df(df)
   }
 
-  df
+  tibble::as_tibble(unclass(df))
 }

@@ -1,6 +1,6 @@
 #' Export references for preprints returning by a search to a .bib file
 #'
-#' @param data Dataframe returned by mx_search()
+#' @param data Dataframe returned by mx_search() or mx_api_*() functions
 #' @param file File location to save to. Must have the .bib file extension
 #'
 #' @return Exports a formatted .BIB file, for import into a reference manager
