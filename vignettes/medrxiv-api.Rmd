@@ -63,5 +63,5 @@ mx_api_doi(doi = "10.1101/2020.02.25.20021568")
 Both functions contain a `clean` argument with is set to `TRUE` by default. This is to ensure that the datasets returned by the `mx_api_*()` functions can immediately be passed to `mx_search()`. However, there may be occasions where this is not required, and so setting this argument to `FALSE` will return the raw data provided by the API endpoints. For example:
 
 ``` {r}
-mx_api_content(to_date = "2019-07-01", clean = TRUE)
+mx_api_content(to_date = "2019-07-01", clean = FALSE)
 ```
