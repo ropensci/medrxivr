@@ -1,5 +1,5 @@
 ---
-title: 'medrxivr: Accessing and searching medRxiv preprint data in R'
+title: 'medrxivr: Accessing and searching medRxiv and bioRxiv preprint data in R'
 tags:
   - R
   - systematic review
