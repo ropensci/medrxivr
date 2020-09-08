@@ -21,3 +21,4 @@ figs/
 ^vignettes/building-complex-search-strategies.Rmd
 ^cran-comments\.md$
 medrxiv_export.bib
+^codemeta\.json$
