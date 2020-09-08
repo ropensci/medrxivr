@@ -31,8 +31,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Language: en-US
-URL: https://github.com/mcguinlu/medrxivr
-BugReports: https://github.com/mcguinlu/medrxivr/issues
+URL: https://docs.ropensci.org/medrxivr (website) 
+    https://github.com/ropensci/medrxivr
+BugReports: https://github.com/ropensci/medrxivr/issues
 Imports: 
     methods,
     dplyr,
@@ -56,4 +57,4 @@ Suggests:
 VignetteBuilder: 
     knitr, 
     rmarkdown    
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

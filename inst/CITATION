@@ -5,11 +5,11 @@ citEntry(
   title    = "medrxivr: Accessing medRxiv and bioRxiv data in R",
   author   = "Luke A. McGuinness and Lena Schmidt",
   year     = "2020",
-  url      = "https://github.com/mcguinlu/medrxivr",
+  url      = "https://github.com/ropensci/medrxivr",
 
   textVersion = paste(
   "Luke A. McGuinness & Lena Schmidt (2020).",
   "medrxivr: Accessing medRxiv and bioRxiv data in R",
-  "Available at https://github.com/mcguinlu/medrxivr"
+  "Available at https://github.com/ropensci/medrxivr"
   )
 )

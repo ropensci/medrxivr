@@ -25,10 +25,9 @@ library(medrxivr)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
 <br>
-[![R build status](https://github.com/mcguinlu/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/mcguinlu/medrxivr/actions)
-[![Travis build status](https://travis-ci.com/mcguinlu/medrxivr.svg?branch=master)](https://travis-ci.com/mcguinlu/medrxivr)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?branch=master&svg=true)](https://ci.appveyor.com/project/mcguinlu/medrxivr)
-[![Codecov test coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
+[![R build status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
+[![Travis build status](https://travis-ci.com/ropensci/medrxivr.svg?branch=master)](https://travis-ci.com/ropensci/medrxivr)
+[![Codecov test coverage](https://codecov.io/gh/ropensci/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
 <!-- badges: end -->
 
 An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and [bioRxiv](https://www.biorxiv.org/), both of which are operated by the Cold Spring Harbor Laboratory.
@@ -151,9 +150,10 @@ See here for the [code used to take the daily snapshot](https://github.com/mcgui
 
 ## Code of conduct
 
-Please note that the `medrxivr` project is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
-By contributing to this project, you agree to abide by its terms.
+Please note that this package is released with a [Contributor
+Code of Conduct](https://ropensci.org/code-of-conduct/). 
+By
+contributing to this project, you agree to abide by its terms.
 
 ## Disclaimer
 

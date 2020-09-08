@@ -11,13 +11,11 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![rOpenSci
 Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
 <br> [![R build
-status](https://github.com/mcguinlu/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/mcguinlu/medrxivr/actions)
+status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
 [![Travis build
-status](https://travis-ci.com/mcguinlu/medrxivr.svg?branch=master)](https://travis-ci.com/mcguinlu/medrxivr)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/mcguinlu/medrxivr?branch=master&svg=true)](https://ci.appveyor.com/project/mcguinlu/medrxivr)
+status](https://travis-ci.com/ropensci/medrxivr.svg?branch=master)](https://travis-ci.com/ropensci/medrxivr)
 [![Codecov test
-coverage](https://codecov.io/gh/mcguinlu/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/mcguinlu/medrxivr?branch=master)
+coverage](https://codecov.io/gh/mcguinlu/ropensci/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
 <!-- badges: end -->
 
 An increasingly important source of health-related bibliographic content
