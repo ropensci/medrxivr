@@ -15,7 +15,7 @@ status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](h
 [![Travis build
 status](https://travis-ci.com/ropensci/medrxivr.svg?branch=master)](https://travis-ci.com/ropensci/medrxivr)
 [![Codecov test
-coverage](https://codecov.io/gh/mcguinlu/ropensci/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
+coverage](https://codecov.io/gh/ropensci/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
 <!-- badges: end -->
 
 An increasingly important source of health-related bibliographic content
@@ -183,9 +183,9 @@ app](https://github.com/mcguinlu/medrxivr-app).
 
 ## Code of conduct
 
-Please note that the `medrxivr` project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Please note that this package is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+project, you agree to abide by its terms.
 
 ## Disclaimer
 
