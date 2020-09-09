@@ -171,4 +171,4 @@ mx_download(results,        # Object returned by mx_search
 
 ## Further guidance
 
-Please see the *[medrxivr website](https://mcguinlu.github.io/medrxivr/index.html)* vignette for extended guidance on developing search strategies and for detailed instructions on interacting with the Cold Springs Harbour API for medRxiv and bioRxiv.
+Please see the *[medrxivr website](https://docs.ropensci.org/medrxivr/index.html)* vignette for extended guidance on developing search strategies and for detailed instructions on interacting with the Cold Springs Harbour API for medRxiv and bioRxiv.
