@@ -24,10 +24,12 @@ library(medrxivr)
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
+[![CRAN checks](https://cranchecks.info/badges/worst/medrxivr)](https://cran.r-project.org/web/checks/check_results_medrxivr.html)
 <br>
 [![R build status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
 [![Travis build status](https://travis-ci.com/ropensci/medrxivr.svg?branch=master)](https://travis-ci.com/ropensci/medrxivr)
 [![Codecov test coverage](https://codecov.io/gh/ropensci/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
+
 <!-- badges: end -->
 
 An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and [bioRxiv](https://www.biorxiv.org/), both of which are operated by the Cold Spring Harbor Laboratory.
