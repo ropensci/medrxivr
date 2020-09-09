@@ -11,16 +11,19 @@ mx_result <-
   )
 
 test_that("Inital output", {
+  skip_on_cran()
   skip_if_offline()
   expect_message(mx_download(mx_result, "pdf"), regexp = "Downloading")
 })
 
 test_that("Already downloaded", {
+  skip_on_cran()
   skip_if_offline()
   expect_message(mx_download(mx_result, "pdf"), regexp = "downloaded")
 })
 
 test_that("Naming of downloaded PDFs", {
+  skip_on_cran()
   skip_if_offline()
   mx_download(mx_result, "pdf", name = "ID")
   expect_equal(file.exists("pdf/271.pdf"), TRUE)
@@ -33,6 +36,7 @@ if (dir.exists("pdf") == TRUE) {
 }
 
 test_that("Status update", {
+  skip_on_cran()
   skip_if_offline()
   expect_message(mx_download(mx_result, "pdf", print_update = 1), regexp = "%")
 })

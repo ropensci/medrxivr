@@ -1,4 +1,5 @@
 test_that("Check data inputs return the same no. of results", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_api_message()
 
@@ -27,6 +28,7 @@ test_that("Check data inputs return the same no. of results", {
 })
 
 test_that("Check number of columns in include_info output", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_api_message()
   mx_data <-

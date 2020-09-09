@@ -1,5 +1,5 @@
 Package: medrxivr
-Title: Access and Search MedRxiv and BioRxiv Preprint Data
+Title: Access And Search MedRxiv And BioRxiv Preprint Data
 Version: 0.0.3
 Authors@R: c(
     person("Luke", "McGuinness",
@@ -31,8 +31,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Language: en-US
-URL: https://docs.ropensci.org/medrxivr (website) 
-    https://github.com/ropensci/medrxivr
+URL: https://github.com/ropensci/medrxivr
 BugReports: https://github.com/ropensci/medrxivr/issues
 Imports: 
     methods,
