@@ -165,14 +165,14 @@ mx_api_content(to_date = "2019-07-01", clean = TRUE)
 ```
 
 See [this
-article](https://mcguinlu.github.io/medrxivr/articles/medrxiv-api.html#accesing-the-raw-api-data)
+article](https://docs.ropensci.org/medrxivr/articles/medrxiv-api.html#accessing-the-raw-api-data)
 for more details.
 
 ## Detailed guidance
 
 Detailed guidance, including advice on how to design complex search
 strategies, is available on the [`medrxivr`
-website.](https://mcguinlu.github.io/medrxivr/)
+website.](https://docs.ropensci.org/medrxivr)
 
 ## Linked repositories
 
