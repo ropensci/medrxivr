@@ -1,4 +1,24 @@
-# medrxivr 1.0.0
+# medrxivr 0.0.3
+
+Version created for submission to JOSS and CRAN, and onboarded to rOpenSci following peer-review.
+
+Major changes:
+
+* `mx_snapshot()` now takes a `commit` argument, allowing you to specify exactly which snapshot of the database you would like to use. Details on the commit keys needed are [here](https://github.com/mcguinlu/medrxivr-data/commits/master/snapshot.csv). In addition, the process of taking the snapshot is now managed by GitHub actions, meaning it should be a lot more robust/regular/
+* Importing the snapshot to R is now significantly faster, as `vroom::vroom()` is used in place of `read.csv()`
+* All functions that return a data frame now return ungrouped tibbles.
+* The  to/from date arguments for both `mx_search()` and `mx_api_content()` have been standardized to snake case and now expect the same "YYYY-MM-DD" character format.
+* A progress indicator has been added to `mx_api_content()` provide useful information when downloading from the API.
+* Some refactoring of code has taken place to reduce duplication of code chunks and to make future maintenance easier.
+
+Minor changes:
+
+* `mx_crosscheck()` no longer uses web-scraping when providing the number of 
+* Documentation has been updated to reflect the changes, and some additional sections added to the vignettes. This includes removing references to older versions of the functions names (e.g. `mx_raw()`).
+* Additional test have been written, and the overall test coverage has been increased. Some lines (handling exceptional rare errors that can't be mocked) have been marked as `#nocov`.
+
+
+
 
 # medrxivr 0.0.2
 

@@ -1,6 +1,6 @@
 Package: medrxivr
 Title: Access and Search MedRxiv and BioRxiv Preprint Data
-Version: 1.0.0
+Version: 0.0.3
 Authors@R: c(
     person("Luke", "McGuinness",
            role = c("aut", "cre"),
