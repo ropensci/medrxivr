@@ -1,6 +1,6 @@
 # medrxivr 0.0.3
 
-Version created for submission to JOSS and CRAN, and onboarded to rOpenSci following peer-review.
+Version created for submission to JOSS and CRAN, and onboarded to rOpenSci following peer-review. 
 
 Major changes:
 
