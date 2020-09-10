@@ -1,3 +1,11 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Converted the DESCRIPTION title to title case (And -> and).
+
+* Fixed an incomplete link in the README (https://docs.ropensci.org/medrxivr ->
+https://docs.ropensci.org/medrxivr/)
+
 ## Test environments
 
 * local windows R installation, R 3.6.1

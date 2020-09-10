@@ -1,5 +1,5 @@
 Package: medrxivr
-Title: Access And Search MedRxiv And BioRxiv Preprint Data
+Title: Access and Search MedRxiv and BioRxiv Preprint Data
 Version: 0.0.3
 Authors@R: c(
     person("Luke", "McGuinness",

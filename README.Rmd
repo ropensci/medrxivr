@@ -144,7 +144,7 @@ See [this article](https://docs.ropensci.org/medrxivr/articles/medrxiv-api.html#
 
 ## Detailed guidance
 
-Detailed guidance, including advice on how to design complex search strategies, is available on the [`medrxivr` website.](https://docs.ropensci.org/medrxivr)
+Detailed guidance, including advice on how to design complex search strategies, is available on the [`medrxivr` website.](https://docs.ropensci.org/medrxivr/)
 
 ## Linked repositories
 

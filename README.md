@@ -175,7 +175,7 @@ for more details.
 
 Detailed guidance, including advice on how to design complex search
 strategies, is available on the [`medrxivr`
-website.](https://docs.ropensci.org/medrxivr)
+website.](https://docs.ropensci.org/medrxivr/)
 
 ## Linked repositories
 
