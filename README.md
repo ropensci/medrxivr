@@ -10,8 +10,6 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci
 Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
-[![CRAN
-checks](https://cranchecks.info/badges/worst/medrxivr)](https://cran.r-project.org/web/checks/check_results_medrxivr.html)
 <br> [![R build
 status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
 [![Travis build
