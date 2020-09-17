@@ -5,12 +5,7 @@
 #'   return info on the most recent snapshot.
 #' @keywords internal
 #' @return Message with snapshot details
-#'
-#' @examples
-#' \dontrun{
-#' mx_info()
-#' }
-#'
+
 mx_info <- function(commit = "master") {
   current_time <- readLines(paste0(
     "https://raw.githubusercontent.com/",

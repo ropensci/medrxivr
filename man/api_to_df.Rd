@@ -15,9 +15,4 @@ Raw API data in a dataframe
 \description{
 Convert API data to data frame
 }
-\examples{
-\dontrun{
-df <- api_to_df(api_link("medrxiv", "10.1101/2020.02.25.20021568"))
-}
-}
 \keyword{internal}

@@ -15,11 +15,4 @@ Formatted link to API endpoint
 \description{
 Create link for API
 }
-\examples{
-\dontrun{
-link <- api_link("details", "2020-01-01", "2020-01-31", "0")
-link <- api_link("details", "10.1101/2020.02.25.20021568")
-}
-
-}
 \keyword{internal}

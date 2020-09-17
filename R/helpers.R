@@ -19,11 +19,8 @@ internet_check <- function() {
 #' @return Raw API data in a dataframe
 #' @keywords internal
 #'
-#' @examples
-#' \dontrun{
-#' df <- api_to_df(api_link("medrxiv", "10.1101/2020.02.25.20021568"))
-#' }
 #' @importFrom dplyr %>%
+
 api_to_df <- function(url) {
   details <- httr::RETRY(
     verb = "GET",
@@ -73,13 +70,7 @@ api_to_df <- function(url) {
 #'
 #' @return Formatted link to API endpoint
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' link <- api_link("details", "2020-01-01", "2020-01-31", "0")
-#' link <- api_link("details", "10.1101/2020.02.25.20021568")
-#' }
-#'
+
 api_link <- function(...) {
   path_arg <- c(...)
 
@@ -98,11 +89,8 @@ api_link <- function(...) {
 #' @return Cleaned dataframe
 #' @keywords internal
 #'
-#' @examples
-#' \dontrun{
-#' df <- clean_api_df(df)
-#' }
 #' @importFrom dplyr %>%
+
 clean_api_df <- function(df) {
   df$node <- seq_len(nrow(df))
 
@@ -128,11 +116,7 @@ clean_api_df <- function(df) {
 #' Skips API tests if API isn't working correctly
 #'
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' skip_if_api_message()
-#' }
+
 skip_if_api_message <- function() {
   details <- httr::RETRY(
     verb = "GET",

@@ -17,10 +17,4 @@ Message with snapshot details
 \description{
 Provide information on the medRxiv snapshot used to perform the search
 }
-\examples{
-\dontrun{
-mx_info()
-}
-
-}
 \keyword{internal}

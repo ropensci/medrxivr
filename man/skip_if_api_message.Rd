@@ -9,9 +9,4 @@ skip_if_api_message()
 \description{
 Skips API tests if API isn't working correctly
 }
-\examples{
-\dontrun{
-skip_if_api_message()
-}
-}
 \keyword{internal}
