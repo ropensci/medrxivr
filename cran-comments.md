@@ -1,10 +1,10 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Converted the DESCRIPTION title to title case (And -> and).
+* Wrapped package names, software names and API names in single quotes in title
+and description.
 
-* Fixed an incomplete link in the README (https://docs.ropensci.org/medrxivr ->
-https://docs.ropensci.org/medrxivr/)
+* Removed the examples for unexported functions, as requested.
 
 ## Test environments
 
