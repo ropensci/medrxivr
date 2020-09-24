@@ -6,12 +6,12 @@ and description (Sorry that I missed one last time!)
 
 * Replaced \dontrun with \donttest in all examples, as requested.
 
-* Replaced the long-running example so that only a single PDF is downloaded.
+* Replaced the long-running example for mx_download() so that only a single PDF
+is downloaded.
 
 * Ensured that examples/vignettes do not modify the user's home filespace in
 the examples, vignettes, and tests. All previous hardcoded file and directory
 locations have been replaced using tempfile() and tempdir(), respectively.
-
 
 ## Test environments
 
