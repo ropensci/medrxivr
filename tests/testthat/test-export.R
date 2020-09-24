@@ -11,7 +11,8 @@ tmpfile <- tempfile(fileext = ".bib")
 
 test_that("Inital output", {
   skip_if_offline()
-  expect_message(mx_export(mx_result,tmpfile), regexp = "References exported to")
+  expect_message(mx_export(mx_result,tmpfile),
+                 regexp = "References exported to")
 })
 
 testthat::test_that("Inital output", {
