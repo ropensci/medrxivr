@@ -41,7 +41,7 @@ Provides programmatic access to all preprints available through
   bioRxiv preprint repositories.
 }
 \examples{
-\dontrun{
+\donttest{
 mx_data <- mx_api_content()
 }
 }

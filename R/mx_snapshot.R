@@ -14,7 +14,7 @@
 #' @export
 #' @family data-source
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' mx_data <- mx_snapshot()
 #' }
 #'

@@ -22,7 +22,7 @@ Formatted dataframe
   the medRxiv repository.
 }
 \examples{
-\dontrun{
+\donttest{
 mx_data <- mx_snapshot()
 }
 

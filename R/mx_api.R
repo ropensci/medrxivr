@@ -24,7 +24,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' mx_data <- mx_api_content()
 #' }
 #' @importFrom dplyr %>%
@@ -128,7 +128,7 @@ mx_api_content <- function(from_date = "2013-01-01",
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' mx_data <- mx_api_doi("10.1101/2020.02.25.20021568")
 #' }
 #' @importFrom dplyr %>%

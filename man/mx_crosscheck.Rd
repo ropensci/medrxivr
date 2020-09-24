@@ -13,7 +13,7 @@ Provides information on how up-to-date the maintained medRxiv
   snapshot was taken.
 }
 \examples{
-\dontrun{
+\donttest{
 mx_crosscheck()
 }
 }

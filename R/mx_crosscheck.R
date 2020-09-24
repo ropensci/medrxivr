@@ -6,7 +6,7 @@
 #'   snapshot was taken.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' mx_crosscheck()
 #' }
 #' @family helper

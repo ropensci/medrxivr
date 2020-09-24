@@ -41,7 +41,7 @@ Default is TRUE.}
 Search preprint data
 }
 \examples{
-\dontrun{
+\donttest{
 # Using data from the API
 mx_results <- mx_api_content() \%>\%
   mx_search(query = "dementia")

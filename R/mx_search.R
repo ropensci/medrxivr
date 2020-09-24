@@ -15,7 +15,7 @@
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Using data from the API
 #' mx_results <- mx_api_content() %>%
 #'   mx_search(query = "dementia")
