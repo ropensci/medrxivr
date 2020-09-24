@@ -18,7 +18,7 @@ Description: An increasingly important source of health-related bibliographic
     yet to undergo peer review. The two preprint repositories most relevant to 
     health-related sciences are medRxiv <https://www.medrxiv.org/> and
     bioRxiv <https://www.biorxiv.org/>, both of which are operated by the Cold 
-    Spring Harbor Laboratory. medrxivr provides programmatic access to the 
+    Spring Harbor Laboratory. 'medrxivr' provides programmatic access to the 
     'Cold Spring Harbour Laboratory (CSHL)' API <https://api.biorxiv.org/>,
     allowing users to easily download medRxiv and bioRxiv preprint metadata
     (e.g. title, abstract, publication date, author list, etc) into R. 
