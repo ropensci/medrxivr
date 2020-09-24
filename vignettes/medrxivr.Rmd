@@ -152,7 +152,7 @@ knitr::kable(mx_variables, format = "html") %>%
 ```{r, eval = FALSE}
 
 mx_export(data = mx_results,
-          file = "mx_search_results.bib")
+          file = tempfile(fileext = ".bib"))
 
 ```
 
@@ -163,7 +163,7 @@ Pass the results of your search above (`results`) to the `mx_download()` functio
 ```{r, eval = FALSE}
 
 mx_download(results,        # Object returned by mx_search
-            "pdf/",         # Directory to save PDFs to 
+            tempdir(),      # Temporary directory to save PDFs to 
             create = TRUE)  # Create the directory if it doesn't exist
 
 ```

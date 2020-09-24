@@ -18,9 +18,9 @@ Exports a formatted .BIB file, for import into a reference manager
 Export references for preprints returning by a search to a .bib file
 }
 \examples{
-\dontrun{
+\donttest{
 mx_results <- mx_search(mx_snapshot(), query = "brain")
-mx_export(mx_results, "references.bib")
+mx_export(mx_results, tempfile(fileext = ".bib"))
 }
 
 }

@@ -8,9 +8,9 @@
 #'   the record and the DOI are used.
 #' @param print_update How frequently to print an update
 #' @examples
-#' \dontrun{
-#' mx_results <- mx_search(mx_snapshot(), query = "molecular")
-#' mx_download(mx_results, "medrxiv-PDF")
+#' \donttest{
+#' mx_results <- mx_search(mx_snapshot(), query = "10.1101/2020.02.25.20021568")
+#' mx_download(mx_results, directory=tempdir())
 #' }
 #' @family helper
 #' @export
@@ -38,7 +38,6 @@ mx_download <- function(mx_results,
   }
 
   mx_results$filename <- gsub("/", "_", mx_results$filename)
-
 
   message(paste0(
     "Estimated time to completion: ",
@@ -87,7 +86,7 @@ mx_download <- function(mx_results,
       ))
 
       sleep_time <- runif(1, 10, 13)
-      Sys.sleep(sleep_time)
+      if(nrow(mx_results)>1) {Sys.sleep(sleep_time)}
 
       pmx_results <-
         try(download.file(

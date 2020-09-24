@@ -8,9 +8,9 @@
 #' @family helper
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' mx_results <- mx_search(mx_snapshot(), query = "brain")
-#' mx_export(mx_results, "references.bib")
+#' mx_export(mx_results, tempfile(fileext = ".bib"))
 #' }
 #'
 mx_export <- function(data,

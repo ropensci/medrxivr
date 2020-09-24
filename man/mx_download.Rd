@@ -29,9 +29,9 @@ the record and the DOI are used.}
 Download PDF's of all the papers in your search results
 }
 \examples{
-\dontrun{
-mx_results <- mx_search(mx_snapshot(), query = "molecular")
-mx_download(mx_results, "medrxiv-PDF")
+\donttest{
+mx_results <- mx_search(mx_snapshot(), query = "10.1101/2020.02.25.20021568")
+mx_download(mx_results, directory=tempdir())
 }
 }
 \seealso{
