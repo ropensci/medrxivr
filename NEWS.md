@@ -16,6 +16,8 @@ Minor changes:
 * `mx_crosscheck()` no longer uses web-scraping when providing the number of 
 * Documentation has been updated to reflect the changes, and some additional sections added to the vignettes. This includes removing references to older versions of the functions names (e.g. `mx_raw()`).
 * Additional test have been written, and the overall test coverage has been increased. Some lines (handling exceptional rare errors that can't be mocked) have been marked as `#nocov`.
+* \dontrun had been replaced with \donttest in all examples across the package. 
+* All examples for mx_download() and mx_export() now use tempfile() and tempdir(), so as not to modify the users home filespace when running the examples.
 
 
 
