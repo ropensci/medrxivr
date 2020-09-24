@@ -16,13 +16,8 @@
 #'   Default is TRUE.
 #' @examples
 #' \donttest{
-#' # Using data from the API
-#' mx_results <- mx_api_content() %>%
-#'   mx_search(query = "dementia")
-#'
 #' # Using the daily snapshot
-#' mx_results <- mx_snapshot() %>%
-#'   mx_search(query = "dementia")
+#' mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
 #' }
 #' @family main
 #' @export
