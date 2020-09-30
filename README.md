@@ -10,6 +10,8 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci
 Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
+[![CRAN
+Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://cran.r-project.org/web/packages/medrxivr/index.html)
 <br> [![R build
 status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
 [![Travis build
@@ -40,6 +42,13 @@ manager and to download the full-text PDFs of preprints matching their
 search criteria.
 
 ## Installation
+
+To install the stable version of the package from CRAN:
+
+``` r
+install.packages("medrxivr")
+library(medrxivr)
+```
 
 You can install the development version of this package using:
 

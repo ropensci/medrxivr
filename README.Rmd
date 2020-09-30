@@ -24,6 +24,7 @@ library(medrxivr)
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
+[![CRAN Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://cran.r-project.org/web/packages/medrxivr/index.html)
 <br>
 [![R build status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
 [![Travis build status](https://travis-ci.com/ropensci/medrxivr.svg?branch=master)](https://travis-ci.com/ropensci/medrxivr)
@@ -36,6 +37,13 @@ An increasingly important source of health-related bibliographic content are pre
 The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [Cold Spring Harbour Laboratory (CSHL) API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
 
 ## Installation
+
+To install the stable version of the package from CRAN:
+
+``` {r}
+install.packages("medrxivr")
+library(medrxivr)
+```
 
 You can install the development version of this package using:
 
