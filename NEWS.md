@@ -1,5 +1,9 @@
 # medrxivr (development version)
 
+Major changes:
+
+* Fixed error which occured when downloading the whole bioRxiv database. This was caused by any record above 100000 being presented in scientific notation, which meant the API returned an invalid response.
+
 # medrxivr 0.0.3
 
 Version created for submission to JOSS and CRAN, and onboarded to rOpenSci following peer-review. 

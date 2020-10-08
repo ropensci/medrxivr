@@ -80,7 +80,11 @@ mx_api_content <- function(from_date = "2013-01-01",
   for (cursor in 0:pages) {
     page <- cursor * 100
 
-    page_link <- api_link(server, from_date, to_date, page)
+    page_link <- api_link(server,
+                          from_date,
+                          to_date,
+                          format(page,
+                                 scientific = FALSE))
 
     tmp <- api_to_df(page_link)
 
