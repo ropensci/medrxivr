@@ -1,15 +1,22 @@
 citHeader("To cite medrxivr in publications use:")
 
 citEntry(
-  entry    = "Misc",
-  title    = "medrxivr: Accessing medRxiv and bioRxiv data in R",
+  entry    = "Article",
+  title    =
+  "medrxivr: Accessing and searching medRxiv and bioRxiv preprint data in R",
   author   = "Luke A. McGuinness and Lena Schmidt",
+  journal  = "Journal of Open Source Software",
   year     = "2020",
-  url      = "https://github.com/ropensci/medrxivr",
+  volume   = "5",
+  number   = "54",
+  pages    = "2651",
+  doi      = "10.21105/joss.02651",
+  url      = "https://doi.org/10.21105/joss.02651",
 
   textVersion = paste(
   "Luke A. McGuinness & Lena Schmidt (2020).",
-  "medrxivr: Accessing medRxiv and bioRxiv data in R",
-  "Available at https://github.com/ropensci/medrxivr"
+  "medrxivr: Accessing and searching medRxiv and bioRxiv preprint data in R.",
+  "Journal of Open Source Software, 5(54), 2651.",
+  "https://doi.org/10.21105/joss.02651"
   )
 )
