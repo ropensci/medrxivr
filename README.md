@@ -10,6 +10,7 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![rOpenSci
 Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.02651/status.svg)](https://doi.org/10.21105/joss.02651)
 [![CRAN
 Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://cran.r-project.org/web/packages/medrxivr/index.html)
 <br> [![R build
@@ -53,7 +54,7 @@ library(medrxivr)
 You can install the development version of this package using:
 
 ``` r
-devtools::install_github("mcguinlu/medrxivr")
+devtools::install_github("ropensci/medrxivr")
 library(medrxivr)
 ```
 
