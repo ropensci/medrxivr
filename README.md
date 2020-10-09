@@ -44,16 +44,22 @@ search criteria.
 
 ## Installation
 
+<!---
+
 To install the stable version of the package from CRAN:
 
-``` r
+
+```r
 install.packages("medrxivr")
 library(medrxivr)
 ```
 
-You can install the development version of this package using:
+--->
+
+To install `medrxivr`, use the following code:
 
 ``` r
+install.packages("devtools")
 devtools::install_github("ropensci/medrxivr")
 library(medrxivr)
 ```
