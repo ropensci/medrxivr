@@ -1,4 +1,4 @@
-# medrxivr (development version)
+# medrxivr 0.0.4
 
 Major changes:
 
