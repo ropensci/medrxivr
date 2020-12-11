@@ -1,13 +1,16 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "medrxivr",
-  "description": "An increasingly important source of health-related bibliographic \n    content are preprints - preliminary versions of research articles that have\n    yet to undergo peer review. The two preprint repositories most relevant to \n    health-related sciences are medRxiv <https://www.medrxiv.org/> and\n    bioRxiv <https://www.biorxiv.org/>, both of which are operated by the Cold \n    Spring Harbor Laboratory. medrxivr provides programmatic access to the \n    Cold Spring Harbour Laboratory (CSHL) API <https://api.biorxiv.org/>,\n    allowing users to easily download medRxiv and bioRxiv preprint metadata\n    (e.g. title, abstract, publication date, author list, etc) into R. \n    medrxivr also provides functions to search the downloaded preprint records \n    using regular expressions and Boolean logic, as well as helper functions \n    that allow users to export their search results to a .BIB file for easy \n    import to a reference manager and to download the full-text PDFs of \n    preprints matching their search criteria.",
+  "description": "An increasingly important source of health-related bibliographic \n    content are preprints - preliminary versions of research articles that have\n    yet to undergo peer review. The two preprint repositories most relevant to \n    health-related sciences are medRxiv <https://www.medrxiv.org/> and\n    bioRxiv <https://www.biorxiv.org/>, both of which are operated by the Cold \n    Spring Harbor Laboratory. 'medrxivr' provides programmatic access to the \n    'Cold Spring Harbour Laboratory (CSHL)' API <https://api.biorxiv.org/>,\n    allowing users to easily download medRxiv and bioRxiv preprint metadata\n    (e.g. title, abstract, publication date, author list, etc) into R. \n    'medrxivr' also provides functions to search the downloaded preprint records \n    using regular expressions and Boolean logic, as well as helper functions \n    that allow users to export their search results to a .BIB file for easy \n    import to a reference manager and to download the full-text PDFs of \n    preprints matching their search criteria.",
   "name": "medrxivr: Access and Search MedRxiv and BioRxiv Preprint Data",
   "codeRepository": "https://github.com/ropensci/medrxivr",
   "issueTracker": "https://github.com/ropensci/medrxivr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.2.900",
+  "version": "0.0.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -257,18 +260,29 @@
   ],
   "releaseNotes": "https://github.com/ropensci/medrxivr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/medrxivr/blob/master/README.md",
-  "fileSize": "952.34KB",
-  "contIntegration": ["https://travis-ci.com/mcguinlu/medrxivr", "https://ci.appveyor.com/project/mcguinlu/medrxivr", "https://codecov.io/gh/mcguinlu/medrxivr?branch=master"],
+  "fileSize": "1425.236KB",
+  "contIntegration": ["https://travis-ci.com/ropensci/medrxivr", "https://codecov.io/gh/ropensci/medrxivr?branch=master"],
   "developmentStatus": "https://www.repostatus.org/#active",
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/380",
     "provider": "https://ropensci.org"
   },
-  "keywords": ["evidence-synthesis", "systematic-reviews", "bibliographic-database", "rstats", "r-package", "r", "preprint-records", "medrxiv-data", "biorxiv"],
+  "keywords": [
+    "evidence-synthesis",
+    "systematic-reviews",
+    "bibliographic-database",
+    "rstats",
+    "r-package",
+    "r",
+    "preprint-records",
+    "medrxiv-data",
+    "biorxiv",
+    "peer-reviewed"
+  ],
   "citation": [
     {
-      "@type": "CreativeWork",
+      "@type": "ScholarlyArticle",
       "datePublished": "2020",
       "author": [
         {
@@ -282,8 +296,29 @@
           "familyName": "Schmidt"
         }
       ],
-      "name": "medrxivr: Accessing medRxiv and bioRxiv data in R",
-      "url": "https://github.com/ropensci/medrxivr"
+      "name": "medrxivr: Accessing and searching medRxiv and bioRxiv preprint data in R",
+      "identifier": "10.21105/joss.02651",
+      "url": "https://doi.org/10.21105/joss.02651",
+      "pagination": "2651",
+      "@id": "https://doi.org/10.21105/joss.02651",
+      "sameAs": "https://doi.org/10.21105/joss.02651",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "54",
+        "datePublished": "2020",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "5",
+          "name": "Journal of Open Source Software"
+        }
+      }
     }
-  ]
+  ],
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "relatedLink": "https://CRAN.R-project.org/package=medrxivr"
 }
