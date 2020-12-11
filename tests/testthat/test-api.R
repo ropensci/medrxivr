@@ -5,7 +5,7 @@ test_that("Check data inputs return the same no. of results", {
 
   mx1 <-
     mx_search(
-      data = mx_api_content(),
+      data = mx_snapshot("6c4056d2cccd6031d92ee4269b1785c6ec4d555b"),
       query = "dementia",
       from_date = "2019-01-01",
       to_date = "2020-01-01"

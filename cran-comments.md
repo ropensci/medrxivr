@@ -12,4 +12,4 @@
 
 ## Downstream dependencies
 
-There are currently no downstream dependencies for this package
+There are currently no downstream dependencies for this package.

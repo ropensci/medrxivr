@@ -2,7 +2,8 @@
 
 Major changes:
 
-* Fixed error which occured when downloading the whole bioRxiv database. This was caused by any record above 100000 being presented in scientific notation, which meant the API returned an invalid response.
+* Fixed error which occurred when downloading the whole bioRxiv database. This was caused by any record above 100000 being presented in scientific notation (e.g. 1e+05), which meant the API returned an invalid response.
+* Change tests to fix runtime regardless of future growth of the repositories
 
 # medrxivr 0.0.3
 

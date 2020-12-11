@@ -3,8 +3,8 @@ test_that("Error handling", {
   expect_error(mx_search(data = 2))
 })
 
-
-mx_data <- mx_snapshot()
+# Limit to a certain snapshot commit, so dataset is always of fixed size.
+mx_data <- mx_snapshot("6c4056d2cccd6031d92ee4269b1785c6ec4d555b")
 
 mx0 <- mx_search(mx_data, query = "*")
 
