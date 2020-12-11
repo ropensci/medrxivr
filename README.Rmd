@@ -50,7 +50,14 @@ library(medrxivr)
 
 --->
 
-To install `medrxivr`, use the following code:
+To install `medrxivr` from CRAN, use the following code:
+
+``` {r}
+install.packages("medrxivr")
+library(medrxivr)
+```
+
+Alternatively, to install the development version from GitHub, use the following code:
 
 ``` {r}
 install.packages("devtools")
@@ -149,7 +156,7 @@ By default, the `mx_api_*()` functions clean the data returned by the API for us
 To access the raw data returned by the API, the `clean` argument should  set to `FALSE`:
 
 ``` {r}
-mx_api_content(to_date = "2019-07-01", clean = TRUE)
+mx_api_content(to_date = "2019-07-01", clean = FALSE)
 
 ```
 

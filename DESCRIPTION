@@ -54,6 +54,5 @@ Suggests:
     kableExtra,
     spelling
 VignetteBuilder: 
-    knitr, 
-    rmarkdown    
+    knitr    
 RoxygenNote: 7.1.1
