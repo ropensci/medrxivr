@@ -44,19 +44,15 @@ search criteria.
 
 ## Installation
 
-<!---
-
 To install the stable version of the package from CRAN:
 
-
-```r
+``` r
 install.packages("medrxivr")
 library(medrxivr)
 ```
 
---->
-
-To install `medrxivr`, use the following code:
+Alternatively, to install the development version from GitHub, use the
+following code:
 
 ``` r
 install.packages("devtools")
@@ -178,7 +174,7 @@ To access the raw data returned by the API, the `clean` argument should
 set to `FALSE`:
 
 ``` r
-mx_api_content(to_date = "2019-07-01", clean = TRUE)
+mx_api_content(to_date = "2019-07-01", clean = FALSE)
 ```
 
 See [this

@@ -39,18 +39,8 @@ The goal of the `medrxivr` R package is two-fold. In the first instance, it prov
 
 ## Installation
 
-<!---
 
 To install the stable version of the package from CRAN:
-
-``` {r}
-install.packages("medrxivr")
-library(medrxivr)
-```
-
---->
-
-To install `medrxivr` from CRAN, use the following code:
 
 ``` {r}
 install.packages("medrxivr")
