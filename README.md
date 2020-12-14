@@ -194,6 +194,22 @@ snapshot](https://github.com/mcguinlu/medrxivr-data) and [the code that
 powers the `medrxivr` web
 app](https://github.com/mcguinlu/medrxivr-app).
 
+## Other tools/packages for working with medRxiv/bioRxiv data
+
+The focus of `medrxivr` is on providing tools to allow users to import
+and then search medRxiv and bioRxiv data. Below are a list of
+complementary packages that provide distinct but related functionality
+when working with medRxiv and bioRxiv data:
+
+  - [`rbiorxiv`](https://github.com/nicholasmfraser/rbiorxiv) by
+    [Nicholas Fraser](https://github.com/nicholasmfraser) provides
+    access to the same medRxiv and bioRxiv *content* data as `medrxivr`,
+    but also provides access to the *usage* data (e.g. downloads per
+    month) that the Cold Spring Harbour Laboratory API offers. This is
+    useful if you wish to explore, for example, [how the number of PDF
+    downloads from bioRxiv has grown over
+    time.](https://github.com/nicholasmfraser/rbiorxiv#pdf-downloads-over-time)
+
 ## Code of conduct
 
 Please note that this package is released with a [Contributor Code of
