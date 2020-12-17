@@ -10,6 +10,13 @@
 #' @param to_date Defines latest date of interest. Written in the format
 #'   "YYYY-MM-DD". Note, records published on the date specified will also be
 #'   returned.
+#' @param auto_caps As the search is case sensitive, this logical specifies
+#'   whether the search should automatically allow for differing capitalisation
+#'   of search terms. For example, when TRUE, a search for "dementia" would find
+#'   both "dementia" but also "Dementia". Note, that if your term is multi-word
+#'   (e.g. "systematic review"), only the first word is automatically
+#'   capitalised (e.g your search will find both "systematic review" and
+#'   "Systematic review" but won't find "Systematic Review".
 #' @param NOT Vector of regular expressions to exclude from the search. Default
 #'   is NULL.
 #' @param deduplicate Logical. Only return the most recent version of a record.
@@ -37,6 +44,7 @@ mx_search <- function(data = NULL,
                       ),
                       from_date = NULL,
                       to_date = NULL,
+                      auto_caps = FALSE,
                       NOT = "",
                       deduplicate = TRUE) {
   . <- NULL
@@ -93,8 +101,18 @@ mx_search <- function(data = NULL,
   }
 
 
-  # Run search --------------------------------------------------------------
+  # Clean query ----------------------------------------------------------------
 
+  # Fix capitalisation
+  if (auto_caps == TRUE) {
+    query <- fix_caps(query)
+  }
+
+  query <- query %>%
+    fix_near() %>%
+    fix_wildcard()
+
+  # Run search -----------------------------------------------------------------
 
   if (is.list(query)) {
     # General code to find matches

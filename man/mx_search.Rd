@@ -10,6 +10,7 @@ mx_search(
   fields = c("title", "abstract", "authors", "category", "doi"),
   from_date = NULL,
   to_date = NULL,
+  auto_caps = FALSE,
   NOT = "",
   deduplicate = TRUE
 )
@@ -30,6 +31,14 @@ returned.}
 \item{to_date}{Defines latest date of interest. Written in the format
 "YYYY-MM-DD". Note, records published on the date specified will also be
 returned.}
+
+\item{auto_caps}{As the search is case sensitive, this logical specifies
+whether the search should automatically allow for differing capitalisation
+of search terms. For example, when TRUE, a search for "dementia" would find
+both "dementia" but also "Dementia". Note, that if your term is multi-word
+(e.g. "systematic review"), only the first word is automatically
+capitalised (e.g your search will find both "systematic review" and
+"Systematic review" but won't find "Systematic Review".}
 
 \item{NOT}{Vector of regular expressions to exclude from the search. Default
 is NULL.}
