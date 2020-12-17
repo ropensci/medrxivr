@@ -2,6 +2,7 @@
 
 export(mx_api_content)
 export(mx_api_doi)
+export(mx_caps)
 export(mx_crosscheck)
 export(mx_download)
 export(mx_export)

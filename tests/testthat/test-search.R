@@ -24,13 +24,24 @@ mx2 <-
 mx3 <-
   mx_search(mx_data, query = list("dementia"), to_date = "2020-01-01")
 
+mx4 <-
+  mx_search(mx_data,
+            query = "dementia",
+            from_date = "2019-01-01",
+            to_date = "2020-01-01",
+            auto_caps = TRUE
+  )
+
 
 test_that("Different formats - same search", {
   skip_if_offline()
   expect_equal(length(mx1$ID), 24)
   expect_equal(length(mx1$ID), length(mx2$ID))
   expect_equal(length(mx1$ID), length(mx3$ID))
-  expect_equal(length(mx2$ID), length(mx3$ID))
+  expect_equal(length(mx2$ID), length(mx3$ID),
+  #Check that with auto_caps, more records are given
+  expect_equal(length(mx4$ID), 27)
+  )
 })
 
 mx4 <- mx_search(mx_data, query = c("dementia", "lipid"))
@@ -49,7 +60,7 @@ test_that("Deduplication", {
   expect_false(length(mx6$ID) == length(mx7$ID))
 })
 
-mx8 <- mx_search(mx_data, query = "dementia", NOT = "dementia")
+mx8 <- mx_search(mx_data, query = "dementia", NOT = "[Dd]ementia")
 
 test_that("NOT", {
   skip_if_offline()
