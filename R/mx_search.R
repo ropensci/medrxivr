@@ -21,6 +21,8 @@
 #'   is NULL.
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
+#' @param report Logical. Run mx_reporter
+#'   Default is FALSE.
 #' @examples
 #' \donttest{
 #' # Using the daily snapshot
@@ -46,7 +48,8 @@ mx_search <- function(data = NULL,
                       to_date = NULL,
                       auto_caps = FALSE,
                       NOT = "",
-                      deduplicate = TRUE) {
+                      deduplicate = TRUE,
+                      report = FALSE) {
   . <- NULL
   node <- NULL
   link_group <- NULL
@@ -81,14 +84,10 @@ mx_search <- function(data = NULL,
   # Search ------------------------------------------------------------------
 
   # Load data
-
   mx_data <- data
 
   # Implement data limits ---------------------------------------------------
-
-
   mx_data$date <- as.numeric(gsub("-", "", mx_data$date))
-
 
   if (!is.null(to_date)) {
     to_date <- as.numeric(gsub("-", "", to_date))
@@ -112,7 +111,69 @@ mx_search <- function(data = NULL,
     fix_near() %>%
     fix_wildcard()
 
-  # Run search -----------------------------------------------------------------
+
+  # Run full search  and process results -------------------------------------
+  mx_results <- run_search(mx_data, query, fields, NOT, deduplicate)
+  num_results <- nrow(mx_results)
+  print_full_results(num_results, deduplicate)
+
+
+  # Run mx_reporter and process results --------------------------------------
+  if (report) {mx_reporter(mx_data, query, fields, NOT, deduplicate)}
+
+  # Return full search results
+  mx_results
+}
+
+
+#' Search and print output for individual search items
+#' @param data The mx_dataset filtered for the date limits
+#' @param query Character string, vector or list
+#' @param fields Fields of the database to search - default is Title, Abstract,
+#'   Authors, Category, and DOI.
+#' @param NOT Vector of regular expressions to exclude from the search. Default
+#'   is NULL.
+#' @param deduplicate Logical. Only return the most recent version of a record.
+#'   Default is TRUE.
+#' @family main
+mx_reporter <- function(mx_data, query, fields, NOT, deduplicate) {
+
+  #run mx_search on individual topics, count hits and print message
+  for (i in 1:length(query)) {
+
+    ifelse (is.list(query),
+            query_i <- query[[i]],
+            query_i <- query[i])
+
+
+    mx_results <- run_search(mx_data, query_i, fields, NOT, deduplicate)
+    topic_hits <- nrow(mx_results)
+    message(cat("\n"), paste0("Total topic ", i, " records: ", topic_hits))
+
+    # run mx_search for and individual terms within each topic,...
+    # count hits and print message
+    for (j in 1:length(query_i)) {
+
+      mx_results <- run_search(mx_data, query_i[j], fields, NOT, deduplicate)
+      term_hits <- nrow(mx_results)
+      message(paste(query_i[j], ": ", term_hits))
+    }
+  }
+}
+
+
+#' Search for terms in the dataset
+#' @param data The mx_dataset filtered for the date limits
+#' @param query Character string, vector or list
+#' @param fields Fields of the database to search - default is Title, Abstract,
+#'   Authors, Category, and DOI.
+#' @param NOT Vector of regular expressions to exclude from the search. Default
+#'   is NULL.
+#' @param deduplicate Logical. Only return the most recent version of a record.
+#'   Default is TRUE.
+#' @family main
+#' @importFrom dplyr %>%
+run_search <- function(mx_data, query, fields, NOT, deduplicate){
 
   if (is.list(query)) {
     # General code to find matches
@@ -152,7 +213,7 @@ mx_search <- function(data = NULL,
     and <- tmp$node
   }
 
-  # Exclude those in the NOT category ---------------------------------------
+  # Exclude those in the NOT category
 
   if (NOT != "") {
     tmp <- mx_data %>%
@@ -184,63 +245,65 @@ mx_search <- function(data = NULL,
     }
   }
 
-
-  # Clean and process results -----------------------------------------------
-
   if (nrow(mx_results) > 0) {
     names(mx_results)[names(mx_results) == "date_posted"] <- "date_posted"
     names(mx_results)[names(mx_results) == "node"] <- "ID"
 
     mx_results$date <- lubridate::as_date(as.character(mx_results$date))
 
-    mx_results <-
-      mx_results[, c(
-        "ID",
-        "title",
-        "abstract",
-        "authors",
-        "date",
-        "category",
-        "doi",
-        "version",
-        "author_corresponding",
-        "author_corresponding_institution",
-        "link_page",
-        "link_pdf",
-        "license",
-        "published"
-      )]
+    mx_results[, c(
+      "ID",
+      "title",
+      "abstract",
+      "authors",
+      "date",
+      "category",
+      "doi",
+      "version",
+      "author_corresponding",
+      "author_corresponding_institution",
+      "link_page",
+      "link_pdf",
+      "license",
+      "published"
+    )]
+  }
+
+  if (nrow(mx_results) > 0 && deduplicate) {
+    mx_results <- mx_results %>%
+      dplyr::group_by(doi) %>%
+      dplyr::slice(which.max(version)) %>%
+      dplyr::ungroup()
+  }
+
+  mx_results
+}
 
 
-    # Deduplicate -------------------------------------------------------------
-    if (deduplicate == TRUE) {
-      mx_results <- mx_results %>%
-        dplyr::group_by(doi) %>%
-        dplyr::slice(which.max(version)) %>%
-        dplyr::ungroup()
+#' Search for terms in the dataset
+#' @param num_results number of searched terms returned
+#' @param deduplicate Logical. Only return the most recent version of a record.
+#'   Default is TRUE.
+#' @family main
+print_full_results <- function(num_results, deduplicate){
 
+  if (num_results > 0) {
 
-      # Post message and return dataframe
-      message(paste0(
-        "Found ",
-        length(mx_results$ID),
-        " record(s) matching your search."
-      ))
+    # Create Message
+    message <- paste0(
+      "Found ",
+      num_results,
+      " record(s) matching your search."
+    )
 
-      mx_results
-    } else {
-      # Post message and return dataframe
-      message(
-        paste0(
-          "Found ",
-          length(mx_results$ID),
-          " record(s) matching your search.\n",
-          "Note, there may be >1 version of the same record."
-        )
-      )
-
-      mx_results
+    if (!deduplicate) {
+      message <- paste0(message, "\n",
+                        "Note, there may be >1 version of the same record.")
     }
+
+    # Print Message
+    message(message)
+
   } else {
     message("No records found matching your search.")
   }

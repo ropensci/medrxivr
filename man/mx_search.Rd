@@ -12,7 +12,8 @@ mx_search(
   to_date = NULL,
   auto_caps = FALSE,
   NOT = "",
-  deduplicate = TRUE
+  deduplicate = TRUE,
+  report = FALSE
 )
 }
 \arguments{
@@ -45,6 +46,9 @@ is NULL.}
 
 \item{deduplicate}{Logical. Only return the most recent version of a record.
 Default is TRUE.}
+
+\item{report}{Logical. Run mx_reporter
+Default is FALSE.}
 }
 \description{
 Search preprint data
@@ -54,5 +58,11 @@ Search preprint data
 # Using the daily snapshot
 mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
 }
+}
+\seealso{
+Other main: 
+\code{\link{mx_reporter}()},
+\code{\link{print_full_results}()},
+\code{\link{run_search}()}
 }
 \concept{main}
