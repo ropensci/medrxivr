@@ -50,11 +50,6 @@ mx_search <- function(data = NULL,
                       NOT = "",
                       deduplicate = TRUE,
                       report = FALSE) {
-  . <- NULL
-  node <- NULL
-  link_group <- NULL
-  doi <- NULL
-  link <- NULL
 
   # Error handling ----------------------------------------------------------
 
@@ -127,7 +122,7 @@ mx_search <- function(data = NULL,
 
 
 #' Search and print output for individual search items
-#' @param data The mx_dataset filtered for the date limits
+#' @param mx_data The mx_dataset filtered for the date limits
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
 #'   Authors, Category, and DOI.
@@ -136,7 +131,11 @@ mx_search <- function(data = NULL,
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
 #' @family main
-mx_reporter <- function(mx_data, query, fields, NOT, deduplicate) {
+mx_reporter <- function(mx_data,
+                        query,
+                        fields,
+                        NOT,
+                        deduplicate) {
 
   #run mx_search on individual topics, count hits and print message
   for (i in 1:length(query)) {
@@ -163,7 +162,7 @@ mx_reporter <- function(mx_data, query, fields, NOT, deduplicate) {
 
 
 #' Search for terms in the dataset
-#' @param data The mx_dataset filtered for the date limits
+#' @param mx_data The mx_dataset filtered for the date limits
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
 #'   Authors, Category, and DOI.
@@ -173,7 +172,17 @@ mx_reporter <- function(mx_data, query, fields, NOT, deduplicate) {
 #'   Default is TRUE.
 #' @family main
 #' @importFrom dplyr %>%
-run_search <- function(mx_data, query, fields, NOT, deduplicate){
+run_search <- function(mx_data,
+                       query,
+                       fields,
+                       NOT,
+                       deduplicate){
+
+  . <- NULL
+  node <- NULL
+  link_group <- NULL
+  doi <- NULL
+  link <- NULL
 
   if (is.list(query)) {
     # General code to find matches
@@ -284,7 +293,8 @@ run_search <- function(mx_data, query, fields, NOT, deduplicate){
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
 #' @family main
-print_full_results <- function(num_results, deduplicate){
+print_full_results <- function(num_results,
+                               deduplicate){
 
   if (num_results > 0) {
 

@@ -7,6 +7,8 @@
 mx_reporter(mx_data, query, fields, NOT, deduplicate)
 }
 \arguments{
+\item{mx_data}{The mx_dataset filtered for the date limits}
+
 \item{query}{Character string, vector or list}
 
 \item{fields}{Fields of the database to search - default is Title, Abstract,
@@ -17,8 +19,6 @@ is NULL.}
 
 \item{deduplicate}{Logical. Only return the most recent version of a record.
 Default is TRUE.}
-
-\item{data}{The mx_dataset filtered for the date limits}
 }
 \description{
 Search and print output for individual search items
