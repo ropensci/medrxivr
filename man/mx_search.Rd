@@ -47,7 +47,7 @@ is NULL.}
 \item{deduplicate}{Logical. Only return the most recent version of a record.
 Default is TRUE.}
 
-\item{report}{Logical. Run mx_reporter
+\item{report}{Logical. Run mx_reporter.
 Default is FALSE.}
 }
 \description{

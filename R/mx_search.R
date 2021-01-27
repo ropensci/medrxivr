@@ -21,7 +21,7 @@
 #'   is NULL.
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
-#' @param report Logical. Run mx_reporter
+#' @param report Logical. Run mx_reporter.
 #'   Default is FALSE.
 #' @examples
 #' \donttest{
@@ -122,7 +122,7 @@ mx_search <- function(data = NULL,
   if (report) {mx_reporter(mx_data, query, fields, NOT, deduplicate)}
 
   # Return full search results
-  mx_results
+  if (num_results > 0) {mx_results}
 }
 
 
@@ -251,7 +251,7 @@ run_search <- function(mx_data, query, fields, NOT, deduplicate){
 
     mx_results$date <- lubridate::as_date(as.character(mx_results$date))
 
-    mx_results[, c(
+    mx_results <- mx_results[, c(
       "ID",
       "title",
       "abstract",
@@ -267,15 +267,14 @@ run_search <- function(mx_data, query, fields, NOT, deduplicate){
       "license",
       "published"
     )]
-  }
 
-  if (nrow(mx_results) > 0 && deduplicate) {
-    mx_results <- mx_results %>%
-      dplyr::group_by(doi) %>%
-      dplyr::slice(which.max(version)) %>%
-      dplyr::ungroup()
+    if (deduplicate) {
+      mx_results <- mx_results %>%
+        dplyr::group_by(doi) %>%
+        dplyr::slice(which.max(version)) %>%
+        dplyr::ungroup()
+    }
   }
-
   mx_results
 }
 
