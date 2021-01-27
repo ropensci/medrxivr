@@ -108,13 +108,13 @@ mx_search <- function(data = NULL,
 
 
   # Run full search  and process results -------------------------------------
-  mx_results <- run_search(mx_data, query, fields, NOT, deduplicate)
+  mx_results <- run_search(mx_data, query, fields, deduplicate, NOT)
   num_results <- nrow(mx_results)
   print_full_results(num_results, deduplicate)
 
 
   # Run mx_reporter and process results --------------------------------------
-  if (report) {mx_reporter(mx_data, query, fields, NOT, deduplicate)}
+  if (report) {mx_reporter(mx_data, num_results, query, fields, deduplicate, NOT)}
 
   # Return full search results
   if (num_results > 0) {mx_results}
@@ -123,19 +123,28 @@ mx_search <- function(data = NULL,
 
 #' Search and print output for individual search items
 #' @param mx_data The mx_dataset filtered for the date limits
+#' @param num_results The number of results returned by the overall search
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
 #'   Authors, Category, and DOI.
-#' @param NOT Vector of regular expressions to exclude from the search. Default
-#'   is NULL.
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
+#' @param NOT Vector of regular expressions to exclude from the search. Default
+#'   is NULL.
 #' @family main
 mx_reporter <- function(mx_data,
+                        num_results,
                         query,
                         fields,
-                        NOT,
-                        deduplicate) {
+                        deduplicate,
+                        NOT) {
+
+  if(NOT != ""){
+    #Run search excluding not term and subtract num_results
+    #This gives number of hits which were excluded by NOT term
+    not_hits <- nrow(run_search(mx_data, query, fields, deduplicate, NOT = "")) - num_results
+    message(cat("\n"), paste0("Records matching '", NOT, "' which were excluded: ", not_hits))
+  }
 
   #run mx_search on individual topics, count hits and print message
   for (i in 1:length(query)) {
@@ -144,8 +153,7 @@ mx_reporter <- function(mx_data,
             query_i <- query[[i]],
             query_i <- query[i])
 
-
-    mx_results <- run_search(mx_data, query_i, fields, NOT, deduplicate)
+    mx_results <- run_search(mx_data, query_i, fields, deduplicate)
     topic_hits <- nrow(mx_results)
     message(cat("\n"), paste0("Total topic ", i, " records: ", topic_hits))
 
@@ -153,9 +161,9 @@ mx_reporter <- function(mx_data,
     # count hits and print message
     for (j in 1:length(query_i)) {
 
-      mx_results <- run_search(mx_data, query_i[j], fields, NOT, deduplicate)
+      mx_results <- run_search(mx_data, query_i[j], fields, deduplicate)
       term_hits <- nrow(mx_results)
-      message(paste(query_i[j], ": ", term_hits))
+      message(paste0(query_i[j], ": ", term_hits))
     }
   }
 }
@@ -166,17 +174,17 @@ mx_reporter <- function(mx_data,
 #' @param query Character string, vector or list
 #' @param fields Fields of the database to search - default is Title, Abstract,
 #'   Authors, Category, and DOI.
-#' @param NOT Vector of regular expressions to exclude from the search. Default
-#'   is NULL.
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
+#' @param NOT Vector of regular expressions to exclude from the search. Default
+#'   is NULL.
 #' @family main
 #' @importFrom dplyr %>%
 run_search <- function(mx_data,
                        query,
                        fields,
-                       NOT,
-                       deduplicate){
+                       deduplicate,
+                       NOT = ""){
 
   . <- NULL
   node <- NULL

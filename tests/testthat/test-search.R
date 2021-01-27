@@ -98,8 +98,12 @@ test_that("mx_reporter", {
       c("dementia", "Alzheimer's")), report = TRUE), "^.*Total topic 1 records: 162.*$")
   expect_message(
     mx_search(mx_data, query = list(
-      c("dementia", "Alzheimer's")), report = TRUE), "^.*dementia :  107.*$")
+      c("dementia", "Alzheimer's")), report = TRUE), "^.*dementia: 107.*$")
   expect_message(
     mx_search(mx_data, query = list(
-      c("dementia", "Alzheimer's")), report = TRUE), "^.*Alzheimer's :  94.*$")
+      c("dementia", "Alzheimer's")), report = TRUE), "^.*Alzheimer's: 94.*$")
+  expect_message(
+    mx_search(mx_data, query = list(
+      c("dementia", "Alzheimer's")), NOT = "test", report = TRUE), "^.*Records matching 'test' which were excluded: 55.*$")
+
 })

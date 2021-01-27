@@ -4,7 +4,7 @@
 \alias{run_search}
 \title{Search for terms in the dataset}
 \usage{
-run_search(mx_data, query, fields, NOT, deduplicate)
+run_search(mx_data, query, fields, deduplicate, NOT = "")
 }
 \arguments{
 \item{mx_data}{The mx_dataset filtered for the date limits}
@@ -14,11 +14,11 @@ run_search(mx_data, query, fields, NOT, deduplicate)
 \item{fields}{Fields of the database to search - default is Title, Abstract,
 Authors, Category, and DOI.}
 
-\item{NOT}{Vector of regular expressions to exclude from the search. Default
-is NULL.}
-
 \item{deduplicate}{Logical. Only return the most recent version of a record.
 Default is TRUE.}
+
+\item{NOT}{Vector of regular expressions to exclude from the search. Default
+is NULL.}
 }
 \description{
 Search for terms in the dataset
