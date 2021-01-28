@@ -84,3 +84,26 @@ test_that("Multiple topics", {
   expect_true(length(mx10$ID) <= length(mx9$ID))
   expect_true(length(mx11$ID) <= length(mx10$ID))
 })
+
+
+
+test_that("mx_reporter", {
+  skip_if_offline()
+
+  expect_message(
+          mx_search(mx_data, query = list(
+    c("dementia", "Alzheimer's")), report = TRUE), "^.*Found 162 record\\(s) matching your search.*$")
+  expect_message(
+    mx_search(mx_data, query = list(
+      c("dementia", "Alzheimer's")), report = TRUE), "^.*Total topic 1 records: 162.*$")
+  expect_message(
+    mx_search(mx_data, query = list(
+      c("dementia", "Alzheimer's")), report = TRUE), "^.*dementia: 107.*$")
+  expect_message(
+    mx_search(mx_data, query = list(
+      c("dementia", "Alzheimer's")), report = TRUE), "^.*Alzheimer's: 94.*$")
+  expect_message(
+    mx_search(mx_data, query = list(
+      c("dementia", "Alzheimer's")), NOT = "test", report = TRUE), "^.*Records matching 'test' which were excluded: 55.*$")
+
+})
