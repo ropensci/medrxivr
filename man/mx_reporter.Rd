@@ -20,7 +20,7 @@ Authors, Category, and DOI.}
 Default is TRUE.}
 
 \item{NOT}{Vector of regular expressions to exclude from the search. Default
-is NULL.}
+is "".}
 }
 \description{
 Search and print output for individual search items
