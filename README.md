@@ -123,10 +123,14 @@ examples above) to `mx_search()` to search the preprint records using an
 advanced search strategy.
 
 ``` r
+# Import the medrxiv database
+preprint_data <- mx_snapshot()
+#> Using medRxiv snapshot - 2021-01-28 09:31
 
 # Perform a simple search
 results <- mx_search(data = preprint_data,
                      query ="dementia")
+#> Found 192 record(s) matching your search.
 
 # Perform an advanced search
 topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
@@ -135,6 +139,25 @@ myquery <- list(topic1, topic2)                    # Combined with Boolean AND
 
 results <- mx_search(data = preprint_data,
                      query = myquery)
+#> Found 70 record(s) matching your search.
+```
+
+You can also explore which search terms are contributing most to your
+search by setting `report = TRUE`:
+
+``` r
+results <- mx_search(data = preprint_data,
+                     query = myquery,
+                     report = TRUE)
+#> Found 70 record(s) matching your search.
+#> Total topic 1 records: 1078
+#> dementia: 192
+#> vascular: 917
+#> alzheimer's: 0
+#> Total topic 2 records: 203
+#> lipids: 74
+#> statins: 25
+#> cholesterol: 136
 ```
 
 ## Further functionality
@@ -147,7 +170,6 @@ results to a .BIB file so that they can be easily imported into a
 reference manager (e.g. Zotero, Mendeley).
 
 ``` r
-
 mx_export(data = results,
           file = "mx_search_results.bib")
 ```
@@ -159,7 +181,6 @@ Pass the results of your search above (the `results` object) to the
 found by your search.
 
 ``` r
-
 mx_download(results,        # Object returned by mx_search(), above
             "pdf/",         # Directory to save PDFs to 
             create = TRUE)  # Create the directory if it doesn't exist

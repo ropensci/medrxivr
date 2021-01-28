@@ -12,7 +12,8 @@ mx_search(
   to_date = NULL,
   auto_caps = FALSE,
   NOT = "",
-  deduplicate = TRUE
+  deduplicate = TRUE,
+  report = FALSE
 )
 }
 \arguments{
@@ -38,13 +39,16 @@ of search terms. For example, when TRUE, a search for "dementia" would find
 both "dementia" but also "Dementia". Note, that if your term is multi-word
 (e.g. "systematic review"), only the first word is automatically
 capitalised (e.g your search will find both "systematic review" and
-"Systematic review" but won't find "Systematic Review".}
+"Systematic review" but won't find "Systematic Review". Note that this
+option will format terms in the query and NOT arguments (if applicable).}
 
 \item{NOT}{Vector of regular expressions to exclude from the search. Default
-is NULL.}
+is "".}
 
 \item{deduplicate}{Logical. Only return the most recent version of a record.
 Default is TRUE.}
+
+\item{report}{Logical. Run mx_reporter. Default is FALSE.}
 }
 \description{
 Search preprint data
@@ -54,5 +58,11 @@ Search preprint data
 # Using the daily snapshot
 mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
 }
+}
+\seealso{
+Other main: 
+\code{\link{mx_reporter}()},
+\code{\link{print_full_results}()},
+\code{\link{run_search}()}
 }
 \concept{main}
