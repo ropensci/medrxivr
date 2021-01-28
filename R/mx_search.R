@@ -16,13 +16,13 @@
 #'   both "dementia" but also "Dementia". Note, that if your term is multi-word
 #'   (e.g. "systematic review"), only the first word is automatically
 #'   capitalised (e.g your search will find both "systematic review" and
-#'   "Systematic review" but won't find "Systematic Review".
+#'   "Systematic review" but won't find "Systematic Review". Note that this
+#'   option will format terms in the query and NOT arguments (if applicable).
 #' @param NOT Vector of regular expressions to exclude from the search. Default
-#'   is NULL.
+#'   is "".
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
-#' @param report Logical. Run mx_reporter.
-#'   Default is FALSE.
+#' @param report Logical. Run mx_reporter. Default is FALSE.
 #' @examples
 #' \donttest{
 #' # Using the daily snapshot
@@ -100,6 +100,9 @@ mx_search <- function(data = NULL,
   # Fix capitalisation
   if (auto_caps == TRUE) {
     query <- fix_caps(query)
+    if (NOT[1] != "") {
+      NOT <- fix_caps(NOT)
+    }
   }
 
   query <- query %>%
@@ -114,7 +117,9 @@ mx_search <- function(data = NULL,
 
 
   # Run mx_reporter and process results --------------------------------------
-  if (report) {mx_reporter(mx_data, num_results, query, fields, deduplicate, NOT)}
+  if (report) {
+    mx_reporter(mx_data, num_results, query, fields, deduplicate, NOT)
+  }
 
   # Return full search results
   if (num_results > 0) {mx_results}
@@ -130,7 +135,7 @@ mx_search <- function(data = NULL,
 #' @param deduplicate Logical. Only return the most recent version of a record.
 #'   Default is TRUE.
 #' @param NOT Vector of regular expressions to exclude from the search. Default
-#'   is NULL.
+#'   is "".
 #' @family main
 mx_reporter <- function(mx_data,
                         num_results,
@@ -138,13 +143,6 @@ mx_reporter <- function(mx_data,
                         fields,
                         deduplicate,
                         NOT) {
-
-  if(NOT != ""){
-    #Run search excluding not term and subtract num_results
-    #This gives number of hits which were excluded by NOT term
-    not_hits <- nrow(run_search(mx_data, query, fields, deduplicate, NOT = "")) - num_results
-    message(cat("\n"), paste0("Records matching '", NOT, "' which were excluded: ", not_hits))
-  }
 
   #run mx_search on individual topics, count hits and print message
   for (i in 1:length(query)) {
@@ -166,6 +164,27 @@ mx_reporter <- function(mx_data,
       message(paste0(query_i[j], ": ", term_hits))
     }
   }
+
+  if(NOT[1] != ""){
+    #Run search excluding not term and subtract num_results
+    #This gives number of hits which were excluded by NOT term
+    not_hits <-
+      nrow(
+        run_search(mx_data, query, fields, deduplicate, NOT = "")
+        ) - num_results
+
+    message(
+      cat("\n"),
+      paste0(
+        not_hits,
+        " records matched by NOT (",
+        paste0("'", paste0(NOT, collapse = "' OR '"), "'"),
+        ") were excluded."
+      )
+    )
+
+  }
+
 }
 
 
@@ -232,7 +251,7 @@ run_search <- function(mx_data,
 
   # Exclude those in the NOT category
 
-  if (NOT != "") {
+  if (NOT[1] != "") {
     tmp <- mx_data %>%
       dplyr::filter_at(
         dplyr::vars(fields),
