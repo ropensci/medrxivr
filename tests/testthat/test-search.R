@@ -67,6 +67,16 @@ test_that("NOT", {
   expect_message(mx_search(mx_data, query = "dementia", NOT = "dementia"),
     regexp = "No records found"
   )
+
+  expect_message(mx_search(mx_data, query = c("dementia","vascular"), NOT = "dementia"),
+                 regexp = "matching your search."
+  )
+
+  expect_message(mx_search(mx_data,
+                           query = c("dementia","vascular"),
+                           NOT = c("dementia","vascular")),
+                 regexp = "No records found"
+  )
 })
 
 mx9 <-
@@ -104,6 +114,6 @@ test_that("mx_reporter", {
       c("dementia", "Alzheimer's")), report = TRUE), "^.*Alzheimer's: 94.*$")
   expect_message(
     mx_search(mx_data, query = list(
-      c("dementia", "Alzheimer's")), NOT = "test", report = TRUE), "^.*Records matching 'test' which were excluded: 55.*$")
+      c("dementia", "Alzheimer's")), NOT = "test", report = TRUE), "55 records matched by NOT")
 
 })
