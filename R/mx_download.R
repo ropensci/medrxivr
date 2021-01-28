@@ -45,7 +45,7 @@ mx_download <- function(mx_results,
   ))
 
   if (!file.exists(directory) && create) {
-    dir.create(file.path(directory)) #nocov
+    dir.create(file.path(directory))
   }
 
   # Add trailing forward slash to the directory path
@@ -86,7 +86,7 @@ mx_download <- function(mx_results,
       ))
 
       sleep_time <- runif(1, 10, 13)
-      if(nrow(mx_results)>1) {Sys.sleep(sleep_time)} #nocov
+      if(nrow(mx_results)>1) {Sys.sleep(sleep_time)}
 
       pmx_results <-
         try(download.file(
