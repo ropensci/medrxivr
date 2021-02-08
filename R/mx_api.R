@@ -58,8 +58,9 @@ mx_api_content <- function(from_date = "2013-01-01",
   details <- api_to_df(details_link)
 
   count <- details$messages[1, 6]
-  message("Total number of records found: ", count)
   pages <- floor(count / 100)
+
+  message("Estimated total number of records as per API metadata: ", count)
 
   # Create empty dataset
   df <- details$collection %>%
@@ -96,6 +97,13 @@ mx_api_content <- function(from_date = "2013-01-01",
   }
 
   # Clean data
+
+  message("Number of records retrieved from API: ", nrow(df))
+
+  if (nrow(df)!= count) {
+    message(paste0("The \"total number\" in the metadata can sometimes be",
+    " artifically inflated."))
+  }
 
   if (clean == TRUE) {
     df <- clean_api_df(df)

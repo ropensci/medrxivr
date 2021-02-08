@@ -53,7 +53,7 @@ api_to_df <- function(url) {
   } # nocov end
 
   if (code == 200 & grepl("no posts found", message)) {
-    stop(paste(
+    warning(paste(
       "No records found. Please double check your date range,",
       "as this is the usual cause of this error."
     ))
