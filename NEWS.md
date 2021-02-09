@@ -2,6 +2,7 @@
 
 Major changes:
 
+* Improved error handling to address a common bug that causes extraction from the API to fail. The "total number" of records element of the API metadata is frequently artificially inflated. This leads to an overestimation of the number of pages of records, which in turn caused the extraction function to fail at the very end when `mx_api_content()` encounters an empty page. This error has been changed to informative messaging about the expected (as per the metadata) and actual (`nrows()` of returned dataset) number of retrievable records.
 * New functionality added to `mx_search()` allows users to view the number of "hits" (records returned) for each individual element of the search. An extra parameter called `report` has been added, which gives the user the option to switch this functionality on or off. The default value for this parameter is set to FALSE. This functionality was added by [James O'Hare](https://github.com/jamesohare1) in response to [Issue #13.](https://github.com/ropensci/medrxivr/issues/13)
 * Users can now pass a vector of terms to the `NOT` parameter rather than a single exclusion term.
 * New functionality to allow for user-friendly search operators, including wildcards ("randomi*ation" will now find "randomisation" and "randomization") and the NEAR operator ("systematic NEAR1 review" will find "systematic review" and "systematic _<any-other-word>_ review")

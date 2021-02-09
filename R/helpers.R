@@ -52,7 +52,18 @@ api_to_df <- function(url) {
     ))
   } # nocov end
 
-  if (code == 200 & grepl("no posts found", message)) {
+  # Extract cursor from url and check if first page is empty This causes an
+  # error only if the very first page, indicated by cursor == "0", is empty.
+  # This approach allows for elegant handling of the discrepancy between the
+  # expected total number of records as per the metadata and the actual number
+  # available, while maintaining the informative error if the first page is
+  # empty.
+  cursor <-
+    stringr::str_split(url,"/") %>%
+    unlist() %>%
+    dplyr::last()
+
+  if (code == 200 & grepl("no posts found", message) & cursor == "0") {
     stop(paste(
       "No records found. Please double check your date range,",
       "as this is the usual cause of this error."

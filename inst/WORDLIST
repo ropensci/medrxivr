@@ -9,9 +9,13 @@ MedRxiv
 Mendeley
 NCOV
 Ncov
+Nn
+O'Hare
+Oo
 PDF's
 Preprint
 Spannbauer
+Vv
 YYYY
 Zotero
 api
@@ -47,6 +51,6 @@ regexes
 summarised
 tempdir
 tempfile
-th
 tibbles
+uncapitalised
 ungrouped

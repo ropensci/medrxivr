@@ -64,8 +64,13 @@ mx8 <- mx_search(mx_data, query = "dementia", NOT = "[Dd]ementia")
 
 test_that("NOT", {
   skip_if_offline()
-  expect_message(mx_search(mx_data, query = "dementia", NOT = "dementia"),
-    regexp = "No records found"
+  expect_message(mx_search(
+    mx_data,
+    query = "dementia",
+    NOT = "dementia",
+    auto_caps = TRUE
+  ),
+  regexp = "No records found"
   )
 
   expect_message(mx_search(mx_data, query = c("dementia","vascular"), NOT = "dementia"),

@@ -21,13 +21,12 @@
 mx_snapshot <- function(commit = "master") {
   mx_info(commit)
 
-  mx_data <- suppressMessages(vroom::vroom(
+  mx_data <- suppressMessages(data.table::fread(
     paste0(
       "https://raw.githubusercontent.com/",
       "/mcguinlu/medrxivr-data/", commit, "/snapshot.csv"
     ),
-    delim = ",",
-    progress = FALSE
+    showProgress = FALSE
   ))
 
   mx_data$link_page <- paste0("https://www.medrxiv.org", mx_data$link)
