@@ -103,8 +103,8 @@ mx_api_content <- function(from_date = "2013-01-01",
   message("Number of records retrieved from API: ", nrow(df))
 
   if (nrow(df)!= count) {
-    message(paste0("The estimated \"total number\" as per the metadata ",
-    "can sometimes be artifically inflated."))
+    message(paste0("The estimated \"total number\" as per the metadata ", #nocov
+    "can sometimes be artifically inflated."))                            #nocov
   }
 
   if (clean == TRUE) {
