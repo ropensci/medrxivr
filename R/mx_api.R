@@ -3,9 +3,11 @@
 #' @description Provides programmatic access to all preprints available through
 #'   the Cold Spring Harbour Laboratory API, which serves both the medRxiv and
 #'   bioRxiv preprint repositories.
-#' @param from_date Earliest date of interest. Defaults to 1st June 2019
-#'   (earliest medRxiv record was posted on 25th June 2019).
-#' @param to_date Latest date of interest. Defaults to current date.
+#' @param from_date Earliest date of interest, written as "YYYY-MM-DD". Defaults
+#'   to 1st Jan 2013 ("2013-01-01"), ~6 months prior to earliest preprint
+#'   registration date.
+#' @param to_date Latest date of interest, written as "YYYY-MM-DD". Defaults to
+#'   current date.
 #' @param include_info Logical, indicating whether to include variables
 #'   containing information returned by the API (e.g. API status, cursor number,
 #'   total count of papers, etc). Default is FALSE.
@@ -101,8 +103,8 @@ mx_api_content <- function(from_date = "2013-01-01",
   message("Number of records retrieved from API: ", nrow(df))
 
   if (nrow(df)!= count) {
-    message(paste0("The \"total number\" in the metadata can sometimes be",
-    " artifically inflated."))
+    message(paste0("The estimated \"total number\" as per the metadata ",
+    "can sometimes be artifically inflated."))
   }
 
   if (clean == TRUE) {
