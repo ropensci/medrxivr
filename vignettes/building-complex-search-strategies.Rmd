@@ -113,7 +113,7 @@ mx_results <- mx_search(data = mx_snapshot(),
 ### Capitalisation
 
 __Example regex:__ `[Dd]ementia`  
-__Description:__ The search is case sensitive, so this syntax allows you to find both <b>D</b>ementia and <b>d</b>ementia using a single term, rather than having to enter them separately. However, setting the `autocaps` argument of `mx_search()` to `TRUE` will automatially search for both capitalised and uncapitalised versions of your search terms (e.g. with `auto_caps = TRUE` you just need to search for "dementia" to find both <b>D</b>ementia and <b>d</b>ementia - behind the scenes, "dementia" is converted to "[Dd]ementia".
+__Description:__ The search is case sensitive, so this syntax allows you to find both <b>D</b>ementia and <b>d</b>ementia using a single term, rather than having to enter them separately. However, setting the `autocaps` argument of `mx_search()` to `TRUE` will automatically search for both capitalised and uncapitalised versions of your search terms (e.g. with `auto_caps = TRUE` you just need to search for "dementia" to find both <b>D</b>ementia and <b>d</b>ementia - behind the scenes, "dementia" is converted to "[Dd]ementia".
 
 ### Wildcard
 
