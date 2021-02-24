@@ -26,7 +26,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' if(interactive()){
 #' mx_data <- mx_api_content(from_date = "2020-01-01",
 #' to_date = "2020-01-07")
 #' }
@@ -143,7 +143,7 @@ mx_api_content <- function(from_date = "2013-01-01",
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' if(interactive()){
 #' mx_data <- mx_api_doi("10.1101/2020.02.25.20021568")
 #' }
 #' @importFrom dplyr %>%
