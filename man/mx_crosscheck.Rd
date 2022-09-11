@@ -19,6 +19,7 @@ mx_crosscheck()
 }
 \seealso{
 Other helper: 
+\code{\link{mx_caps}()},
 \code{\link{mx_download}()},
 \code{\link{mx_export}()}
 }

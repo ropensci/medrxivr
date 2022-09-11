@@ -36,6 +36,7 @@ mx_download(mx_results, directory=tempdir())
 }
 \seealso{
 Other helper: 
+\code{\link{mx_caps}()},
 \code{\link{mx_crosscheck}()},
 \code{\link{mx_export}()}
 }

@@ -7,5 +7,6 @@
 #' records.
 #' @docType package
 #' @name medrxivr
+#' @keywords internal
 
 globalVariables(c("doi"))

@@ -1,5 +1,7 @@
 # medrxivr (development version)
 
+* `datatable::fread()` is now used in place of `vroom::vroom()` to import the snapshot
+
 # medrxivr 0.0.5
 
 Major changes:

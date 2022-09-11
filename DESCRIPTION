@@ -41,7 +41,6 @@ Imports:
     httr,
     stringr,
     rlang,
-    vroom,
     bib2df,
     tibble,
     progress,
@@ -57,4 +56,4 @@ Suggests:
     spelling
 VignetteBuilder: 
     knitr    
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
