@@ -41,7 +41,6 @@ Imports:
     httr,
     stringr,
     rlang,
-    vroom,
     bib2df,
     tibble,
     progress,
