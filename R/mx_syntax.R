@@ -11,6 +11,7 @@
 #'   repeated in lower- and upper-case, and enclosed in square brackets. For
 #'   example, mx_caps("ncov") returns "[Nn][Cc][Oo][Vv]"
 #' @export
+#' @family helper
 #'
 #' @examples
 #' \donttest{

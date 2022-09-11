@@ -26,6 +26,7 @@ mx_export(mx_results, tempfile(fileext = ".bib"))
 }
 \seealso{
 Other helper: 
+\code{\link{mx_caps}()},
 \code{\link{mx_crosscheck}()},
 \code{\link{mx_download}()}
 }

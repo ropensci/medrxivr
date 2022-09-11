@@ -29,3 +29,10 @@ mx_search(mx_snapshot("6c4056d2cccd6031d92ee4269b1785c6ec4d555b"), query)
 }
 
 }
+\seealso{
+Other helper: 
+\code{\link{mx_crosscheck}()},
+\code{\link{mx_download}()},
+\code{\link{mx_export}()}
+}
+\concept{helper}
