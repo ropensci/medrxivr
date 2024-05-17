@@ -10,15 +10,20 @@ name: test-coverage
 
 jobs:
   test-coverage:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev
 
       - name: Query dependencies
         run: |
@@ -28,19 +33,36 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          key: ${{ runner.os }}-R-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-R-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes"))
+          install.packages(c("remotes", "covr"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("covr")
+        shell: Rscript {0}
+
+      - name: Check for missing packages
+        run: |
+          missing_pkgs <- setdiff(c("covr", "testthat"), rownames(installed.packages()))
+          if (length(missing_pkgs) > 0) {
+            cat("Missing packages:", paste(missing_pkgs, collapse = ", "), "\n")
+            install.packages(missing_pkgs)
+          } else {
+            cat("All required packages are installed.\n")
+          }
+        shell: Rscript {0}
+
+      - name: Run tests
+        run: |
+          testthat::test_local()
         shell: Rscript {0}
 
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
