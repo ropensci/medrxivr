@@ -13,7 +13,6 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
-
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -38,6 +37,12 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -45,26 +50,24 @@ jobs:
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
-      - name: Cache R packages
+      - name: Cache R packages (Linux and macOS)
         if: runner.os != 'Windows'
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
-        run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
-
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+        shell: Rscript {0}
+
+      - name: Install missing packages on Windows
+        if: runner.os == 'Windows'
+        run: |
+          install.packages(c('curl', 'openssl', 'testthat', 'hms', 'dplyr', 'rlang', 'tibble', 'progress', 'remotes', 'rcmdcheck'))
         shell: Rscript {0}
 
       - name: Check
