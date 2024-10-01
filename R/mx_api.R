@@ -56,11 +56,8 @@ mx_api_content <- function(from_date = "2013-01-01",
   details_link <- api_link(server, from_date, to_date, "0")
   details <- api_to_df(details_link)
 
-  # Ensure 'count' is numeric
   count <- as.numeric(details$messages[1, 6])
-  if (is.na(count)) {
-    stop("Count value is not numeric.")
-  }
+  
   pages <- floor(count / 100)
 
   message("Estimated total number of records as per API metadata: ", count)

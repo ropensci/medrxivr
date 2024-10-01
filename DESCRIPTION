@@ -2,8 +2,12 @@ Package: medrxivr
 Title: Access and Search MedRxiv and BioRxiv Preprint Data
 Version: 0.0.5.9000
 Authors@R: c(
+    person("Yaoxiang", "Li",
+        role = c("aut", "cre"),
+        email = "liyaoxiang@outlook.com", 
+        comment = c(ORCID="0000-0001-9200-1016")),
     person("Luke", "McGuinness",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "luke.mcguinness@bristol.ac.uk",
            comment = c(ORCID = "0000-0001-8730-9761")),
     person("Lena", "Schmidt",

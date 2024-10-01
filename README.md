@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# medrxivr <img src="man/figures/hex-medrxivr.png" align="right" width="20%" height="20%" />
+# medrxivr <img src="man/figures/logo.png" align="right" width="20%" height="20%" />
 
 <!-- badges: start -->
 
@@ -15,8 +15,6 @@ Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/
 Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://CRAN.R-project.org/package=medrxivr)
 <br> [![R build
 status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
-[![Travis build
-status](https://travis-ci.com/ropensci/medrxivr.svg?branch=master)](https://travis-ci.com/ropensci/medrxivr)
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
 
@@ -66,27 +64,23 @@ library(medrxivr)
 
 `medrixvr` provides two ways to access medRxiv data:
 
-  - `mx_api_content(server = "medrxiv")` creates a local copy of all
-    data available from the medRxiv API at the time the function is run.
-
-<!-- end list -->
+- `mx_api_content(server = "medrxiv")` creates a local copy of all data
+  available from the medRxiv API at the time the function is run.
 
 ``` r
 # Get a copy of the database from the live medRxiv API endpoint
 preprint_data <- mx_api_content()  
 ```
 
-  - `mx_snapshot()` provides access to a static snapshot of the medRxiv
-    database. The snapshot is created each morning at 6am using
-    `mx_api_content()` and is stored as CSV file in the [medrxivr-data
-    repository](https://github.com/mcguinlu/medrxivr-data). This method
-    does not rely on the API (which can become unavailable during peak
-    usage times) and is usually faster (as it reads data from a CSV
-    rather than having to re-extract it from the API). Discrepancies
-    between the most recent static snapshot and the live database can be
-    assessed using `mx_crosscheck()`.
-
-<!-- end list -->
+- `mx_snapshot()` provides access to a static snapshot of the medRxiv
+  database. The snapshot is created each morning at 6am using
+  `mx_api_content()` and is stored as CSV file in the [medrxivr-data
+  repository](https://github.com/mcguinlu/medrxivr-data). This method
+  does not rely on the API (which can become unavailable during peak
+  usage times) and is usually faster (as it reads data from a CSV rather
+  than having to re-extract it from the API). Discrepancies between the
+  most recent static snapshot and the live database can be assessed
+  using `mx_crosscheck()`.
 
 ``` r
 # Get a copy of the database from the daily snapshot
@@ -102,13 +96,10 @@ summarised in the figure below:
 
 Only one data source exists for the bioRxiv repository:
 
-  - `mx_api_content(server = "biorxiv")` creates a local copy of all
-    data available from the bioRxiv API endpoint at the time the
-    function is run. **Note**: due to it’s size, downloading a complete
-    copy of the bioRxiv repository in this manner takes a long time (\~
-    1 hour).
-
-<!-- end list -->
+- `mx_api_content(server = "biorxiv")` creates a local copy of all data
+  available from the bioRxiv API endpoint at the time the function is
+  run. **Note**: due to it’s size, downloading a complete copy of the
+  bioRxiv repository in this manner takes a long time (~ 1 hour).
 
 ``` r
 # Get a copy of the database from the live bioRxiv API endpoint
@@ -125,12 +116,12 @@ advanced search strategy.
 ``` r
 # Import the medrxiv database
 preprint_data <- mx_snapshot()
-#> Using medRxiv snapshot - 2021-01-28 09:31
+#> Using medRxiv snapshot - 2022-07-06 01:09
 
 # Perform a simple search
 results <- mx_search(data = preprint_data,
                      query ="dementia")
-#> Found 192 record(s) matching your search.
+#> Found 427 record(s) matching your search.
 
 # Perform an advanced search
 topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
@@ -139,7 +130,7 @@ myquery <- list(topic1, topic2)                    # Combined with Boolean AND
 
 results <- mx_search(data = preprint_data,
                      query = myquery)
-#> Found 70 record(s) matching your search.
+#> Found 143 record(s) matching your search.
 ```
 
 You can also explore which search terms are contributing most to your
@@ -149,15 +140,15 @@ search by setting `report = TRUE`:
 results <- mx_search(data = preprint_data,
                      query = myquery,
                      report = TRUE)
-#> Found 70 record(s) matching your search.
-#> Total topic 1 records: 1078
-#> dementia: 192
-#> vascular: 917
+#> Found 143 record(s) matching your search.
+#> Total topic 1 records: 2272
+#> dementia: 427
+#> vascular: 1918
 #> alzheimer's: 0
-#> Total topic 2 records: 203
-#> lipids: 74
-#> statins: 25
-#> cholesterol: 136
+#> Total topic 2 records: 410
+#> lipids: 157
+#> statins: 61
+#> cholesterol: 255
 ```
 
 ## Further functionality
@@ -222,14 +213,14 @@ and then search medRxiv and bioRxiv data. Below are a list of
 complementary packages that provide distinct but related functionality
 when working with medRxiv and bioRxiv data:
 
-  - [`rbiorxiv`](https://github.com/nicholasmfraser/rbiorxiv) by
-    [Nicholas Fraser](https://github.com/nicholasmfraser) provides
-    access to the same medRxiv and bioRxiv *content* data as `medrxivr`,
-    but also provides access to the *usage* data (e.g. downloads per
-    month) that the Cold Spring Harbour Laboratory API offers. This is
-    useful if you wish to explore, for example, [how the number of PDF
-    downloads from bioRxiv has grown over
-    time.](https://github.com/nicholasmfraser/rbiorxiv#pdf-downloads-over-time)
+- [`rbiorxiv`](https://github.com/nicholasmfraser/rbiorxiv) by [Nicholas
+  Fraser](https://github.com/nicholasmfraser) provides access to the
+  same medRxiv and bioRxiv *content* data as `medrxivr`, but also
+  provides access to the *usage* data (e.g. downloads per month) that
+  the Cold Spring Harbour Laboratory API offers. This is useful if you
+  wish to explore, for example, [how the number of PDF downloads from
+  bioRxiv has grown over
+  time.](https://github.com/nicholasmfraser/rbiorxiv#pdf-downloads-over-time)
 
 ## Code of conduct
 
@@ -242,4 +233,4 @@ project, you agree to abide by its terms.
 This package and the data it accesses/returns are provided “as is”, with
 no guarantee of accuracy. Please be sure to check the accuracy of the
 data yourself (and do let me know if you find an issue so I can fix it
-for everyone\!)
+for everyone!)
