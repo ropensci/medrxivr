@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+inst/doc
+pdf/
+docs/
+extract/keys
+ropensci.*
+inst/paper.html
+medrxiv_export.bib

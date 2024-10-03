@@ -1,0 +1,174 @@
+---
+title: "Get started"
+author: "Luke A McGuinness"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    toc: yes
+    toc_depth: 4
+vignette: >
+  %\VignetteIndexEntry{medrxivr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r,echo=FALSE, message=FALSE,warning=FALSE}
+# Delete when done
+library(medrxivr)
+library(dplyr)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>"
+)
+
+```
+
+An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and [bioRxiv](https://www.biorxiv.org/), both of which are operated by the Cold Spring Harbor Laboratory.
+
+The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [Cold Spring Harbour Laboratory (CSHL) API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
+
+## Installation
+
+You can install the development version of this package using:
+
+``` {r}
+devtools::install_github("mcguinlu/medrxivr")
+library(medrxivr)
+```
+
+## Data sources
+
+### medRxiv data
+
+`medrixvr` provides two ways to access medRxiv data:  
+
+  - `mx_api_content(server = "medrxiv")` creates a local copy of all data available from the medRxiv API at the time the function is run.
+  
+``` {r}
+# Get a copy of the database from the live medRxiv API endpoint
+preprint_data <- mx_api_content()  
+```
+  
+  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  
+``` {r}
+# Get a copy of the database from the daily snapshot
+preprint_data <- mx_snapshot()  
+```
+  
+The relationship between the two methods for the medRxiv database is summarised in the figure below:
+  
+``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
+
+knitr::include_graphics("data_sources.png")
+```
+  
+### bioRxiv data
+
+Only one data source exists for the bioRxiv repository: 
+
+  - `mx_api_content(server = "biorxiv")` creates a local copy of all data available from the bioRxiv API endpoint at the time the function is run. __Note__: due to it's size, downloading a complete copy of the bioRxiv repository in this manner takes a long time (~ 1 hour). 
+
+``` {r}
+# Get a copy of the database from the live bioRxiv API endpoint
+preprint_data <- mx_api_content(server = "biorxiv")
+```
+
+## Performing your search
+
+Once you have created a local copy of either the medRxiv or bioRxiv preprint database, you can pass this object (`preprint_data` in the examples above) to `mx_search()` to search the preprint records using an advanced search strategy.
+
+``` {r}
+
+# Perform a simple search
+results <- mx_search(data = preprint_data,
+                     query ="dementia")
+
+# Perform an advanced search
+topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
+topic2  <- c("lipids","statins","cholesterol")     # Combined with Boolean OR
+myquery <- list(topic1, topic2)                    # Combined with Boolean AND
+
+results <- mx_search(data = preprint_data,
+                     query = myquery)
+
+```
+
+## Dataset description
+
+The dataset (in this case, `results`) returned by the search function above contains 14 variables: 
+
+```{r, eval = TRUE, echo = FALSE}
+
+mx_variables <-
+  data.frame(
+    Variable = c(
+         "ID"      ,
+         "title"   ,
+         "abstract",
+         "authors" ,
+         "date"    ,
+         "category",
+         "doi"     ,
+         "version" ,
+         "author_corresponding",
+         "author_corresponding_institution",
+         "link_page",
+         "link_pdf" ,
+         "license"  ,
+         "published"
+    ),
+    Description = c(
+      "Unique identifier",
+      "Preprint title",
+      "Preprint abstract",
+      "Author list in the format 'LastName, InitalOfFirstName.' (e.g. McGuinness, L.). Authors are seperated by a semi-colon.",
+      "Date the preprint was posted, in the format YYYYMMDD.",
+      "On submission, medRxiv asks authors to classify their preprint into one of a set number of subject categories.",
+      "Preprint Digital Object Identifier.",
+      "Preprint version number. As authors can update their preprint at any time, this indicates which version of a given preprint the record refers to.", 
+      "Corresponding authors name.",
+      "Corresponding author's institution.",
+      "Link to preprint webpage. The \"?versioned=TRUE\" is required, as otherwise, the URL will resolve to the most recent version of the article (assuming there is >1 version available).",
+      "Link to preprint PDF. This is used by `mx_download()` to download a copy of the PDF for that preprint.",
+      "Preprint license",
+      "If the preprint was subsequently published in a peer-reviewed journal, this variable contains the DOI of the published version."
+    )
+  )
+
+
+knitr::kable(mx_variables, format = "html") %>%
+  kableExtra::kable_styling(full_width = F) %>%
+  kableExtra::column_spec(1, bold = T, border_right = T) %>%
+  kableExtra::column_spec(2, width = "30em")
+```
+
+## Export records identified by your search to a .BIB file
+
+`medrxivr` provides a helper function to export your search results to a .BIB file so that they can be easily imported into a reference manager (e.g. Zotero, Mendeley)
+
+```{r, eval = FALSE}
+
+mx_export(data = mx_results,
+          file = tempfile(fileext = ".bib"))
+
+```
+
+## Download PDFs for records identified by your search
+
+Pass the results of your search above (`results`) to the `mx_download()` function to download a copy of the PDF for each record. 
+
+```{r, eval = FALSE}
+
+mx_download(results,        # Object returned by mx_search
+            tempdir(),      # Temporary directory to save PDFs to 
+            create = TRUE)  # Create the directory if it doesn't exist
+
+```
+
+
+## Further guidance
+
+Please see the *[medrxivr website](https://docs.ropensci.org/medrxivr/index.html)* vignette for extended guidance on developing search strategies and for detailed instructions on interacting with the Cold Springs Harbour API for medRxiv and bioRxiv.

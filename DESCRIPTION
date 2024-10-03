@@ -1,0 +1,60 @@
+Package: medrxivr
+Title: Access and Search MedRxiv and BioRxiv Preprint Data
+Version: 0.1.0
+Authors@R: c(
+    person("Yaoxiang", "Li",
+        role = c("aut", "cre"),
+        email = "liyaoxiang@outlook.com", 
+        comment = c(ORCID="0000-0001-9200-1016")),
+    person("Luke", "McGuinness",
+           role = c("aut")),
+    person("Lena", "Schmidt",
+           role = "aut"),
+    person("Tuija", "Sonkkila",
+           role = "rev"),
+    person("Najko", "Jahn",
+           role = "rev"))
+Description: An increasingly important source of health-related bibliographic 
+    content are preprints - preliminary versions of research articles that have
+    yet to undergo peer review. The two preprint repositories most relevant to 
+    health-related sciences are medRxiv <https://www.medrxiv.org/> and
+    bioRxiv <https://www.biorxiv.org/>, both of which are operated by the Cold 
+    Spring Harbor Laboratory. 'medrxivr' provides programmatic access to the 
+    'Cold Spring Harbour Laboratory (CSHL)' API <https://api.biorxiv.org/>,
+    allowing users to easily download medRxiv and bioRxiv preprint metadata
+    (e.g. title, abstract, publication date, author list, etc) into R. 
+    'medrxivr' also provides functions to search the downloaded preprint records 
+    using regular expressions and Boolean logic, as well as helper functions 
+    that allow users to export their search results to a .BIB file for easy 
+    import to a reference manager and to download the full-text PDFs of 
+    preprints matching their search criteria.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Language: en-US
+URL: https://github.com/ropensci/medrxivr
+BugReports: https://github.com/ropensci/medrxivr/issues
+Imports: 
+    methods,
+    dplyr,
+    curl,
+    jsonlite,
+    httr,
+    stringr,
+    rlang,
+    bib2df,
+    tibble,
+    progress,
+    lubridate,
+    purrr,
+    data.table
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown,
+    covr,
+    kableExtra,
+    spelling
+VignetteBuilder: 
+    knitr    
+RoxygenNote: 7.3.2
