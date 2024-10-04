@@ -15,8 +15,6 @@ Badge](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/
 Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://CRAN.R-project.org/package=medrxivr)
 <br> [![R build
 status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/ropensci/medrxivr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/medrxivr?branch=master)
 
 <!-- badges: end -->
 
