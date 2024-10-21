@@ -239,7 +239,7 @@ run_search <- function(mx_data,
         dplyr::any_vars(grepl(paste(query,
           collapse = "|"
         ), .))
-      ) %>%
+      ) |>
       dplyr::select(node)
 
     and <- tmp$node
