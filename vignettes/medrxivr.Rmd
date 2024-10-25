@@ -1,6 +1,6 @@
 ---
 title: "Get started"
-author: "Luke A McGuinness"
+author: "Yaoxiang Li"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
@@ -31,10 +31,10 @@ The goal of the `medrxivr` R package is two-fold. In the first instance, it prov
 
 ## Installation
 
-You can install the development version of this package using:
+You can install the stable version of this package using:
 
 ``` {r}
-devtools::install_github("mcguinlu/medrxivr")
+install.packages("medrxivr")
 library(medrxivr)
 ```
 

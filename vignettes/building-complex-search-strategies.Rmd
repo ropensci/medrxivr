@@ -1,6 +1,6 @@
 ---
 title: "Building complex search strategies"
-author: "Luke A McGuinness"
+author: "Yaoxiang Li"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:

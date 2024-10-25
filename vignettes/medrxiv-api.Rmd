@@ -1,6 +1,6 @@
 ---
 title: "Interacting with the Cold Spring Harbour Laboratory API"
-author: "Luke A McGuinness"
+author: "Yaoxiang Li"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
