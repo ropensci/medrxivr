@@ -1,21 +1,24 @@
 #' Access a static snapshot of the medRxiv repository
 #'
-#' @description [Available for medRxiv only] Rather than downloading a copy of
-#'   the medRxiv database from the API, which can become unavailable at peak
-#'   usage times, this allows users to import a maintained static snapshot of
-#'   the medRxiv repository.
+#' @description [Available for medRxiv only] This function allows users to import
+#'   a maintained static snapshot of the medRxiv repository, instead of downloading
+#'   a copy from the API, which can become unavailable during peak usage times.
+#'   The function dynamically retrieves multiple snapshot parts from the specified
+#'   repository and combines them into a single dataframe.
 #'
-#' @param commit Commit hash for the snapshot, taken from
-#'   https://github.com/mcguinlu/medrxivr-data. Allows for reproducible
-#'   searching by specifying the exact snapshot used to perform the searches.
-#'   Defaults to "master", which will return the most recent snapshot.
+#' @param commit Commit hash or branch name for the snapshot, taken from
+#'   https://github.com/yaoxiangli/medrxivr-data. Allows for reproducible searching
+#'   by specifying the exact snapshot used to perform the searches. Defaults to
+#'   "main", which will return the most recent snapshot from the main branch.
 #'
-#' @return Formatted dataframe
+#' @return A formatted dataframe containing the combined data from the snapshot
+#'   parts, with reconstructed `link_page` and `link_pdf` columns.
 #' @export
 #' @family data-source
 #' @examples
 #' \donttest{
 #' mx_data <- mx_snapshot()
+#' mx_data_specific <- mx_snapshot(commit = "specific_commit_hash")
 #' }
 #'
 mx_snapshot <- function(commit = "main") {
