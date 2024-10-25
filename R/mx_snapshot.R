@@ -19,34 +19,54 @@
 #' }
 #'
 mx_snapshot <- function(commit = "main") {
+  # Construct the API URL for listing the repository contents
+  api_url <- paste0(
+    "https://api.github.com/repos/YaoxiangLi/medrxivr-data/contents/",
+    "?ref=", commit
+  )
+
+  # Get the list of files in the repository using the GitHub API
+  response <- tryCatch({
+    jsonlite::fromJSON(api_url)
+  }, error = function(e) {
+    stop("Failed to retrieve file list from GitHub. Please check the commit or branch name.")
+  })
+
+  # Filter to find snapshot part files
+  part_files <- response$name[grepl("^snapshot_part\\d+\\.csv$", response$name)]
+
+  if (length(part_files) == 0) {
+    stop("No snapshot part files found. Please check the commit or branch name.")
+  }
 
   # Get the base URL for the data repository
   base_url <- paste0(
     "https://github.com/YaoxiangLi/medrxivr-data/raw/refs/heads/", commit, "/"
   )
-
-  # Generate a list of potential snapshot part files
-  # Assuming the files follow the pattern "snapshot_part1.csv", "snapshot_part2.csv", etc.
-  part_files <- paste0("snapshot_part", 1:20, ".csv")
-
   # Initialize an empty list to store dataframes
   df_list <- list()
 
-  # Try to read each file and add it to the list
+  # Try to read each part file and add it to the list
   for (part_file in part_files) {
     url <- paste0(base_url, part_file)
 
-    # Attempt to read the file; skip if it doesn't exist
-    try({
-      mx_part <- suppressMessages(data.table::fread(url, showProgress = FALSE))
-      df_list[[length(df_list) + 1]] <- mx_part
-    }, silent = TRUE)
-  }
+    # Attempt to read the file
+    mx_part <- tryCatch({
+      suppressMessages(data.table::fread(url, showProgress = FALSE))
+    }, error = function(e) {
+      message("Failed to read file: ", part_file)
+      NULL
+    })
 
+    # Add the data to the list if it was successfully read
+    if (!is.null(mx_part)) {
+      df_list[[length(df_list) + 1]] <- mx_part
+    }
+  }
 
   # Combine all the loaded parts into a single dataframe
   if (length(df_list) == 0) {
-    stop("No data could be loaded. Please check the commit or data availability.")
+    stop("No data could be loaded from the snapshot part files.")
   }
   mx_data <- dplyr::bind_rows(df_list)
 
