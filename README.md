@@ -12,6 +12,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://CRAN.R-project.org/package=medrxivr)
 [![R build
 status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
+[![Status at rOpenSci software
+peer-review](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/onboarding/issues/380)
 
 <!-- badges: end -->
 
@@ -111,12 +113,11 @@ advanced search strategy.
 ``` r
 # Import the medrxiv database
 preprint_data <- mx_snapshot()
-#> Using medRxiv snapshot - 2022-07-06 01:09
 
 # Perform a simple search
 results <- mx_search(data = preprint_data,
                      query ="dementia")
-#> Found 427 record(s) matching your search.
+#> Found 1045 record(s) matching your search.
 
 # Perform an advanced search
 topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
@@ -125,7 +126,7 @@ myquery <- list(topic1, topic2)                    # Combined with Boolean AND
 
 results <- mx_search(data = preprint_data,
                      query = myquery)
-#> Found 143 record(s) matching your search.
+#> Found 371 record(s) matching your search.
 ```
 
 You can also explore which search terms are contributing most to your
@@ -135,15 +136,15 @@ search by setting `report = TRUE`:
 results <- mx_search(data = preprint_data,
                      query = myquery,
                      report = TRUE)
-#> Found 143 record(s) matching your search.
-#> Total topic 1 records: 2272
-#> dementia: 427
-#> vascular: 1918
-#> alzheimer's: 0
-#> Total topic 2 records: 410
-#> lipids: 157
-#> statins: 61
-#> cholesterol: 255
+#> Found 371 record(s) matching your search.
+#> Total topic 1 records: 5785
+#> dementia: 1045
+#> vascular: 4923
+#> alzheimer's: 1
+#> Total topic 2 records: 888
+#> lipids: 305
+#> statins: 124
+#> cholesterol: 580
 ```
 
 ## Further functionality
