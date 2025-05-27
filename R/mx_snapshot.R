@@ -15,12 +15,6 @@
 #'   parts, with reconstructed `link_page` and `link_pdf` columns.
 #' @export
 #' @family data-source
-#' @examples
-#' \donttest{
-#' mx_data <- mx_snapshot()
-#' mx_data_specific <- mx_snapshot(commit = "specific_commit_hash")
-#' }
-#'
 mx_snapshot <- function(commit = "main") {
   # Construct the API URL for listing the repository contents
   api_url <- paste0(
