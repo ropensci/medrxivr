@@ -12,15 +12,6 @@
 #'   example, mx_caps("ncov") returns "[Nn][Cc][Oo][Vv]"
 #' @export
 #' @family helper
-#'
-#' @examples
-#' \donttest{
-#'
-#' query <- c("coronavirus", mx_caps("ncov"))
-#'
-#' mx_search(mx_snapshot("6c4056d2cccd6031d92ee4269b1785c6ec4d555b"), query)
-#' }
-#'
 mx_caps <- function(x) {
   x_v <- stringr::str_to_lower(x) |>
     stringr::str_split(stringr::boundary()) |>
