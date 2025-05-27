@@ -20,15 +20,6 @@ Inspired by the varying capitalization of "NCOV" during the
   for all possible configurations of lower- and upper-case letters in your
   search term.
 }
-\examples{
-\donttest{
-
-query <- c("coronavirus", mx_caps("ncov"))
-
-mx_search(mx_snapshot("6c4056d2cccd6031d92ee4269b1785c6ec4d555b"), query)
-}
-
-}
 \seealso{
 Other helper: 
 \code{\link{mx_crosscheck}()},
