@@ -23,13 +23,6 @@ A formatted dataframe containing the combined data from the snapshot
   The function dynamically retrieves multiple snapshot parts from the specified
   repository and combines them into a single dataframe.
 }
-\examples{
-\donttest{
-mx_data <- mx_snapshot()
-mx_data_specific <- mx_snapshot(commit = "specific_commit_hash")
-}
-
-}
 \seealso{
 Other data-source: 
 \code{\link{mx_api_content}()},
