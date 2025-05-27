@@ -5,7 +5,7 @@
 * Replaced `vroom::vroom()` with `data.table::fread()` for snapshot import (promoted from development version).
 * Ensured all CRAN checks pass without NOTE, WARNING, or ERROR.
 
-# medrxivr (development version)
+# medrxivr 0.1.0
 
 * `data.table::fread()` is now used in place of `vroom::vroom()` to import the snapshot
 
