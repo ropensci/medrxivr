@@ -27,7 +27,7 @@ Search and print output for individual search items
 }
 \seealso{
 Other main: 
-\code{\link{.mx_safe_fix_caps}()},
+\code{\link{mx_search}()},
 \code{\link{print_full_results}()},
 \code{\link{run_search}()}
 }

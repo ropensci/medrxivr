@@ -4,13 +4,19 @@
 \alias{mx_snapshot}
 \title{Access a static snapshot of the medRxiv repository}
 \usage{
-mx_snapshot(commit = "main")
+mx_snapshot(commit = "main", from_date = NULL, to_date = NULL)
 }
 \arguments{
 \item{commit}{Commit hash or branch name for the snapshot, taken from
 https://github.com/yaoxiangli/medrxivr-data. Allows for reproducible searching
 by specifying the exact snapshot used to perform the searches. Defaults to
 "main", which will return the most recent snapshot from the main branch.}
+
+\item{from_date}{Optional earliest date of interest ("YYYY-MM-DD" or Date).
+If supplied, records with `date` earlier than this are excluded.}
+
+\item{to_date}{Optional latest date of interest ("YYYY-MM-DD" or Date).
+If supplied, records with `date` later than this are excluded.}
 }
 \value{
 A formatted dataframe containing the combined data from the snapshot

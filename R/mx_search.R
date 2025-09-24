@@ -30,24 +30,7 @@
 #' }
 #' @family main
 #' @export
-#' @importFrom utils download.file
-#' @importFrom utils read.csv
 #' @importFrom dplyr %>%
-# ----------------------- internal safe helpers (no-ops if absent) -------------
-.mx_safe_fix_caps <- function(x) {
-  f <- get0("fix_caps", mode = "function", inherits = TRUE)
-  if (is.function(f)) f(x) else x
-}
-.mx_safe_fix_near <- function(x) {
-  f <- get0("fix_near", mode = "function", inherits = TRUE)
-  if (is.function(f)) f(x) else x
-}
-.mx_safe_fix_wildcard <- function(x) {
-  f <- get0("fix_wildcard", mode = "function", inherits = TRUE)
-  if (is.function(f)) f(x) else x
-}
-# ------------------------------------------------------------------------------
-
 mx_search <- function(data = NULL,
                       query = NULL,
                       fields = c(
@@ -65,7 +48,6 @@ mx_search <- function(data = NULL,
                       report = FALSE) {
   # Error handling ----------------------------------------------------------
 
-  # Require search terms
   if (is.null(data)) {
     stop(
       paste0(
@@ -74,12 +56,10 @@ mx_search <- function(data = NULL,
       )
     )
   }
-  # Require search terms
   if (is.null(query)) {
     stop("Please specify search terms in the `query` argument.")
   }
 
-  # Require internet connection
   if (curl::has_internet() == FALSE) { # nocov start
     stop(paste0(
       "No internet connect detected - ",
@@ -87,34 +67,22 @@ mx_search <- function(data = NULL,
     ))
   } # nocov end
 
+  # Load/normalize data -----------------------------------------------------
 
-  # Search ------------------------------------------------------------------
-
-  # Load data (accept data.frame OR list with $data for include_info=TRUE) ----
   mx_data <- data
+  # If caller passed the include_info structure, pull the table out:
   if (is.list(mx_data) && !inherits(mx_data, "data.frame")) {
     if (!is.null(mx_data$data) && inherits(mx_data$data, "data.frame")) {
       mx_data <- mx_data$data
     } else {
-      stop("`data` must be a data.frame or a list containing a data.frame in $data.")
+      stop("`data` must be a data.frame or a list with a data.frame element `data`.")
     }
   }
 
-  # Ensure required columns exist (additive; preserves behavior) --------------
-  # Prefer 'date', fallback to 'date_posted'
-  if (!("date" %in% names(mx_data))) {
-    if ("date_posted" %in% names(mx_data)) {
-      mx_data$date <- as.character(mx_data$date_posted)
-    } else {
-      stop("Input data must contain a 'date' or 'date_posted' column.")
-    }
+  # Implement date limits ---------------------------------------------------
+  if (!"date" %in% names(mx_data)) {
+    stop("`data` must contain a 'date' column (YYYY-MM-DD).")
   }
-  # Ensure an ID-like column used for indexing
-  if (!("node" %in% names(mx_data))) {
-    mx_data$node <- seq_len(nrow(mx_data))
-  }
-
-  # Implement data limits ---------------------------------------------------
   mx_data$date <- as.numeric(gsub("-", "", mx_data$date))
 
   if (!is.null(to_date)) {
@@ -127,10 +95,8 @@ mx_search <- function(data = NULL,
     mx_data <- mx_data %>% dplyr::filter(date >= from_date)
   }
 
+  # Clean query -------------------------------------------------------------
 
-  # Clean query ----------------------------------------------------------------
-
-  # Fix capitalisation
   if (auto_caps == TRUE) {
     query <- .mx_safe_fix_caps(query)
     if (NOT[1] != "") {
@@ -142,14 +108,12 @@ mx_search <- function(data = NULL,
     .mx_safe_fix_near() %>%
     .mx_safe_fix_wildcard()
 
-
-  # Run full search  and process results -------------------------------------
+  # Run full search and process results ------------------------------------
   mx_results <- run_search(mx_data, query, fields, deduplicate, NOT)
   num_results <- nrow(mx_results)
   print_full_results(num_results, deduplicate)
 
-
-  # Run mx_reporter and process results --------------------------------------
+  # Reporter ---------------------------------------------------------------
   if (report) {
     mx_reporter(mx_data, num_results, query, fields, deduplicate, NOT)
   }
@@ -159,7 +123,6 @@ mx_search <- function(data = NULL,
     mx_results
   }
 }
-
 
 #' Search and print output for individual search items
 #' @param mx_data The mx_dataset filtered for the date limits
@@ -178,7 +141,6 @@ mx_reporter <- function(mx_data,
                         fields,
                         deduplicate,
                         NOT) {
-  # run mx_search on individual topics, count hits and print message
   for (i in 1:length(query)) {
     ifelse(is.list(query),
            query_i <- query[[i]],
@@ -187,27 +149,23 @@ mx_reporter <- function(mx_data,
 
     mx_results <- run_search(mx_data, query_i, fields, deduplicate)
     topic_hits <- nrow(mx_results)
-    base::message(base::cat("\n"), paste0("Total topic ", i, " records: ", topic_hits))
+    message(cat("\n"), paste0("Total topic ", i, " records: ", topic_hits))
 
-    # run mx_search for and individual terms within each topic,...
-    # count hits and print message
     for (j in 1:length(query_i)) {
       mx_results <- run_search(mx_data, query_i[j], fields, deduplicate)
       term_hits <- nrow(mx_results)
-      base::message(paste0(query_i[j], ": ", term_hits))
+      message(paste0(query_i[j], ": ", term_hits))
     }
   }
 
   if (NOT[1] != "") {
-    # Run search excluding not term and subtract num_results
-    # This gives number of hits which were excluded by NOT term
     not_hits <-
       nrow(
         run_search(mx_data, query, fields, deduplicate, NOT = "")
       ) - num_results
 
-    base::message(
-      base::cat("\n"),
+    message(
+      cat("\n"),
       paste0(
         not_hits,
         " records matched by NOT (",
@@ -217,7 +175,6 @@ mx_reporter <- function(mx_data,
     )
   }
 }
-
 
 #' Search for terms in the dataset
 #' @param mx_data The mx_dataset filtered for the date limits
@@ -242,10 +199,7 @@ run_search <- function(mx_data,
   link <- NULL
 
   if (is.list(query)) {
-    # General code to find matches
-
     query_length <- as.numeric(length(query))
-
     and_list <- list()
 
     for (list in seq_len(query_length)) {
@@ -266,7 +220,6 @@ run_search <- function(mx_data,
   }
 
   if (!is.list(query) & is.vector(query)) {
-    # General code to find matches
     tmp <- mx_data %>%
       dplyr::filter_at(
         dplyr::vars(fields),
@@ -279,8 +232,6 @@ run_search <- function(mx_data,
     and <- tmp$node
   }
 
-  # Exclude those in the NOT category
-
   if (NOT[1] != "") {
     tmp <- mx_data %>%
       dplyr::filter_at(
@@ -292,19 +243,16 @@ run_search <- function(mx_data,
       dplyr::select(node)
 
     `%notin%` <- Negate(`%in%`)
-
     and <- and[and %notin% tmp$node]
-
     results <- and
   } else {
     results <- and
   }
 
-
   if (length(query) > 1) {
     mx_results <- mx_data[which(mx_data$node %in% results), ]
   } else {
-    if (query == "*") {
+    if (identical(query, "*")) {
       mx_results <- mx_data
     } else {
       mx_results <- mx_data[which(mx_data$node %in% results), ]
@@ -344,7 +292,6 @@ run_search <- function(mx_data,
   mx_results
 }
 
-
 #' Search for terms in the dataset
 #' @param num_results number of searched terms returned
 #' @param deduplicate Logical. Only return the most recent version of a record.
@@ -353,23 +300,48 @@ run_search <- function(mx_data,
 print_full_results <- function(num_results,
                                deduplicate) {
   if (num_results > 0) {
-    # Create Message
-    msg <- paste0(
+    message <- paste0(
       "Found ",
       num_results,
       " record(s) matching your search."
     )
-
     if (!deduplicate) {
-      msg <- paste0(
-        msg, "\n",
+      message <- paste0(
+        message, "\n",
         "Note, there may be >1 version of the same record."
       )
     }
-
-    # Print Message
-    base::message(msg)
+    message(message)
   } else {
-    base::message("No records found matching your search.")
+    message("No records found matching your search.")
+  }
+}
+
+# ---- Internal safe wrappers (no Rd, no export) -----------------------------
+
+#' @noRd
+.mx_safe_fix_caps <- function(x) {
+  if (exists("fix_caps", mode = "function")) {
+    get("fix_caps", mode = "function")(x)
+  } else {
+    x
+  }
+}
+
+#' @noRd
+.mx_safe_fix_near <- function(x) {
+  if (exists("fix_near", mode = "function")) {
+    get("fix_near", mode = "function")(x)
+  } else {
+    x
+  }
+}
+
+#' @noRd
+.mx_safe_fix_wildcard <- function(x) {
+  if (exists("fix_wildcard", mode = "function")) {
+    get("fix_wildcard", mode = "function")(x)
+  } else {
+    x
   }
 }
