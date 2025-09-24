@@ -22,6 +22,7 @@
 mx_snapshot <- function(commit    = "main",
                         from_date = NULL,
                         to_date   = NULL) {
+
   # tiny internal helper to parse optional date args
   .parse_date_arg <- function(x, nm) {
     if (is.null(x)) return(NULL)
@@ -37,34 +38,37 @@ mx_snapshot <- function(commit    = "main",
   from_date <- .parse_date_arg(from_date, "from_date")
   to_date   <- .parse_date_arg(to_date,   "to_date")
 
-  # Construct the API URL for listing the repository contents
+  # List repository contents at the requested ref
   api_url <- paste0(
     "https://api.github.com/repos/YaoxiangLi/medrxivr-data/contents/",
     "?ref=", commit
   )
 
-  # Get the list of files in the repository using the GitHub API
   response <- tryCatch({
     jsonlite::fromJSON(api_url)
   }, error = function(e) {
     stop("Failed to retrieve file list from GitHub. Please check the commit or branch name.")
   })
 
-  # Filter to find snapshot part files
-  part_files <- response$name[grepl("^snapshot_part\\d+\\.csv$", response$name)]
-  if (length(part_files) == 0) {
+  # Identify snapshot part files
+  is_part <- grepl("^snapshot_part\\d+\\.csv$", response$name)
+  part_rows <- response[is_part, , drop = FALSE]
+  if (nrow(part_rows) == 0) {
     stop("No snapshot part files found. Please check the commit or branch name.")
   }
 
-  # Base URL for raw files
-  base_url <- paste0(
-    "https://github.com/YaoxiangLi/medrxivr-data/raw/refs/heads/", commit, "/"
-  )
+  # Prefer GitHub-provided raw download_url for each part (works for branch or commit)
+  urls <- part_rows$download_url
+  # Fallback (shouldn't be needed, but safe)
+  if (any(is.na(urls))) {
+    base_url <- paste0("https://github.com/YaoxiangLi/medrxivr-data/raw/refs/heads/", commit, "/")
+    urls[is.na(urls)] <- paste0(base_url, part_rows$name[is.na(urls)])
+  }
 
   df_list <- list()
-
-  for (part_file in part_files) {
-    url <- paste0(base_url, part_file)
+  for (i in seq_along(urls)) {
+    part_file <- part_rows$name[i]
+    url <- urls[i]
 
     mx_part <- tryCatch({
       suppressMessages(data.table::fread(url, showProgress = FALSE))
@@ -75,19 +79,16 @@ mx_snapshot <- function(commit    = "main",
 
     if (!is.null(mx_part)) {
       # Normalize critical column types to avoid bind_rows() type conflicts
+      mx_part <- as.data.frame(mx_part, stringsAsFactors = FALSE)
+
       if ("date" %in% names(mx_part)) {
-        # Coerce to character "YYYY-MM-DD" for consistency
-        if (inherits(mx_part$date, "IDate")) {
-          mx_part[, date := format(as.Date(date), "%Y-%m-%d")]
-        } else {
-          mx_part[, date := as.character(date)]
-        }
+        # Coerce to uniform "YYYY-MM-DD" character
+        mx_part$date <- format(as.Date(mx_part$date), "%Y-%m-%d")
       }
       for (nm in c("link", "pdf")) {
         if (nm %in% names(mx_part)) mx_part[[nm]] <- as.character(mx_part[[nm]])
       }
-      # store as plain data.frame to keep deps minimal
-      df_list[[length(df_list) + 1L]] <- as.data.frame(mx_part, stringsAsFactors = FALSE)
+      df_list[[length(df_list) + 1L]] <- mx_part
     }
   }
 
@@ -95,18 +96,19 @@ mx_snapshot <- function(commit    = "main",
     stop("No data could be loaded from the snapshot part files.")
   }
 
-  # Combine parts (now with harmonized types)
+  # Combine parts (types already harmonized)
   mx_data <- dplyr::bind_rows(df_list)
 
-  # Optional date filtering (consistent with mx_api_content())
+  # Optional date filtering (keeps `date` as character; filter on Date shadow)
   if (!is.null(from_date) || !is.null(to_date)) {
-    # work on a temporary Date vector; keep original `date` column as character
     dvec <- suppressWarnings(as.Date(mx_data$date))
-    if (!is.null(from_date)) mx_data <- mx_data[!is.na(dvec) & dvec >= from_date, , drop = FALSE]
-    if (!is.null(to_date))   mx_data <- mx_data[!is.na(dvec) & dvec <= to_date, , drop = FALSE]
+    keep <- !is.na(dvec)
+    if (!is.null(from_date)) keep <- keep & dvec >= from_date
+    if (!is.null(to_date))   keep <- keep & dvec <= to_date
+    mx_data <- mx_data[keep, , drop = FALSE]
   }
 
-  # Reconstruct the link_page and link_pdf columns if source columns present
+  # Reconstruct link_page and link_pdf if available
   if ("link" %in% names(mx_data)) mx_data$link_page <- paste0("https://www.medrxiv.org", mx_data$link)
   if ("pdf"  %in% names(mx_data)) mx_data$link_pdf  <- paste0("https://www.medrxiv.org", mx_data$pdf)
 
