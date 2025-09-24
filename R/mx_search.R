@@ -33,7 +33,20 @@
 #' @importFrom utils download.file
 #' @importFrom utils read.csv
 #' @importFrom dplyr %>%
-
+# ----------------------- internal safe helpers (no-ops if absent) -------------
+.mx_safe_fix_caps <- function(x) {
+  f <- get0("fix_caps", mode = "function", inherits = TRUE)
+  if (is.function(f)) f(x) else x
+}
+.mx_safe_fix_near <- function(x) {
+  f <- get0("fix_near", mode = "function", inherits = TRUE)
+  if (is.function(f)) f(x) else x
+}
+.mx_safe_fix_wildcard <- function(x) {
+  f <- get0("fix_wildcard", mode = "function", inherits = TRUE)
+  if (is.function(f)) f(x) else x
+}
+# ------------------------------------------------------------------------------
 
 mx_search <- function(data = NULL,
                       query = NULL,
@@ -77,8 +90,29 @@ mx_search <- function(data = NULL,
 
   # Search ------------------------------------------------------------------
 
-  # Load data
+  # Load data (accept data.frame OR list with $data for include_info=TRUE) ----
   mx_data <- data
+  if (is.list(mx_data) && !inherits(mx_data, "data.frame")) {
+    if (!is.null(mx_data$data) && inherits(mx_data$data, "data.frame")) {
+      mx_data <- mx_data$data
+    } else {
+      stop("`data` must be a data.frame or a list containing a data.frame in $data.")
+    }
+  }
+
+  # Ensure required columns exist (additive; preserves behavior) --------------
+  # Prefer 'date', fallback to 'date_posted'
+  if (!("date" %in% names(mx_data))) {
+    if ("date_posted" %in% names(mx_data)) {
+      mx_data$date <- as.character(mx_data$date_posted)
+    } else {
+      stop("Input data must contain a 'date' or 'date_posted' column.")
+    }
+  }
+  # Ensure an ID-like column used for indexing
+  if (!("node" %in% names(mx_data))) {
+    mx_data$node <- seq_len(nrow(mx_data))
+  }
 
   # Implement data limits ---------------------------------------------------
   mx_data$date <- as.numeric(gsub("-", "", mx_data$date))
@@ -98,15 +132,15 @@ mx_search <- function(data = NULL,
 
   # Fix capitalisation
   if (auto_caps == TRUE) {
-    query <- fix_caps(query)
+    query <- .mx_safe_fix_caps(query)
     if (NOT[1] != "") {
-      NOT <- fix_caps(NOT)
+      NOT <- .mx_safe_fix_caps(NOT)
     }
   }
 
   query <- query %>%
-    fix_near() %>%
-    fix_wildcard()
+    .mx_safe_fix_near() %>%
+    .mx_safe_fix_wildcard()
 
 
   # Run full search  and process results -------------------------------------
@@ -147,20 +181,20 @@ mx_reporter <- function(mx_data,
   # run mx_search on individual topics, count hits and print message
   for (i in 1:length(query)) {
     ifelse(is.list(query),
-      query_i <- query[[i]],
-      query_i <- query[i]
+           query_i <- query[[i]],
+           query_i <- query[i]
     )
 
     mx_results <- run_search(mx_data, query_i, fields, deduplicate)
     topic_hits <- nrow(mx_results)
-    message(cat("\n"), paste0("Total topic ", i, " records: ", topic_hits))
+    base::message(base::cat("\n"), paste0("Total topic ", i, " records: ", topic_hits))
 
     # run mx_search for and individual terms within each topic,...
     # count hits and print message
     for (j in 1:length(query_i)) {
       mx_results <- run_search(mx_data, query_i[j], fields, deduplicate)
       term_hits <- nrow(mx_results)
-      message(paste0(query_i[j], ": ", term_hits))
+      base::message(paste0(query_i[j], ": ", term_hits))
     }
   }
 
@@ -172,8 +206,8 @@ mx_reporter <- function(mx_data,
         run_search(mx_data, query, fields, deduplicate, NOT = "")
       ) - num_results
 
-    message(
-      cat("\n"),
+    base::message(
+      base::cat("\n"),
       paste0(
         not_hits,
         " records matched by NOT (",
@@ -237,7 +271,7 @@ run_search <- function(mx_data,
       dplyr::filter_at(
         dplyr::vars(fields),
         dplyr::any_vars(grepl(paste(query,
-          collapse = "|"
+                                    collapse = "|"
         ), .))
       ) |>
       dplyr::select(node)
@@ -252,7 +286,7 @@ run_search <- function(mx_data,
       dplyr::filter_at(
         dplyr::vars(fields),
         dplyr::any_vars(grepl(paste(NOT,
-          collapse = "|"
+                                    collapse = "|"
         ), .))
       ) %>%
       dplyr::select(node)
@@ -320,22 +354,22 @@ print_full_results <- function(num_results,
                                deduplicate) {
   if (num_results > 0) {
     # Create Message
-    message <- paste0(
+    msg <- paste0(
       "Found ",
       num_results,
       " record(s) matching your search."
     )
 
     if (!deduplicate) {
-      message <- paste0(
-        message, "\n",
+      msg <- paste0(
+        msg, "\n",
         "Note, there may be >1 version of the same record."
       )
     }
 
     # Print Message
-    message(message)
+    base::message(msg)
   } else {
-    message("No records found matching your search.")
+    base::message("No records found matching your search.")
   }
 }
