@@ -25,8 +25,8 @@ Search for terms in the dataset
 }
 \seealso{
 Other main: 
+\code{\link{.mx_safe_fix_caps}()},
 \code{\link{mx_reporter}()},
-\code{\link{mx_search}()},
 \code{\link{print_full_results}()}
 }
 \concept{main}
