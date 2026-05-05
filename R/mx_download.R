@@ -8,9 +8,9 @@
 #'   the record and the DOI are used.
 #' @param print_update How frequently to print an update
 #' @examples
-#' \donttest{
-#' mx_results <- mx_search(mx_snapshot(), query = "10.1101/2020.02.25.20021568")
-#' mx_download(mx_results, directory = tempdir())
+#' if (interactive()) {
+#'   mx_results <- mx_search(mx_snapshot(), query = "10.1101/2020.02.25.20021568")
+#'   mx_download(mx_results, directory = tempdir())
 #' }
 #' @family helper
 #' @export

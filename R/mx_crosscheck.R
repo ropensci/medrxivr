@@ -6,8 +6,8 @@
 #'   snapshot was taken.
 #'
 #' @examples
-#' \donttest{
-#' mx_crosscheck()
+#' if (interactive()) {
+#'   mx_crosscheck()
 #' }
 #' @family helper
 #' @export
@@ -19,7 +19,7 @@ mx_crosscheck <- function() {
   base_link <- api_link("medrxiv", "2019-01-01", as.character(Sys.Date()), "0")
   details <- api_to_df(base_link)
 
-  reference <- suppressWarnings(as.numeric(details$messages[1, 6]))
+  reference <- api_record_count(details$messages)
   if (is.na(reference)) {
     stop("Reference value is not numeric.")
   }

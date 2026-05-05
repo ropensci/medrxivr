@@ -24,9 +24,9 @@
 #'   Default is TRUE.
 #' @param report Logical. Run mx_reporter. Default is FALSE.
 #' @examples
-#' \donttest{
-#' # Using the daily snapshot
-#' mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
+#' if (interactive()) {
+#'   # Using the static snapshot
+#'   mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
 #' }
 #' @family main
 #' @export

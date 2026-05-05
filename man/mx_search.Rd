@@ -54,9 +54,9 @@ Default is TRUE.}
 Search preprint data
 }
 \examples{
-\donttest{
-# Using the daily snapshot
-mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
+if (interactive()) {
+  # Using the static snapshot
+  mx_results <- mx_search(data = mx_snapshot(), query = "dementia")
 }
 }
 \seealso{

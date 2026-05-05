@@ -13,8 +13,8 @@ Provides information on how up-to-date the maintained medRxiv
   snapshot was taken.
 }
 \examples{
-\donttest{
-mx_crosscheck()
+if (interactive()) {
+  mx_crosscheck()
 }
 }
 \seealso{
