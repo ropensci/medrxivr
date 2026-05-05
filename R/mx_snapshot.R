@@ -112,5 +112,28 @@ mx_snapshot <- function(commit    = "main",
   if ("link" %in% names(mx_data)) mx_data$link_page <- paste0("https://www.medrxiv.org", mx_data$link)
   if ("pdf"  %in% names(mx_data)) mx_data$link_pdf  <- paste0("https://www.medrxiv.org", mx_data$pdf)
 
+  inform_snapshot_date(mx_data)
+
   mx_data
+}
+
+#' Report the latest record date in a snapshot
+#'
+#' @param data Snapshot data frame
+#'
+#' @return Invisibly returns the latest snapshot date
+#' @keywords internal
+
+inform_snapshot_date <- function(data) {
+  if (!"date" %in% names(data)) {
+    return(invisible(NA))
+  }
+
+  latest_date <- max(suppressWarnings(as.Date(data$date)), na.rm = TRUE)
+
+  if (is.finite(latest_date)) {
+    message("Snapshot includes records through ", latest_date)
+  }
+
+  invisible(latest_date)
 }

@@ -1,6 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
+.r-lib/
 inst/doc
 pdf/
 docs/

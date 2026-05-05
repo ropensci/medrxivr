@@ -1,15 +1,15 @@
 #' Provide information on the medRxiv snapshot used to perform the search
 #'
 #' @param commit Commit hash for the snapshot, taken from
-#'   https://github.com/mcguinlu/medrxivr-data. Defaults to "master", which will
+#'   https://github.com/YaoxiangLi/medrxivr-data. Defaults to "main", which will
 #'   return info on the most recent snapshot.
 #' @keywords internal
 #' @return Message with snapshot details
 
-mx_info <- function(commit = "master") {
+mx_info <- function(commit = "main") {
   current_time <- readLines(paste0(
     "https://raw.githubusercontent.com/",
-    "mcguinlu/",
+    "YaoxiangLi/",
     "medrxivr-data/",
     commit,
     "/timestamp.txt"

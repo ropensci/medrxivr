@@ -64,10 +64,10 @@ library(medrxivr)
 preprint_data <- mx_api_content()  
 ```
   
-  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database from the [medrxivr-data repository](https://github.com/YaoxiangLi/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from CSV files rather than having to re-extract it from the API). The function prints the latest record date included in the snapshot; discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
   
 ``` {r}
-# Get a copy of the database from the daily snapshot
+# Get a copy of the database from the static snapshot
 preprint_data <- mx_snapshot()  
 ```
   
@@ -161,7 +161,7 @@ Detailed guidance, including advice on how to design complex search strategies, 
 
 ## Linked repositories
 
-See here for the [code used to take the daily snapshot](https://github.com/mcguinlu/medrxivr-data) and [the code that powers the `medrxivr` web app](https://github.com/mcguinlu/medrxivr-app).
+See here for the [snapshot data repository](https://github.com/YaoxiangLi/medrxivr-data) and [the code that powers the `medrxivr` web app](https://github.com/mcguinlu/medrxivr-app).
 
 ## Other tools/packages for working with medRxiv/bioRxiv data
 

@@ -93,6 +93,48 @@ api_link <- function(...) {
   )
 }
 
+#' Extract the total number of records from API metadata
+#'
+#' @param messages API metadata messages data frame
+#'
+#' @return Numeric record count
+#' @keywords internal
+
+api_record_count <- function(messages) {
+  count <- api_metadata_number(messages, "total")
+
+  if (!is.finite(count) || is.na(count)) {
+    count <- api_metadata_number(messages, "count")
+  }
+
+  count
+}
+
+#' Extract the page size from API metadata
+#'
+#' @param messages API metadata messages data frame
+#'
+#' @return Numeric page size
+#' @keywords internal
+
+api_page_size <- function(messages) {
+  page_size <- api_metadata_number(messages, "count")
+
+  if (!is.finite(page_size) || is.na(page_size) || page_size < 1L) {
+    page_size <- 100L
+  }
+
+  page_size
+}
+
+api_metadata_number <- function(messages, column) {
+  if (!column %in% names(messages) || nrow(messages) < 1L) {
+    return(NA_real_)
+  }
+
+  suppressWarnings(as.numeric(messages[[column]][1]))
+}
+
 #' Helper script to clean data from API to make it compatible with mx_search()
 #'
 #' @param df Raw dataframe from API

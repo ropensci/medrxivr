@@ -51,3 +51,19 @@ test_that("Server not recognised", {
   expect_error(mx_api_content(server = "medRxiv"))
   expect_error(mx_api_doi(server = "medRxiv"))
 })
+
+test_that("API pagination metadata uses total records and page count", {
+  messages <- data.frame(
+    status = "ok",
+    category = "all",
+    interval = "2013-01-01:2026-05-05",
+    funder = "all",
+    cursor = 0,
+    count = 30,
+    count_new_papers = "329541",
+    total = "453478"
+  )
+
+  expect_equal(api_record_count(messages), 453478)
+  expect_equal(api_page_size(messages), 30)
+})

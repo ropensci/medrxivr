@@ -1,5 +1,6 @@
 ^medrxivr\.Rproj$
 ^\.Rproj\.user$
+^\.r-lib$
 ^LICENSE\.md$
 ^README\.Rmd$
 ^\.travis\.yml$

@@ -56,8 +56,8 @@ mx_api_content <- function(from_date = "2013-01-01",
   details_link <- api_link(server, from_date, to_date, "0")
   details <- api_to_df(details_link)
 
-  count <- suppressWarnings(as.numeric(details$messages[1, 6]))
-  per_page <- 100L
+  count <- api_record_count(details$messages)
+  per_page <- api_page_size(details$messages)
 
   if (is.finite(count) && !is.na(count)) {
     message("Estimated total number of records as per API metadata: ", count)
