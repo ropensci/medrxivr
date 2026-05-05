@@ -4,11 +4,11 @@
 \alias{mx_info}
 \title{Provide information on the medRxiv snapshot used to perform the search}
 \usage{
-mx_info(commit = "master")
+mx_info(commit = "main")
 }
 \arguments{
 \item{commit}{Commit hash for the snapshot, taken from
-https://github.com/mcguinlu/medrxivr-data. Defaults to "master", which will
+https://github.com/YaoxiangLi/medrxivr-data. Defaults to "main", which will
 return info on the most recent snapshot.}
 }
 \value{
