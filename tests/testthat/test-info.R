@@ -11,3 +11,17 @@ test_that("Snapshot date message reports newest record date", {
     fixed = TRUE
   )
 })
+
+test_that("Snapshot manifest files are normalized", {
+  manifest <- list(
+    files = data.frame(
+      name = "snapshot.csv.gz",
+      url = "https://example.org/snapshot.csv.gz"
+    )
+  )
+
+  files <- snapshot_manifest_files(manifest)
+
+  expect_equal(files$name, "snapshot.csv.gz")
+  expect_equal(files$url, "https://example.org/snapshot.csv.gz")
+})

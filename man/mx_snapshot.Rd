@@ -4,30 +4,46 @@
 \alias{mx_snapshot}
 \title{Access a static snapshot of the medRxiv repository}
 \usage{
-mx_snapshot(commit = "main", from_date = NULL, to_date = NULL)
+mx_snapshot(
+  commit = "main",
+  from_date = NULL,
+  to_date = NULL,
+  manifest_url = getOption("medrxivr.snapshot_manifest",
+    "https://github.com/ropensci/medrxivr/releases/download/snapshot/snapshot-manifest.json"),
+  cache = TRUE
+)
 }
 \arguments{
-\item{commit}{Commit hash or branch name for the snapshot, taken from
-https://github.com/yaoxiangli/medrxivr-data. Allows for reproducible searching
-by specifying the exact snapshot used to perform the searches. Defaults to
-"main", which will return the most recent snapshot from the main branch.}
+\item{commit}{Commit hash or branch name for the legacy snapshot repository,
+taken from https://github.com/yaoxiangli/medrxivr-data. Allows for
+reproducible searching by specifying the exact snapshot used to perform the
+searches. Defaults to "main".}
 
 \item{from_date}{Optional earliest date of interest ("YYYY-MM-DD" or Date).
 If supplied, records with `date` earlier than this are excluded.}
 
 \item{to_date}{Optional latest date of interest ("YYYY-MM-DD" or Date).
 If supplied, records with `date` later than this are excluded.}
+
+\item{manifest_url}{URL for a JSON snapshot manifest. Defaults to option
+`medrxivr.snapshot_manifest`, or the package's latest GitHub release
+manifest if that option is unset.}
+
+\item{cache}{Logical. If TRUE, downloaded manifest snapshot files are cached
+between sessions. Defaults to TRUE.}
 }
 \value{
 A formatted dataframe containing the combined data from the snapshot
-  parts, with reconstructed `link_page` and `link_pdf` columns.
+  artifact or legacy snapshot parts, with reconstructed `link_page` and
+  `link_pdf` columns.
 }
 \description{
 [Available for medRxiv only] This function allows users to import
   a maintained static snapshot of the medRxiv repository, instead of downloading
   a copy from the API, which can become unavailable during peak usage times.
-  The function dynamically retrieves multiple snapshot parts from the specified
-  repository and combines them into a single dataframe.
+  The function first tries to read a manifest-driven snapshot artifact. If no
+  manifest is available, it falls back to the legacy split CSV snapshot
+  repository.
 }
 \seealso{
 Other data-source: 

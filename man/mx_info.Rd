@@ -4,12 +4,19 @@
 \alias{mx_info}
 \title{Provide information on the medRxiv snapshot used to perform the search}
 \usage{
-mx_info(commit = "main")
+mx_info(
+  commit = "main",
+  manifest_url = getOption("medrxivr.snapshot_manifest",
+    "https://github.com/ropensci/medrxivr/releases/download/snapshot/snapshot-manifest.json")
+)
 }
 \arguments{
-\item{commit}{Commit hash for the snapshot, taken from
-https://github.com/YaoxiangLi/medrxivr-data. Defaults to "main", which will
-return info on the most recent snapshot.}
+\item{commit}{Commit hash for the legacy snapshot repository. Defaults to
+"main".}
+
+\item{manifest_url}{URL for a JSON snapshot manifest. Defaults to option
+`medrxivr.snapshot_manifest`, or the package's snapshot release manifest if
+that option is unset.}
 }
 \value{
 Message with snapshot details
