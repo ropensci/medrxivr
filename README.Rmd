@@ -29,19 +29,21 @@ library(medrxivr)
 
 <!-- badges: end -->
 
-An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and [bioRxiv](https://www.biorxiv.org/), both of which are operated by the Cold Spring Harbor Laboratory.
+An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and bioRxiv, both of which are operated by the Cold Spring Harbor Laboratory.
 
 The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [Cold Spring Harbour Laboratory (CSHL) API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
 
 ## Installation
 
 
-To install the stable version of the package from CRAN:
+When the package is available from CRAN, install the stable version with:
 
 ``` {r}
 install.packages("medrxivr")
 library(medrxivr)
 ```
+
+The canonical CRAN package page is <https://CRAN.R-project.org/package=medrxivr>.
 
 Alternatively, to install the development version from GitHub, use the following code:
 

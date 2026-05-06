@@ -39,7 +39,7 @@ To find records that contain any of many terms, pass the terms as a vector to th
 ``` {r}
 myquery <- c("dementia","vascular","alzheimer's") # Combined with Boolean OR
 
-mx_results <- mx_search(data = mx_snapshot(),     # Use daily snapshot for data
+mx_results <- mx_search(data = mx_snapshot(),     # Use static snapshot for data
                         query = myquery)
 
 ```

@@ -24,3 +24,6 @@ figs/
 medrxiv_export.bib
 ^codemeta\.json$
 ^CRAN-RELEASE$
+^check-cran$
+^.*\.Rcheck$
+^.*\.tar\.gz$

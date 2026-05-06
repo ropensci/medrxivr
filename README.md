@@ -21,8 +21,7 @@ An increasingly important source of health-related bibliographic content
 are preprints - preliminary versions of research articles that have yet
 to undergo peer review. The two preprint repositories most relevant to
 health-related sciences are [medRxiv](https://www.medrxiv.org/) and
-[bioRxiv](https://www.biorxiv.org/), both of which are operated by the
-Cold Spring Harbor Laboratory.
+bioRxiv, both of which are operated by the Cold Spring Harbor Laboratory.
 
 The goal of the `medrxivr` R package is two-fold. In the first instance,
 it provides programmatic access to the [Cold Spring Harbour Laboratory
@@ -39,12 +38,15 @@ search criteria.
 
 ## Installation
 
-To install the stable version of the package from CRAN:
+When the package is available from CRAN, install the stable version with:
 
 ``` r
 install.packages("medrxivr")
 library(medrxivr)
 ```
+
+The canonical CRAN package page is
+<https://CRAN.R-project.org/package=medrxivr>.
 
 Alternatively, to install the development version from GitHub, use the
 following code:

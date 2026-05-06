@@ -1,3 +1,10 @@
+# medrxivr 0.1.3
+
+* Restored robust static snapshot access using snapshot release assets, with a legacy snapshot repository fallback.
+* Guarded live API examples and checks so routine package checks do not fail when external services or rate limits are unavailable.
+* Updated CI and package metadata for current GitHub Actions and CRAN checks.
+* Documented the canonical CRAN package page as <https://CRAN.R-project.org/package=medrxivr>.
+
 # medrxivr 0.1.2
 
 * **DESCRIPTION** now declares `Depends: R (>= 4.1.0)` to cover use of `|>` and `\(...)` syntax.
@@ -33,7 +40,7 @@ Version created for submission to JOSS and CRAN, and onboarded to rOpenSci follo
 
 Major changes:
 
-* `mx_snapshot()` now takes a `commit` argument, allowing you to specify exactly which snapshot of the database you would like to use. Details on the commit keys needed are [here](https://github.com/mcguinlu/medrxivr-data/commits/master/snapshot.csv). In addition, the process of taking the snapshot is now managed by GitHub actions, meaning it should be a lot more robust/regular/
+* `mx_snapshot()` now takes a `commit` argument, allowing you to specify exactly which snapshot of the database you would like to use. In addition, the process of taking the snapshot is now managed by GitHub actions, meaning it should be a lot more robust/regular.
 * Importing the snapshot to R is now significantly faster, as `vroom::vroom()` is used in place of `read.csv()`
 * All functions that return a data frame now return ungrouped tibbles.
 * The to/from date arguments for both `mx_search()` and `mx_api_content()` have been standardized to snake case and now expect the same "YYYY-MM-DD" character format.

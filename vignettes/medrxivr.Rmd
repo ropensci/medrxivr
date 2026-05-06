@@ -25,18 +25,20 @@ knitr::opts_chunk$set(
 
 ```
 
-An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and [bioRxiv](https://www.biorxiv.org/), both of which are operated by the Cold Spring Harbor Laboratory.
+An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and bioRxiv, both of which are operated by the Cold Spring Harbor Laboratory.
 
 The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [Cold Spring Harbour Laboratory (CSHL) API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
 
 ## Installation
 
-You can install the stable version of this package using:
+When the package is available from CRAN, install the stable version with:
 
 ``` {r}
 install.packages("medrxivr")
 library(medrxivr)
 ```
+
+The canonical CRAN package page is <https://CRAN.R-project.org/package=medrxivr>.
 
 ## Data sources
 
@@ -51,10 +53,10 @@ library(medrxivr)
 preprint_data <- mx_api_content()  
 ```
   
-  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The snapshot is created each morning at 6am using `mx_api_content()` and is stored as CSV file in the [medrxivr-data repository](https://github.com/mcguinlu/medrxivr-data). This method does not rely on the API (which can become unavailable during peak usage times) and is usually faster (as it reads data from a CSV rather than having to re-extract it from the API). Discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The package first tries to read a manifest from the `snapshot` release assets for this repository, downloads the referenced compressed CSV files, and caches them locally. If the release manifest is unavailable, it falls back to the legacy [medrxivr-data repository](https://github.com/YaoxiangLi/medrxivr-data). This method does not rely on the live API during ordinary use and is usually faster than re-extracting records from the API. The function prints the latest record date included in the snapshot; discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
   
 ``` {r}
-# Get a copy of the database from the daily snapshot
+# Get a copy of the database from the static snapshot
 preprint_data <- mx_snapshot()  
 ```
   
