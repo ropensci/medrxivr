@@ -19,10 +19,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release', vignettes: 'true'}
-          - {os: macOS-latest, r: 'release', vignettes: 'true'}
-          - {os: ubuntu-24.04, r: 'release', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest", vignettes: 'true'}
-          - {os: ubuntu-24.04, r: 'devel', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest", vignettes: 'false'}
+          - {os: windows-latest, r: 'release', vignettes: 'true', force_suggests: 'true'}
+          - {os: macOS-latest, r: 'release', vignettes: 'true', force_suggests: 'true'}
+          - {os: ubuntu-24.04, r: 'release', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest", vignettes: 'true', force_suggests: 'true'}
+          - {os: ubuntu-24.04, r: 'devel', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest", vignettes: 'false', force_suggests: 'false'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -73,6 +73,7 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
+          _R_CHECK_FORCE_SUGGESTS_: ${{ matrix.config.force_suggests }}
           CHECK_VIGNETTES: ${{ matrix.config.vignettes }}
         run: |
           check_args <- c("--no-manual", "--as-cran")
