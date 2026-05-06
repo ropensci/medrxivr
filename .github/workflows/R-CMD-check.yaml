@@ -19,10 +19,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release'}
-          - {os: ubuntu-24.04, r: 'release', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
-          - {os: ubuntu-24.04, r: 'devel', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
+          - {os: windows-latest, r: 'release', vignettes: 'true'}
+          - {os: macOS-latest, r: 'release', vignettes: 'true'}
+          - {os: ubuntu-24.04, r: 'release', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest", vignettes: 'true'}
+          - {os: ubuntu-24.04, r: 'devel', rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest", vignettes: 'false'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -73,7 +73,20 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          CHECK_VIGNETTES: ${{ matrix.config.vignettes }}
+        run: |
+          check_args <- c("--no-manual", "--as-cran")
+          build_args <- character()
+          if (identical(Sys.getenv("CHECK_VIGNETTES"), "false")) {
+            check_args <- c(check_args, "--ignore-vignettes")
+            build_args <- "--no-build-vignettes"
+          }
+          rcmdcheck::rcmdcheck(
+            args = check_args,
+            build_args = build_args,
+            error_on = "warning",
+            check_dir = "check"
+          )
         shell: Rscript {0}
 
       - name: Upload check results
