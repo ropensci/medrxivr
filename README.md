@@ -72,16 +72,13 @@ preprint_data <- mx_api_content()
 ```
 
 - `mx_snapshot()` provides access to a static snapshot of the medRxiv
-  database. The package first tries to read a manifest from the
-  `snapshot` release assets for this repository, downloads the referenced
-  compressed CSV files, and caches them locally. If the release manifest
-  is unavailable, it falls back to the legacy [medrxivr-data
-  repository](https://github.com/YaoxiangLi/medrxivr-data). This method
-  does not rely on the live API during ordinary use and is usually faster
-  than re-extracting records from the API. The function prints the latest
-  record date included in the snapshot; discrepancies between the most
-  recent static snapshot and the live database can be assessed using
-  `mx_crosscheck()`.
+  database. The package reads a manifest from the `snapshot` release
+  assets for this repository, downloads the referenced compressed CSV
+  files, and caches them locally. This method does not rely on the live
+  API during ordinary use and is usually faster than re-extracting records
+  from the API. The function prints the latest record date included in the
+  snapshot; discrepancies between the most recent static snapshot and the
+  live database can be assessed using `mx_crosscheck()`.
 
 ``` r
 # Get a copy of the database from the static snapshot
@@ -202,10 +199,8 @@ website.](https://docs.ropensci.org/medrxivr/)
 ## Linked repositories
 
 See here for the [snapshot release
-assets](https://github.com/ropensci/medrxivr/releases/tag/snapshot), the
-legacy [snapshot data
-repository](https://github.com/YaoxiangLi/medrxivr-data), and [the code that
-powers the `medrxivr` web
+assets](https://github.com/ropensci/medrxivr/releases/tag/snapshot) and
+[the code that powers the `medrxivr` web
 app](https://github.com/mcguinlu/medrxivr-app).
 
 ## Other tools/packages for working with medRxiv/bioRxiv data

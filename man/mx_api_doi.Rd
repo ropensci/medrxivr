@@ -18,8 +18,9 @@ data on.}
 data returned by the API. If TRUE, variables containing absolute paths to
 the preprints web-page ("link_page") and PDF ("link_pdf") are generated
 from the "server", "DOI", and "version" variables returned by the API. The
-"title", "abstract" and "authors" variables are converted to title case.
-Finally, the "type" and "server" variables are dropped.}
+The "category", "authors" and "author_corresponding" variables are
+converted to title case. Finally, the "type" and "server" variables are
+dropped.}
 }
 \value{
 Dataframe containing details on the preprint identified by the DOI.

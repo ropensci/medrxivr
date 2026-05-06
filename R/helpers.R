@@ -34,7 +34,7 @@ api_to_df <- function(url) {
     task = paste(
       "extract data from API. As this is usually due to current user load,",
       "please try again in a little while, or use the maintained",
-      "static daily snapshot (available for medRxiv only)"
+      "static snapshot (available for medRxiv only)"
     )
   )
 
@@ -48,7 +48,7 @@ api_to_df <- function(url) {
       "API connection refused.",
       "As this is usually due to current user load,",
       "please try again in a little while, or use the maintained",
-      "static daily snapshot (available for medRxiv only)"
+      "static snapshot (available for medRxiv only)"
     ))
   } # nocov end
 
@@ -148,7 +148,7 @@ clean_api_df <- function(df) {
   df$node <- seq_len(nrow(df))
 
   df <- df %>%
-    dplyr::select(-c(.data$type))
+    dplyr::select(-dplyr::all_of("type"))
 
   df$link <- paste0("/content/", df$doi, "v", df$version, "?versioned=TRUE")
   df$pdf <- paste0("/content/", df$doi, "v", df$version, ".full.pdf")
@@ -160,7 +160,7 @@ clean_api_df <- function(df) {
   df$link_pdf <- paste0("https://www.", df$server, ".org", df$pdf)
 
   df <- df %>%
-    dplyr::select(-c(.data$server, .data$link, .data$pdf))
+    dplyr::select(-dplyr::all_of(c("server", "link", "pdf")))
 
   df
 }

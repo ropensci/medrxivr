@@ -1,50 +1,30 @@
-test_that("Require file", {
-  skip_if_offline()
+test_that("Download requires results and a directory", {
   expect_error(mx_download())
 })
 
-mx_result <-
-  data.frame(
-    link_pdf = "https://www.medrxiv.org/content/10.1101/19003301v4.full.pdf",
+test_that("Download writes files, handles existing files, and supports names", {
+  source_pdf <- tempfile(fileext = ".pdf")
+  writeLines("not really a pdf", source_pdf)
+  source_url <- paste0("file:///", normalizePath(source_pdf, winslash = "/"))
+  tmpdir <- tempfile()
+
+  mx_result <- data.frame(
+    link_pdf = source_url,
     ID = "271",
-    doi = "10.1101/19003301"
+    doi = "10.1101/19003301",
+    stringsAsFactors = FALSE
   )
 
-tmpdir <- tempdir()
+  expect_message(mx_download(mx_result, tmpdir, print_update = 1), "Downloading")
+  expect_true(file.exists(file.path(tmpdir, "271_10.1101_19003301.pdf")))
 
-test_that("Inital output", {
-  skip_on_cran()
-  skip_if_offline()
-  expect_message(mx_download(mx_result, tmpdir), regexp = "Downloading")
-})
+  expect_message(mx_download(mx_result, tmpdir), "already downloaded")
 
-test_that("Already downloaded", {
-  skip_on_cran()
-  skip_if_offline()
-  expect_message(mx_download(mx_result, tmpdir), regexp = "downloaded")
-})
+  id_dir <- tempfile()
+  expect_message(mx_download(mx_result, id_dir, name = "ID"), "Downloading")
+  expect_true(file.exists(file.path(id_dir, "271.pdf")))
 
-test_that("Naming of downloaded PDFs", {
-  skip_on_cran()
-  skip_if_offline()
-  mx_download(mx_result, tmpdir, name = "ID")
-  expect_equal(file.exists(paste0(tmpdir,"/271.pdf")), TRUE)
-  mx_download(mx_result, tmpdir, name = "DOI")
-  expect_equal(file.exists(paste0(tmpdir,"/271_10.1101_19003301.pdf")), TRUE)
-})
-
-mx_result <-
-  data.frame(
-    link_pdf = paste0("https://www.medrxiv.org/content/",
-                      "10.1101/2020.09.23.20197558v1.full.pdf"),
-             ID = "272",
-             doi = "10.1101/2020.09.23.20197558")
-
-test_that("Status update", {
-  skip_on_cran()
-  skip_if_offline()
-  expect_message(mx_download(mx_result,
-                             tmpdir,
-                             print_update = 1),
-                 regexp = "%")
+  doi_dir <- tempfile()
+  expect_message(mx_download(mx_result, doi_dir, name = "DOI"), "Downloading")
+  expect_true(file.exists(file.path(doi_dir, "10.1101_19003301.pdf")))
 })

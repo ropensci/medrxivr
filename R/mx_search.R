@@ -204,12 +204,11 @@ run_search <- function(mx_data,
 
     for (list in seq_len(query_length)) {
       tmp <- mx_data %>%
-        dplyr::filter_at(
-          dplyr::vars(fields),
-          dplyr::any_vars(grepl(paste(
-            query[[list]],
-            collapse = "|"
-          ), .))
+        dplyr::filter(
+          dplyr::if_any(
+            dplyr::all_of(fields),
+            ~ grepl(paste(query[[list]], collapse = "|"), .x)
+          )
         ) %>%
         dplyr::select(node)
       tmp <- tmp$node
@@ -221,11 +220,11 @@ run_search <- function(mx_data,
 
   if (!is.list(query) & is.vector(query)) {
     tmp <- mx_data %>%
-      dplyr::filter_at(
-        dplyr::vars(fields),
-        dplyr::any_vars(grepl(paste(query,
-                                    collapse = "|"
-        ), .))
+      dplyr::filter(
+        dplyr::if_any(
+          dplyr::all_of(fields),
+          ~ grepl(paste(query, collapse = "|"), .x)
+        )
       ) |>
       dplyr::select(node)
 
@@ -234,11 +233,11 @@ run_search <- function(mx_data,
 
   if (NOT[1] != "") {
     tmp <- mx_data %>%
-      dplyr::filter_at(
-        dplyr::vars(fields),
-        dplyr::any_vars(grepl(paste(NOT,
-                                    collapse = "|"
-        ), .))
+      dplyr::filter(
+        dplyr::if_any(
+          dplyr::all_of(fields),
+          ~ grepl(paste(NOT, collapse = "|"), .x)
+        )
       ) %>%
       dplyr::select(node)
 

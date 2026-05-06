@@ -24,8 +24,9 @@ current date.}
 data returned by the API. If TRUE, variables containing absolute paths to
 the preprints web-page ("link_page") and PDF ("link_pdf") are generated
 from the "server", "DOI", and "version" variables returned by the API. The
-"title", "abstract" and "authors" variables are converted to title case.
-Finally, the "type" and "server" variables are dropped.}
+The "category", "authors" and "author_corresponding" variables are
+converted to title case. Finally, the "type" and "server" variables are
+dropped.}
 
 \item{server}{Specify the server you wish to use: "medrxiv" (default) or
 "biorxiv"}

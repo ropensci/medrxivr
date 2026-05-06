@@ -20,13 +20,18 @@ mx_crosscheck <- function() {
   details <- api_to_df(base_link)
 
   reference <- api_record_count(details$messages)
-  if (is.na(reference)) {
-    stop("Reference value is not numeric.")
-  }
 
   # Extracted count from snapshot
   data <- suppressMessages(mx_search(mx_snapshot(), query = "*", deduplicate = FALSE))
   extracted <- nrow(data)
+
+  mx_crosscheck_counts(reference, extracted)
+}
+
+mx_crosscheck_counts <- function(reference, extracted) {
+  if (is.na(reference)) {
+    stop("Reference value is not numeric.")
+  }
 
   diff <- reference - extracted
   if (identical(reference, extracted)) {

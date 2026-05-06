@@ -53,7 +53,7 @@ The canonical CRAN package page is <https://CRAN.R-project.org/package=medrxivr>
 preprint_data <- mx_api_content()  
 ```
   
-  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The package first tries to read a manifest from the `snapshot` release assets for this repository, downloads the referenced compressed CSV files, and caches them locally. If the release manifest is unavailable, it falls back to the legacy [medrxivr-data repository](https://github.com/YaoxiangLi/medrxivr-data). This method does not rely on the live API during ordinary use and is usually faster than re-extracting records from the API. The function prints the latest record date included in the snapshot; discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
+  - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The package reads a manifest from the `snapshot` release assets for this repository, downloads the referenced compressed CSV files, and caches them locally. This method does not rely on the live API during ordinary use and is usually faster than re-extracting records from the API. The function prints the latest record date included in the snapshot; discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
   
 ``` {r}
 # Get a copy of the database from the static snapshot

@@ -7,8 +7,8 @@
 mx_info(commit = "main", manifest_url = default_snapshot_manifest_url())
 }
 \arguments{
-\item{commit}{Commit hash for the legacy snapshot repository. Defaults to
-"main".}
+\item{commit}{Deprecated. Only the default value "main" is supported. Use
+`manifest_url` to read a specific snapshot manifest.}
 
 \item{manifest_url}{URL for a JSON snapshot manifest. Defaults to option
 `medrxivr.snapshot_manifest`, or the package's snapshot release manifest if

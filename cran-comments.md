@@ -6,7 +6,7 @@ Internet access during checks. This resubmission addresses that by:
 * Guarding live API examples and package checks so transient external service
   failures or rate limits do not produce check failures.
 * Moving the maintained medRxiv snapshot to repository release assets, with a
-  manifest and a legacy data-repository fallback.
+  manifest-driven reader.
 * Updating GitHub Actions dependencies and release-platform CI.
 * Declaring `Depends: R (>= 4.1.0)` for native pipe syntax.
 * Updating package documentation to use the canonical CRAN package page:

@@ -1,21 +1,16 @@
-test_that("Require file", {
+test_that("Export requires data", {
   expect_error(mx_export())
 })
 
-# mx_result <- mx_search(mx_snapshot(),
-#   query = c("dementia"),
-#   to_date = "2020-01-01",
-# )
+test_that("Export writes a BibTeX file for search results", {
+  mx_result <- suppressMessages(mx_search(
+    sample_preprint_data(),
+    query = "Dementia",
+    deduplicate = TRUE
+  ))
+  tmpfile <- tempfile(fileext = ".bib")
 
-# tmpfile <- tempfile(fileext = ".bib")
-
-# test_that("Inital output", {
-#   skip_if_offline()
-#   expect_message(mx_export(mx_result,tmpfile),
-#                  regexp = "References exported to")
-# })
-
-# testthat::test_that("Inital output", {
-#   skip_if_offline()
-#   expect_identical(file.exists(tmpfile), TRUE)
-# })
+  expect_message(mx_export(mx_result, tmpfile), "References exported to")
+  expect_true(file.exists(tmpfile))
+  expect_match(paste(readLines(tmpfile, warn = FALSE), collapse = "\n"), "Dementia biomarker study")
+})

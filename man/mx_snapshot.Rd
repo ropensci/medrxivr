@@ -13,10 +13,8 @@ mx_snapshot(
 )
 }
 \arguments{
-\item{commit}{Commit hash or branch name for the legacy snapshot repository,
-taken from https://github.com/yaoxiangli/medrxivr-data. Allows for
-reproducible searching by specifying the exact snapshot used to perform the
-searches. Defaults to "main".}
+\item{commit}{Deprecated. Only the default value "main" is supported. Use
+`manifest_url` to read a specific snapshot manifest.}
 
 \item{from_date}{Optional earliest date of interest ("YYYY-MM-DD" or Date).
 If supplied, records with `date` earlier than this are excluded.}
@@ -32,17 +30,15 @@ manifest if that option is unset.}
 between sessions. Defaults to TRUE.}
 }
 \value{
-A formatted dataframe containing the combined data from the snapshot
-  artifact or legacy snapshot parts, with reconstructed `link_page` and
-  `link_pdf` columns.
+A formatted dataframe containing the data from the snapshot artifact,
+  with reconstructed `link_page` and `link_pdf` columns.
 }
 \description{
 [Available for medRxiv only] This function allows users to import
   a maintained static snapshot of the medRxiv repository, instead of downloading
   a copy from the API, which can become unavailable during peak usage times.
-  The function first tries to read a manifest-driven snapshot artifact. If no
-  manifest is available, it falls back to the legacy split CSV snapshot
-  repository.
+  The function reads a manifest-driven snapshot artifact from the package's
+  GitHub release assets by default.
 }
 \seealso{
 Other data-source: 

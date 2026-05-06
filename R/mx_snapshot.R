@@ -3,14 +3,11 @@
 #' @description [Available for medRxiv only] This function allows users to import
 #'   a maintained static snapshot of the medRxiv repository, instead of downloading
 #'   a copy from the API, which can become unavailable during peak usage times.
-#'   The function first tries to read a manifest-driven snapshot artifact. If no
-#'   manifest is available, it falls back to the legacy split CSV snapshot
-#'   repository.
+#'   The function reads a manifest-driven snapshot artifact from the package's
+#'   GitHub release assets by default.
 #'
-#' @param commit Commit hash or branch name for the legacy snapshot repository,
-#'   taken from https://github.com/yaoxiangli/medrxivr-data. Allows for
-#'   reproducible searching by specifying the exact snapshot used to perform the
-#'   searches. Defaults to "main".
+#' @param commit Deprecated. Only the default value "main" is supported. Use
+#'   `manifest_url` to read a specific snapshot manifest.
 #' @param from_date Optional earliest date of interest ("YYYY-MM-DD" or Date).
 #'   If supplied, records with `date` earlier than this are excluded.
 #' @param to_date Optional latest date of interest ("YYYY-MM-DD" or Date).
@@ -21,9 +18,8 @@
 #' @param cache Logical. If TRUE, downloaded manifest snapshot files are cached
 #'   between sessions. Defaults to TRUE.
 #'
-#' @return A formatted dataframe containing the combined data from the snapshot
-#'   artifact or legacy snapshot parts, with reconstructed `link_page` and
-#'   `link_pdf` columns.
+#' @return A formatted dataframe containing the data from the snapshot artifact,
+#'   with reconstructed `link_page` and `link_pdf` columns.
 #' @export
 #' @family data-source
 mx_snapshot <- function(commit    = "main",
@@ -31,22 +27,18 @@ mx_snapshot <- function(commit    = "main",
                         to_date   = NULL,
                         manifest_url = default_snapshot_manifest_url(),
                         cache = TRUE) {
+  if (!identical(commit, "main")) {
+    stop("`commit` is no longer supported. Use `manifest_url` for a specific snapshot manifest.", call. = FALSE)
+  }
 
   from_date <- parse_snapshot_date(from_date, "from_date")
   to_date <- parse_snapshot_date(to_date, "to_date")
 
-  mx_data <- NULL
-  if (identical(commit, "main") && !is.null(manifest_url) && nzchar(manifest_url)) {
-    mx_data <- tryCatch(
-      suppressWarnings(read_snapshot_manifest_data(manifest_url, cache = cache)),
-      error = function(e) NULL
-    )
+  if (is.null(manifest_url) || !nzchar(manifest_url)) {
+    stop("`manifest_url` must point to a snapshot manifest.", call. = FALSE)
   }
 
-  if (is.null(mx_data)) {
-    mx_data <- read_legacy_snapshot_data(commit)
-  }
-
+  mx_data <- suppressWarnings(read_snapshot_manifest_data(manifest_url, cache = cache))
   mx_data <- filter_snapshot_dates(mx_data, from_date, to_date)
   mx_data <- reconstruct_snapshot_links(mx_data)
 
@@ -138,57 +130,6 @@ read_snapshot_file <- function(url) {
   }
 
   suppressMessages(data.table::fread(url, showProgress = FALSE))
-}
-
-read_legacy_snapshot_data <- function(commit = "main") {
-  api_url <- paste0(
-    "https://api.github.com/repos/YaoxiangLi/medrxivr-data/contents/",
-    "?ref=", commit
-  )
-
-  response <- tryCatch({
-    jsonlite::fromJSON(api_url)
-  }, error = function(e) {
-    stop("Failed to retrieve file list from GitHub. Please check the commit or branch name.")
-  })
-
-  # Identify snapshot part files
-  is_part <- grepl("^snapshot_part\\d+\\.csv$", response$name)
-  part_rows <- response[is_part, , drop = FALSE]
-  if (nrow(part_rows) == 0) {
-    stop("No snapshot part files found. Please check the commit or branch name.")
-  }
-
-  # Prefer GitHub-provided raw download_url for each part (works for branch or commit)
-  urls <- part_rows$download_url
-  # Fallback (shouldn't be needed, but safe)
-  if (any(is.na(urls))) {
-    base_url <- paste0("https://github.com/YaoxiangLi/medrxivr-data/raw/refs/heads/", commit, "/")
-    urls[is.na(urls)] <- paste0(base_url, part_rows$name[is.na(urls)])
-  }
-
-  df_list <- list()
-  for (i in seq_along(urls)) {
-    part_file <- part_rows$name[i]
-    url <- urls[i]
-
-    mx_part <- tryCatch({
-      suppressMessages(data.table::fread(url, showProgress = FALSE))
-    }, error = function(e) {
-      message("Failed to read file: ", part_file)
-      NULL
-    })
-
-    if (!is.null(mx_part)) {
-      df_list[[length(df_list) + 1L]] <- normalize_snapshot_part(mx_part)
-    }
-  }
-
-  if (length(df_list) == 0) {
-    stop("No data could be loaded from the snapshot part files.")
-  }
-
-  dplyr::bind_rows(df_list)
 }
 
 normalize_snapshot_part <- function(mx_part) {

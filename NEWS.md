@@ -1,6 +1,6 @@
 # medrxivr 0.1.3
 
-* Restored robust static snapshot access using snapshot release assets, with a legacy snapshot repository fallback.
+* Restored robust static snapshot access using snapshot release assets.
 * Guarded live API examples and checks so routine package checks do not fail when external services or rate limits are unavailable.
 * Updated CI and package metadata for current GitHub Actions and CRAN checks.
 * Documented the canonical CRAN package page as <https://CRAN.R-project.org/package=medrxivr>.

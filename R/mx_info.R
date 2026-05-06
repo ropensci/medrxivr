@@ -1,7 +1,7 @@
 #' Provide information on the medRxiv snapshot used to perform the search
 #'
-#' @param commit Commit hash for the legacy snapshot repository. Defaults to
-#'   "main".
+#' @param commit Deprecated. Only the default value "main" is supported. Use
+#'   `manifest_url` to read a specific snapshot manifest.
 #' @param manifest_url URL for a JSON snapshot manifest. Defaults to option
 #'   `medrxivr.snapshot_manifest`, or the package's snapshot release manifest if
 #'   that option is unset.
@@ -10,28 +10,17 @@
 
 mx_info <- function(commit = "main",
                     manifest_url = default_snapshot_manifest_url()) {
-  manifest_time <- tryCatch({
-    manifest <- suppressWarnings(jsonlite::fromJSON(manifest_url, simplifyVector = FALSE))
-    manifest$snapshot_date
-  }, error = function(e) NULL)
+  if (!identical(commit, "main")) {
+    stop("`commit` is no longer supported. Use `manifest_url` for a specific snapshot manifest.", call. = FALSE)
+  }
+
+  manifest <- suppressWarnings(jsonlite::fromJSON(manifest_url, simplifyVector = FALSE))
+  manifest_time <- manifest$snapshot_date
 
   if (!is.null(manifest_time) && length(manifest_time) && nzchar(manifest_time)) {
     message("Using medRxiv snapshot - ", manifest_time)
     return(invisible(manifest_time))
   }
 
-  current_time <- readLines(paste0(
-    "https://raw.githubusercontent.com/",
-    "YaoxiangLi/",
-    "medrxivr-data/",
-    commit,
-    "/timestamp.txt"
-  ))
-
-  mess <- paste0(
-    "Using medRxiv snapshot - ",
-    current_time
-  )
-  message(mess)
-  invisible(current_time)
+  stop("Snapshot manifest must contain a `snapshot_date` entry.", call. = FALSE)
 }
