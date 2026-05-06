@@ -31,3 +31,16 @@ test_that("Snapshot links are reconstructed from link and pdf columns", {
   expect_equal(snapshot$link_page, "https://www.medrxiv.org/content/10.1101/123v1")
   expect_equal(snapshot$link_pdf, "https://www.medrxiv.org/content/10.1101/123v1.full.pdf")
 })
+
+test_that("Snapshot links are reconstructed for empty snapshots", {
+  snapshot <- data.frame(
+    link = character(),
+    pdf = character()
+  )
+
+  snapshot <- reconstruct_snapshot_links(snapshot)
+
+  expect_equal(nrow(snapshot), 0L)
+  expect_equal(snapshot$link_page, character())
+  expect_equal(snapshot$link_pdf, character())
+})

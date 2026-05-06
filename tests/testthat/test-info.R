@@ -12,6 +12,12 @@ test_that("Snapshot date message reports newest record date", {
   )
 })
 
+test_that("Snapshot date message is quiet for empty snapshots", {
+  snapshot <- data.frame(date = character())
+
+  expect_silent(expect_true(is.na(inform_snapshot_date(snapshot))))
+})
+
 test_that("Snapshot manifest files are normalized", {
   manifest <- list(
     files = data.frame(

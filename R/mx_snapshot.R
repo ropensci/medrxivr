@@ -213,8 +213,12 @@ filter_snapshot_dates <- function(mx_data, from_date = NULL, to_date = NULL) {
 }
 
 reconstruct_snapshot_links <- function(mx_data) {
-  if ("link" %in% names(mx_data)) mx_data$link_page <- paste0("https://www.medrxiv.org", mx_data$link)
-  if ("pdf" %in% names(mx_data)) mx_data$link_pdf <- paste0("https://www.medrxiv.org", mx_data$pdf)
+  if ("link" %in% names(mx_data)) {
+    mx_data$link_page <- paste0(rep("https://www.medrxiv.org", length(mx_data$link)), mx_data$link)
+  }
+  if ("pdf" %in% names(mx_data)) {
+    mx_data$link_pdf <- paste0(rep("https://www.medrxiv.org", length(mx_data$pdf)), mx_data$pdf)
+  }
 
   mx_data
 }
@@ -231,7 +235,12 @@ inform_snapshot_date <- function(data) {
     return(invisible(NA))
   }
 
-  latest_date <- max(suppressWarnings(as.Date(data$date)), na.rm = TRUE)
+  dates <- suppressWarnings(as.Date(data$date))
+  if (!any(!is.na(dates))) {
+    return(invisible(NA))
+  }
+
+  latest_date <- max(dates, na.rm = TRUE)
 
   if (is.finite(latest_date)) {
     message("Snapshot includes records through ", latest_date)
