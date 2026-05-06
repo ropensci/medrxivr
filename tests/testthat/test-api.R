@@ -1,6 +1,11 @@
 test_that("Server not recognised", {
-  skip_if_offline()
-  expect_error(mx_api_content(server = "medRxiv"))
+  with_test_bindings(
+    environment(mx_api_content),
+    list(internet_check = function() TRUE),
+    {
+      expect_error(mx_api_content(server = "medRxiv"))
+    }
+  )
   expect_error(mx_api_doi(server = "medRxiv"))
 })
 
@@ -60,6 +65,58 @@ test_that("API content handles unavailable metadata and raw output", {
 
   expect_equal(nrow(mx_data), 1L)
   expect_true("server" %in% names(mx_data))
+})
+
+test_that("API content reports inflated metadata and prefixes colliding metadata", {
+  raw <- sample_raw_api_data()[1, , drop = FALSE]
+  fake_reader <- function(url) {
+    cursor <- tail(strsplit(url, "/", fixed = TRUE)[[1]], 1)
+    collection <- if (identical(cursor, "0")) raw else raw[0, , drop = FALSE]
+    list(
+      messages = data.frame(
+        status = "ok",
+        title = "metadata title",
+        cursor = as.integer(cursor),
+        count = 1L,
+        total = 3L
+      ),
+      collection = collection
+    )
+  }
+
+  with_test_bindings(
+    environment(mx_api_content),
+    list(internet_check = function() TRUE, api_to_df = fake_reader),
+    {
+      expect_message(
+        mx_data <- mx_api_content(include_info = TRUE),
+        "artificially inflated"
+      )
+    }
+  )
+
+  expect_true("api_title" %in% names(mx_data))
+})
+
+test_that("API content includes empty metadata when no records are returned", {
+  empty <- sample_raw_api_data()[0, , drop = FALSE]
+  fake_reader <- function(url) {
+    list(
+      messages = data.frame(status = "ok", cursor = 0L, count = 0L, total = 0L),
+      collection = empty
+    )
+  }
+
+  with_test_bindings(
+    environment(mx_api_content),
+    list(internet_check = function() TRUE, api_to_df = fake_reader),
+    {
+      mx_data <- suppressMessages(mx_api_content(include_info = TRUE))
+    }
+  )
+
+  expect_equal(nrow(mx_data), 0L)
+  expect_true("status" %in% names(mx_data))
 })
 
 test_that("API DOI lookup cleans a single record", {

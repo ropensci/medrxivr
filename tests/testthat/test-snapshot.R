@@ -2,7 +2,9 @@ test_that("Snapshot date arguments parse consistently", {
   expect_equal(parse_snapshot_date("2021-01-02", "from_date"), as.Date("2021-01-02"))
   expect_equal(parse_snapshot_date(as.Date("2021-01-02"), "from_date"), as.Date("2021-01-02"))
   expect_null(parse_snapshot_date(NULL, "from_date"))
+  expect_error(parse_snapshot_date("", "from_date"))
   expect_error(parse_snapshot_date("not-a-date", "from_date"))
+  expect_error(parse_snapshot_date("2021-13-01", "from_date"))
   expect_error(parse_snapshot_date(20200102, "from_date"))
 })
 
@@ -50,6 +52,7 @@ test_that("Snapshot reads manifest release assets without legacy repository fall
   expect_equal(snapshot$node, 2:4)
   expect_true(all(grepl("^https://www.medrxiv.org/content/", snapshot$link_page)))
   expect_error(mx_snapshot(commit = "legacy-sha", manifest_url = manifest_file), "no longer supported")
+  expect_error(mx_snapshot(manifest_url = NULL), "manifest_url")
 })
 
 test_that("Snapshot manifest validation catches malformed manifests", {
@@ -67,6 +70,33 @@ test_that("Snapshot file reader handles gzipped CSV assets", {
 
   expect_equal(nrow(snapshot), 2L)
   expect_equal(snapshot$date, c("2020-01-02", "2020-02-03"))
+})
+
+test_that("Snapshot caching stores local copies and reuses cached files", {
+  snapshot_file <- tempfile(fileext = ".csv")
+  utils::write.csv(sample_preprint_data()[1:2, ], snapshot_file, row.names = FALSE)
+  cache_name <- paste0("test-snapshot-cache-", as.integer(Sys.time()), "-", Sys.getpid(), ".csv")
+  files <- data.frame(
+    name = cache_name,
+    url = paste0("file:///", normalizePath(snapshot_file, winslash = "/"))
+  )
+
+  cached <- cache_snapshot_files(files, cache = TRUE)
+  expect_true(file.exists(cached))
+
+  writeLines("changed source", snapshot_file)
+  cached_again <- cache_snapshot_files(files, cache = TRUE)
+  expect_identical(cached_again, cached)
+  expect_equal(nrow(read_snapshot_files(cached_again)), 2L)
+})
+
+test_that("Snapshot reader handles plain CSV assets", {
+  snapshot_file <- tempfile(fileext = ".csv")
+  utils::write.csv(sample_preprint_data()[1, ], snapshot_file, row.names = FALSE)
+
+  snapshot <- read_snapshot_file(snapshot_file)
+
+  expect_equal(nrow(snapshot), 1L)
 })
 
 test_that("Snapshot links are reconstructed from link and pdf columns", {
@@ -108,4 +138,6 @@ test_that("Snapshot information reads manifest date and rejects legacy commits",
   missing_date <- tempfile(fileext = ".json")
   jsonlite::write_json(list(files = list()), missing_date, auto_unbox = TRUE)
   expect_error(mx_info(manifest_url = missing_date), "snapshot_date")
+
+  expect_true(is.na(inform_snapshot_date(data.frame(title = "no date"))))
 })

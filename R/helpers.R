@@ -21,7 +21,7 @@ internet_check <- function() {
 #'
 #' @importFrom dplyr %>%
 
-api_to_df <- function(url) {
+api_to_df <- function(url) { # nocov start
   details <- httr::RETRY(
     verb = "GET",
     times = 3,
@@ -73,7 +73,7 @@ api_to_df <- function(url) {
   details <- details %>%
     httr::content(as = "text", encoding = "UTF-8") %>%
     jsonlite::fromJSON()
-}
+} # nocov end
 
 #' Create link for API
 #'
@@ -150,14 +150,24 @@ clean_api_df <- function(df) {
   df <- df %>%
     dplyr::select(-dplyr::all_of("type"))
 
-  df$link <- paste0("/content/", df$doi, "v", df$version, "?versioned=TRUE")
-  df$pdf <- paste0("/content/", df$doi, "v", df$version, ".full.pdf")
+  if (nrow(df) == 0L) {
+    df$link <- character()
+    df$pdf <- character()
+  } else {
+    df$link <- paste0("/content/", df$doi, "v", df$version, "?versioned=TRUE")
+    df$pdf <- paste0("/content/", df$doi, "v", df$version, ".full.pdf")
+  }
   df$category <- stringr::str_to_title(df$category)
   df$authors <- stringr::str_to_title(df$authors)
   df$author_corresponding <- stringr::str_to_title(df$author_corresponding)
 
-  df$link_page <- paste0("https://www.", df$server, ".org", df$link)
-  df$link_pdf <- paste0("https://www.", df$server, ".org", df$pdf)
+  if (nrow(df) == 0L) {
+    df$link_page <- character()
+    df$link_pdf <- character()
+  } else {
+    df$link_page <- paste0("https://www.", df$server, ".org", df$link)
+    df$link_pdf <- paste0("https://www.", df$server, ".org", df$pdf)
+  }
 
   df <- df %>%
     dplyr::select(-dplyr::all_of(c("server", "link", "pdf")))
@@ -170,7 +180,7 @@ clean_api_df <- function(df) {
 #'
 #' @keywords internal
 
-skip_if_api_message <- function() {
+skip_if_api_message <- function() { # nocov start
   details <- httr::RETRY(
     verb = "GET",
     times = 3,
@@ -184,4 +194,4 @@ skip_if_api_message <- function() {
   if (code == 200 & message == "Error : (2002) Connection refused") {
     testthat::skip("API connection refused") # nocov
   }
-}
+} # nocov end

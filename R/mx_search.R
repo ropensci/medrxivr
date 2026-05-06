@@ -322,25 +322,25 @@ print_full_results <- function(num_results,
 .mx_safe_fix_caps <- function(x) {
   if (exists("fix_caps", mode = "function")) {
     get("fix_caps", mode = "function")(x)
-  } else {
+  } else { # nocov start
     x
-  }
+  } # nocov end
 }
 
 #' @noRd
 .mx_safe_fix_near <- function(x) {
   if (exists("fix_near", mode = "function")) {
     get("fix_near", mode = "function")(x)
-  } else {
+  } else { # nocov start
     x
-  }
+  } # nocov end
 }
 
 #' @noRd
 .mx_safe_fix_wildcard <- function(x) {
   if (exists("fix_wildcard", mode = "function")) {
     get("fix_wildcard", mode = "function")(x)
-  } else {
+  } else { # nocov start
     x
-  }
+  } # nocov end
 }

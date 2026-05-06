@@ -1,11 +1,16 @@
 test_that("Search validates required inputs", {
   expect_error(mx_search(), "preprint data")
   expect_error(mx_search(data = sample_preprint_data()), "search terms")
+  expect_error(mx_search(data = list(other = data.frame()), query = "dementia"), "data.frame element")
   expect_error(mx_search(data = data.frame(title = "dementia"), query = "dementia"), "date")
 })
 
 test_that("Search handles string, vector, list, date, and deduplication inputs", {
   mx_data <- sample_preprint_data()
+  wrapped_data <- list(data = mx_data)
+
+  wrapped <- suppressMessages(mx_search(wrapped_data, query = "Dementia", deduplicate = FALSE))
+  expect_equal(nrow(wrapped), 3L)
 
   dementia <- suppressMessages(mx_search(mx_data, query = "Dementia", deduplicate = FALSE))
   expect_equal(nrow(dementia), 3L)
@@ -28,6 +33,12 @@ test_that("Search handles string, vector, list, date, and deduplication inputs",
     deduplicate = FALSE
   ))
   expect_equal(dated$ID, 2L)
+
+  all_results <- suppressMessages(mx_search(mx_data, query = "*", deduplicate = FALSE))
+  expect_equal(nrow(all_results), nrow(mx_data))
+
+  direct_all <- run_search(mx_data, query = "*", fields = c("title"), deduplicate = FALSE)
+  expect_equal(nrow(direct_all), nrow(mx_data))
 })
 
 test_that("Search supports NOT, auto capitalization, wildcards, NEAR, and reports", {
@@ -38,6 +49,9 @@ test_that("Search supports NOT, auto capitalization, wildcards, NEAR, and report
     "matching your search"
   )
   expect_equal(nrow(excluded), 2L)
+
+  auto_not <- suppressMessages(mx_search(mx_data, query = "Dementia", NOT = "vascular", auto_caps = TRUE))
+  expect_false(any(grepl("Vascular", auto_not$title)))
 
   auto <- suppressMessages(mx_search(mx_data, query = "dementia", auto_caps = TRUE, deduplicate = FALSE))
   expect_equal(nrow(auto), 3L)

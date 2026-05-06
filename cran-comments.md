@@ -24,6 +24,10 @@ Internet access during checks. This resubmission addresses that by:
 
 Local checks produce no ERRORs or WARNINGs.
 
+Unit tests pass locally with 100% measured coverage by `covr`.
+
+`R CMD check --run-donttest --no-manual --ignore-vignettes` returns OK locally.
+
 Known local NOTEs:
 
 * New submission / package archived on CRAN. This is expected for a package

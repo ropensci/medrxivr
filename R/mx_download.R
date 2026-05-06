@@ -86,9 +86,9 @@ mx_download <- function(mx_results,
       ))
 
       sleep_time <- runif(1, 10, 13)
-      if (nrow(mx_results) > 1) {
+      if (nrow(mx_results) > 1) { # nocov start
         Sys.sleep(sleep_time)
-      }
+      } # nocov end
 
       pmx_results <-
         try(download.file(

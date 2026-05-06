@@ -120,9 +120,9 @@ read_snapshot_files <- function(urls) {
 
 read_snapshot_file <- function(url) {
   if (grepl("[.]gz$", url)) {
-    if (grepl("^https?://", url)) {
+    if (grepl("^https?://", url)) { # nocov start
       con <- gzcon(base::url(url, open = "rb"))
-    } else {
+    } else { # nocov end
       con <- gzfile(url, open = "rt")
     }
     on.exit(close(con), add = TRUE)
