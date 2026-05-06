@@ -32,6 +32,4 @@ Known local NOTEs:
 
 * New submission / package archived on CRAN. This is expected for a package
   returning from the archive.
-* README.md and NEWS.md cannot be checked locally without pandoc installed.
-  GitHub Actions checks install pandoc.
 * Unable to verify current time. This is local-environment specific.

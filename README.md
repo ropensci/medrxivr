@@ -13,7 +13,7 @@ Downloads.](https://cranlogs.r-pkg.org/badges/grand-total/medrxivr)](https://CRA
 [![R build
 status](https://github.com/ropensci/medrxivr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/medrxivr/actions)
 [![Status at rOpenSci software
-peer-review](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/onboarding/issues/380)
+peer-review](https://badges.ropensci.org/380_status.svg)](https://github.com/ropensci/software-review/issues/380)
 
 <!-- badges: end -->
 
