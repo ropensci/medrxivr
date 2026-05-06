@@ -9,10 +9,7 @@
 #' @return Message with snapshot details
 
 mx_info <- function(commit = "main",
-                    manifest_url = getOption(
-                      "medrxivr.snapshot_manifest",
-                      "https://github.com/ropensci/medrxivr/releases/download/snapshot/snapshot-manifest.json"
-                    )) {
+                    manifest_url = default_snapshot_manifest_url()) {
   manifest_time <- tryCatch({
     manifest <- suppressWarnings(jsonlite::fromJSON(manifest_url, simplifyVector = FALSE))
     manifest$snapshot_date

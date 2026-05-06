@@ -8,8 +8,7 @@ mx_snapshot(
   commit = "main",
   from_date = NULL,
   to_date = NULL,
-  manifest_url = getOption("medrxivr.snapshot_manifest",
-    "https://github.com/ropensci/medrxivr/releases/download/snapshot/snapshot-manifest.json"),
+  manifest_url = default_snapshot_manifest_url(),
   cache = TRUE
 )
 }

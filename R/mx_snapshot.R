@@ -29,10 +29,7 @@
 mx_snapshot <- function(commit    = "main",
                         from_date = NULL,
                         to_date   = NULL,
-                        manifest_url = getOption(
-                          "medrxivr.snapshot_manifest",
-                          "https://github.com/ropensci/medrxivr/releases/download/snapshot/snapshot-manifest.json"
-                        ),
+                        manifest_url = default_snapshot_manifest_url(),
                         cache = TRUE) {
 
   from_date <- parse_snapshot_date(from_date, "from_date")
@@ -56,6 +53,13 @@ mx_snapshot <- function(commit    = "main",
   inform_snapshot_date(mx_data)
 
   mx_data
+}
+
+default_snapshot_manifest_url <- function() {
+  getOption(
+    "medrxivr.snapshot_manifest",
+    "https://github.com/ropensci/medrxivr/releases/download/snapshot/snapshot-manifest.json"
+  )
 }
 
 parse_snapshot_date <- function(x, nm) {

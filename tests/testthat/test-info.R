@@ -31,3 +31,13 @@ test_that("Snapshot manifest files are normalized", {
   expect_equal(files$name, "snapshot.csv.gz")
   expect_equal(files$url, "https://example.org/snapshot.csv.gz")
 })
+
+test_that("Snapshot manifest URL respects package option", {
+  old_options <- options(medrxivr.snapshot_manifest = "https://example.org/manifest.json")
+  on.exit(options(old_options))
+
+  expect_equal(
+    default_snapshot_manifest_url(),
+    "https://example.org/manifest.json"
+  )
+})
