@@ -60,7 +60,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("knitr", "rmarkdown", "rcmdcheck"))
+          install.packages(c("knitr", "rmarkdown", "kableExtra", "testthat", "spelling", "covr", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
