@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(medrxivr)
 ```
 
-# medrxivr <img src="man/figures/logo.png" align="right" width="20%" height="20%" />
+# medrxivr <img src="man/figures/logo.png" align="right" width="20%" height="20%" alt="medrxivr package logo" />
 
 
 <!-- badges: start -->
@@ -75,7 +75,7 @@ preprint_data <- mx_snapshot()
   
 The relationship between the two methods for the medRxiv database is summarised in the figure below:
   
-``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px"}
+``` {r eval = TRUE, echo = FALSE, out.width = "500px", out.height = "400px", fig.alt = "Diagram comparing medRxiv data access from the live API and static snapshot"}
 
 knitr::include_graphics("vignettes/data_sources.png")
 ```

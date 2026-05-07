@@ -60,7 +60,7 @@ mx_results <- mx_search(data = mx_snapshot(),
 
 ### Limit search by field
 
-By default, a range of fields (title, abstract, first author, subject, link (which contains DOI)) are searched, but you can limit the search to a subset of these using the `fields` argument:
+By default, a range of fields (title, abstract, authors, category, and DOI) are searched, but you can limit the search to a subset of these using the `fields` argument:
 
 ```{r}
 
@@ -72,7 +72,7 @@ mx_results <- mx_search(data = mx_snapshot(),
 # Search by DOI
 mx_results <- mx_search(data = mx_snapshot(),
                         query = "10.1101/2020.01.30.20019836",
-                        fields = "link")
+                        fields = "doi")
 
 ```
 
@@ -104,7 +104,7 @@ _medRxiv_ allows authors to upload a new version of their preprint as often as t
 ```{r}
 mx_results <- mx_search(data = mx_snapshot(),
                         query = "10.1101/2020.01.30.20019836",
-                        fields = "link",
+                        fields = "doi",
                         deduplicate = FALSE)
 ```
 

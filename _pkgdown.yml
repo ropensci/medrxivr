@@ -1,3 +1,5 @@
+url: https://docs.ropensci.org/medrxivr/
+
 destination: docs
 reference:
 - title: Accessing medRxiv/bioRxiv data

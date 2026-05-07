@@ -33,7 +33,7 @@ License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Language: en-US
-URL: https://github.com/ropensci/medrxivr
+URL: https://docs.ropensci.org/medrxivr/, https://github.com/ropensci/medrxivr
 BugReports: https://github.com/ropensci/medrxivr/issues
 Imports: 
     methods,

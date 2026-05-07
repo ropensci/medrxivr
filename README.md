@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# medrxivr <img src="man/figures/logo.png" align="right" width="20%" height="20%" />
+# medrxivr <img src="man/figures/logo.png" align="right" width="20%" height="20%" alt="medrxivr package logo" />
 
 <!-- badges: start -->
 
@@ -21,7 +21,8 @@ An increasingly important source of health-related bibliographic content
 are preprints - preliminary versions of research articles that have yet
 to undergo peer review. The two preprint repositories most relevant to
 health-related sciences are [medRxiv](https://www.medrxiv.org/) and
-bioRxiv, both of which are operated by the Cold Spring Harbor Laboratory.
+bioRxiv, both of which are operated by the Cold Spring Harbor
+Laboratory.
 
 The goal of the `medrxivr` R package is two-fold. In the first instance,
 it provides programmatic access to the [Cold Spring Harbour Laboratory
@@ -38,7 +39,8 @@ search criteria.
 
 ## Installation
 
-When the package is available from CRAN, install the stable version with:
+When the package is available from CRAN, install the stable version
+with:
 
 ``` r
 install.packages("medrxivr")
@@ -75,10 +77,11 @@ preprint_data <- mx_api_content()
   database. The package reads a manifest from the `snapshot` release
   assets for this repository, downloads the referenced compressed CSV
   files, and caches them locally. This method does not rely on the live
-  API during ordinary use and is usually faster than re-extracting records
-  from the API. The function prints the latest record date included in the
-  snapshot; discrepancies between the most recent static snapshot and the
-  live database can be assessed using `mx_crosscheck()`.
+  API during ordinary use and is usually faster than re-extracting
+  records from the API. The function prints the latest record date
+  included in the snapshot; discrepancies between the most recent static
+  snapshot and the live database can be assessed using
+  `mx_crosscheck()`.
 
 ``` r
 # Get a copy of the database from the static snapshot
@@ -88,7 +91,7 @@ preprint_data <- mx_snapshot()
 The relationship between the two methods for the medRxiv database is
 summarised in the figure below:
 
-<img src="vignettes/data_sources.png" width="500px" height="400px" />
+<img src="vignettes/data_sources.png" alt="Diagram comparing medRxiv data access from the live API and static snapshot" width="500px" height="400px" />
 
 ### bioRxiv data
 
