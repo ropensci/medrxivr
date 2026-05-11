@@ -1,7 +1,14 @@
 ## Resubmission
 
-This package was archived on 2025-05-27 for a policy violation related to
-Internet access during checks. This resubmission addresses that by:
+This resubmission fixes the CRAN Additional issue reported under `donttest`,
+where the snapshot-cache unit test left a temporary file in the user cache
+directory during checks.
+
+This update is submitted shortly after version 0.1.3 in response to the CRAN
+Team request to correct the Additional issue before 2026-05-24.
+
+The previous resubmission addressed the earlier Internet-access archive issue
+by:
 
 * Guarding live API examples and package checks so transient external service
   failures or rate limits do not produce check failures.
@@ -26,10 +33,10 @@ Local checks produce no ERRORs or WARNINGs.
 
 Unit tests pass locally with 100% measured coverage by `covr`.
 
-`R CMD check --run-donttest --no-manual --ignore-vignettes` returns OK locally.
+`R CMD check --run-donttest --no-manual --as-cran` returns OK locally.
 
 Known local NOTEs:
 
-* New submission / package archived on CRAN. This is expected for a package
-  returning from the archive.
+* Days since last update. This is expected because this is a prompt
+  maintenance release requested by the CRAN Team.
 * Unable to verify current time. This is local-environment specific.

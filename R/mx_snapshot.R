@@ -97,7 +97,7 @@ cache_snapshot_files <- function(files, cache = TRUE) {
     return(files$url)
   }
 
-  cache_dir <- file.path(tools::R_user_dir("medrxivr", "cache"), "snapshots")
+  cache_dir <- snapshot_cache_dir()
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
   vapply(seq_len(nrow(files)), function(i) {
@@ -107,6 +107,15 @@ cache_snapshot_files <- function(files, cache = TRUE) {
     }
     dest
   }, character(1))
+}
+
+snapshot_cache_dir <- function() {
+  cache_root <- getOption(
+    "medrxivr.cache_dir",
+    tools::R_user_dir("medrxivr", "cache")
+  )
+
+  file.path(cache_root, "snapshots")
 }
 
 read_snapshot_files <- function(urls) {

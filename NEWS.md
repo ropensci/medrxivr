@@ -1,3 +1,8 @@
+# medrxivr 0.1.4
+
+* Isolated snapshot-cache tests so package checks do not leave files in the
+  user cache directory.
+
 # medrxivr 0.1.3
 
 * Restored robust static snapshot access using snapshot release assets.

@@ -73,6 +73,13 @@ test_that("Snapshot file reader handles gzipped CSV assets", {
 })
 
 test_that("Snapshot caching stores local copies and reuses cached files", {
+  cache_root <- tempfile("medrxivr-cache-")
+  old_options <- options(medrxivr.cache_dir = cache_root)
+  on.exit({
+    options(old_options)
+    unlink(cache_root, recursive = TRUE, force = TRUE)
+  }, add = TRUE)
+
   snapshot_file <- tempfile(fileext = ".csv")
   utils::write.csv(sample_preprint_data()[1:2, ], snapshot_file, row.names = FALSE)
   cache_name <- paste0("test-snapshot-cache-", as.integer(Sys.time()), "-", Sys.getpid(), ".csv")
@@ -83,6 +90,7 @@ test_that("Snapshot caching stores local copies and reuses cached files", {
 
   cached <- cache_snapshot_files(files, cache = TRUE)
   expect_true(file.exists(cached))
+  expect_true(startsWith(normalizePath(cached), normalizePath(cache_root)))
 
   writeLines("changed source", snapshot_file)
   cached_again <- cache_snapshot_files(files, cache = TRUE)
