@@ -5,6 +5,8 @@ test_that("Snapshot date arguments parse consistently", {
   expect_error(parse_snapshot_date("", "from_date"))
   expect_error(parse_snapshot_date("not-a-date", "from_date"))
   expect_error(parse_snapshot_date("2021-13-01", "from_date"))
+  expect_error(parse_snapshot_date(c("2021-01-01", "2021-01-02"), "from_date"))
+  expect_error(parse_snapshot_date(NA_character_, "from_date"))
   expect_error(parse_snapshot_date(20200102, "from_date"))
 })
 
@@ -88,14 +90,19 @@ test_that("Snapshot caching stores local copies and reuses cached files", {
     url = paste0("file:///", normalizePath(snapshot_file, winslash = "/"))
   )
 
-  cached <- cache_snapshot_files(files, cache = TRUE)
+  cached <- cache_snapshot_files(files, cache = TRUE, cache_key = "first")
   expect_true(file.exists(cached))
   expect_true(startsWith(normalizePath(cached), normalizePath(cache_root)))
 
   writeLines("changed source", snapshot_file)
-  cached_again <- cache_snapshot_files(files, cache = TRUE)
+  cached_again <- cache_snapshot_files(files, cache = TRUE, cache_key = "first")
   expect_identical(cached_again, cached)
   expect_equal(nrow(read_snapshot_files(cached_again)), 2L)
+
+  utils::write.csv(sample_preprint_data()[1:3, ], snapshot_file, row.names = FALSE)
+  refreshed <- cache_snapshot_files(files, cache = TRUE, cache_key = "second")
+  expect_identical(refreshed, cached)
+  expect_equal(nrow(read_snapshot_files(refreshed)), 3L)
 })
 
 test_that("Snapshot reader handles plain CSV assets", {

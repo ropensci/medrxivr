@@ -46,6 +46,10 @@ mx_search <- function(data = NULL,
                       NOT = "",
                       deduplicate = TRUE,
                       report = FALSE) {
+  validate_flag(auto_caps, "auto_caps")
+  validate_flag(deduplicate, "deduplicate")
+  validate_flag(report, "report")
+
   # Error handling ----------------------------------------------------------
 
   if (is.null(data)) {
@@ -59,13 +63,9 @@ mx_search <- function(data = NULL,
   if (is.null(query)) {
     stop("Please specify search terms in the `query` argument.")
   }
-
-  if (curl::has_internet() == FALSE) { # nocov start
-    stop(paste0(
-      "No internet connect detected - ",
-      "please connect to the internet and try again"
-    ))
-  } # nocov end
+  if (length(query) == 0L) {
+    stop("`query` must contain at least one search term.", call. = FALSE)
+  }
 
   # Load/normalize data -----------------------------------------------------
 
@@ -83,15 +83,31 @@ mx_search <- function(data = NULL,
   if (!"date" %in% names(mx_data)) {
     stop("`data` must contain a 'date' column (YYYY-MM-DD).")
   }
-  mx_data$date <- as.numeric(gsub("-", "", mx_data$date))
+  missing_fields <- setdiff(fields, names(mx_data))
+  if (length(missing_fields)) {
+    stop(
+      "`fields` not found in `data`: ",
+      paste(missing_fields, collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  parsed_dates <- tryCatch(
+    suppressWarnings(as.Date(mx_data$date)),
+    error = function(e) rep(as.Date(NA), length(mx_data$date))
+  )
+  if (anyNA(parsed_dates)) {
+    stop("`data$date` must contain valid dates in YYYY-MM-DD format.", call. = FALSE)
+  }
+  mx_data$date <- as.integer(format(parsed_dates, "%Y%m%d"))
 
   if (!is.null(to_date)) {
-    to_date <- as.numeric(gsub("-", "", to_date))
+    to_date <- as.integer(format(parse_snapshot_date(to_date, "to_date"), "%Y%m%d"))
     mx_data <- mx_data %>% dplyr::filter(date <= to_date)
   }
 
   if (!is.null(from_date)) {
-    from_date <- as.numeric(gsub("-", "", from_date))
+    from_date <- as.integer(format(parse_snapshot_date(from_date, "from_date"), "%Y%m%d"))
     mx_data <- mx_data %>% dplyr::filter(date >= from_date)
   }
 
@@ -262,7 +278,7 @@ run_search <- function(mx_data,
     names(mx_results)[names(mx_results) == "date_posted"] <- "date_posted"
     names(mx_results)[names(mx_results) == "node"] <- "ID"
 
-    mx_results$date <- lubridate::as_date(as.character(mx_results$date))
+    mx_results$date <- as.Date(as.character(mx_results$date), format = "%Y%m%d")
 
     mx_results <- mx_results[, c(
       "ID",

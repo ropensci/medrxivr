@@ -34,13 +34,14 @@
 #'   )
 #' }
 #' @importFrom dplyr %>%
-#' @importFrom rlang .data
-
 mx_api_content <- function(from_date = "2013-01-01",
                            to_date = as.character(Sys.Date()),
                            clean = TRUE,
                            server = "medrxiv",
                            include_info = FALSE) {
+  validate_flag(clean, "clean")
+  validate_flag(include_info, "include_info")
+
   # Check that the user is connected to the internet
   internet_check()
 
@@ -66,40 +67,38 @@ mx_api_content <- function(from_date = "2013-01-01",
     message("Estimated total number of records as per API metadata: <unavailable>")
   }
 
-  # Create empty dataset
-  df <- details$collection %>%
-    dplyr::filter(doi == "")
-
-  # Progress bar: track pages, not records (avoids finished-assertions)
+  # Progress bar: track pages, not records.
   total_pages <- if (is.finite(count) && !is.na(count)) ceiling(count / per_page) else NA_integer_
   if (!is.finite(total_pages) || is.na(total_pages) || total_pages < 1L) total_pages <- 1L
 
-  pb_total <- if (!is.finite(count) || is.na(count)) NA_integer_ else total_pages
-  pb <- progress::progress_bar$new(
-    format = paste0(
-      "Downloading... [:bar] :current/:total ",
-      "(:percent) Est. time remaining: :eta"
-    ),
-    total = pb_total,
-    clear = TRUE
-  )
-  on.exit({ if (!pb$finished) pb$terminate() }, add = TRUE)
-  pb$tick(0)
-
-  # Get data
-  page_starts <- (seq_len(total_pages) - 1L) * per_page
-  for (page in page_starts) {
-    page_link <- api_link(
-      server,
-      from_date,
-      to_date,
-      format(page, scientific = FALSE)
-    )
-    tmp <- api_to_df(page_link)
-    tmp <- tmp$collection
-    df <- rbind(df, tmp)
-    if (!pb$finished) pb$tick()
+  show_progress <- interactive()
+  if (show_progress) {
+    pb <- utils::txtProgressBar(min = 0L, max = total_pages, style = 3L)
+    on.exit(close(pb), add = TRUE)
   }
+
+  # Reuse the first API response instead of downloading page zero twice, and
+  # combine pages once to avoid repeatedly copying a growing data frame.
+  page_starts <- (seq_len(total_pages) - 1L) * per_page
+  pages <- vector("list", length(page_starts))
+  for (page_index in seq_along(page_starts)) {
+    if (page_index == 1L) {
+      tmp <- details
+    } else {
+      page_link <- api_link(
+        server,
+        from_date,
+        to_date,
+        format(page_starts[[page_index]], scientific = FALSE)
+      )
+      tmp <- api_to_df(page_link)
+    }
+    pages[[page_index]] <- tmp$collection
+    if (show_progress) {
+      utils::setTxtProgressBar(pb, page_index)
+    }
+  }
+  df <- dplyr::bind_rows(pages)
 
   # Clean data
   message("Number of records retrieved from API: ", nrow(df))
@@ -111,11 +110,11 @@ mx_api_content <- function(from_date = "2013-01-01",
     ))
   }
 
-  if (clean == TRUE) {
+  if (clean) {
     df <- clean_api_df(df)
   }
 
-  if (include_info == TRUE) {
+  if (include_info) {
     meta <- details$messages
     if (nrow(df) > 0) {
       meta <- meta %>%
@@ -163,11 +162,11 @@ mx_api_content <- function(from_date = "2013-01-01",
 #'   mx_data <- mx_api_doi("10.1101/2020.02.25.20021568")
 #' }
 #' @importFrom dplyr %>%
-#' @importFrom rlang .data
-
 mx_api_doi <- function(doi,
                        server = "medrxiv",
                        clean = TRUE) {
+  validate_flag(clean, "clean")
+
   "%notin%" <- Negate("%in%")
   if (server %notin% c("medrxiv", "biorxiv")) {
     stop(paste(

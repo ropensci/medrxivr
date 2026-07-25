@@ -28,3 +28,18 @@ test_that("Download writes files, handles existing files, and supports names", {
   expect_message(mx_download(mx_result, doi_dir, name = "DOI"), "Downloading")
   expect_true(file.exists(file.path(doi_dir, "10.1101_19003301.pdf")))
 })
+
+test_that("Download retries are bounded and invalid inputs fail clearly", {
+  bad_result <- data.frame(
+    link_pdf = "file:///this/path/does/not/exist.pdf",
+    ID = "1",
+    doi = "10.1101/missing",
+    stringsAsFactors = FALSE
+  )
+  old_options <- options(medrxivr.download_retries = 1L)
+  on.exit(options(old_options), add = TRUE)
+
+  expect_error(mx_download(bad_result, tempfile()), "after 1 attempts")
+  expect_error(mx_download(data.frame(), tempfile()), "link_pdf")
+  expect_error(mx_download(bad_result, tempfile(), print_update = 0), "positive whole")
+})

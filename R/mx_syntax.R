@@ -42,7 +42,7 @@ mx_caps <- function(x) {
 
 fix_caps <- function(x) {
   x_clean <- lapply(x, function(y) {
-    purrr::map_chr(y, function(z) {
+    vapply(y, function(z) {
       # Stop if first character in string is square-brackets
       if (grepl("\\[", substr(z, 1, 1)) == TRUE) {
         return(z)
@@ -61,7 +61,7 @@ fix_caps <- function(x) {
         unlist()
 
       return(z_v)
-    })
+    }, character(1))
   })
 
   if (!is.list(x)) {
@@ -80,9 +80,9 @@ fix_caps <- function(x) {
 
 fix_wildcard <- function(x) {
   x_clean <- lapply(x, function(y) {
-    purrr::map_chr(y, function(z) {
+    vapply(y, function(z) {
       stringr::str_replace_all(z, "\\*", "([[:alpha:]])")
-    })
+    }, character(1))
   })
 
   if (!is.list(x)) {
@@ -102,10 +102,10 @@ fix_wildcard <- function(x) {
 
 fix_near <- function(x) {
   x_clean <- lapply(x, function(y) {
-    purrr::map_chr(y, function(z) {
+    vapply(y, function(z) {
       stringr::str_replace_all(z, "\\s?[Nn][Ee][Aa][Rr](\\d)\\s?", "NEAR\\1") %>%
         stringr::str_replace_all("NEAR(\\d)", "(\\\\s+)([[:graph:]]+\\\\s+){0,\\1}")
-    })
+    }, character(1))
   })
 
   if (!is.list(x)) {

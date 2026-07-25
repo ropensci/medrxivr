@@ -56,9 +56,12 @@ default_snapshot_manifest_url <- function() {
 
 parse_snapshot_date <- function(x, nm) {
   if (is.null(x)) return(NULL)
+  if (length(x) != 1L || is.na(x)) {
+    stop(sprintf("`%s` must be one valid 'YYYY-MM-DD' date.", nm), call. = FALSE)
+  }
   if (inherits(x, "Date")) return(x)
-  if (is.character(x)) {
-    date_value <- as.Date(x)
+  if (is.character(x) && grepl("^\\d{4}-\\d{2}-\\d{2}$", x)) {
+    date_value <- suppressWarnings(as.Date(x))
     if (is.na(date_value)) {
       stop(sprintf("`%s` must be a valid 'YYYY-MM-DD' or Date.", nm), call. = FALSE)
     }
@@ -71,7 +74,11 @@ parse_snapshot_date <- function(x, nm) {
 read_snapshot_manifest_data <- function(manifest_url, cache = TRUE) {
   manifest <- jsonlite::fromJSON(manifest_url, simplifyVector = FALSE)
   files <- snapshot_manifest_files(manifest)
-  urls <- cache_snapshot_files(files, cache = cache)
+  cache_key <- manifest$generated_at
+  if (is.null(cache_key) || !length(cache_key) || !nzchar(cache_key[[1]])) {
+    cache_key <- manifest$snapshot_date
+  }
+  urls <- cache_snapshot_files(files, cache = cache, cache_key = cache_key)
 
   read_snapshot_files(urls)
 }
@@ -88,11 +95,19 @@ snapshot_manifest_files <- function(manifest) {
   if (length(missing)) {
     stop("Snapshot manifest files must contain `name` and `url`.", call. = FALSE)
   }
+  if (anyNA(files$name) || anyNA(files$url) ||
+      any(!nzchar(files$name)) || any(!nzchar(files$url))) {
+    stop("Snapshot manifest file names and URLs must be non-empty.", call. = FALSE)
+  }
+  if (anyDuplicated(basename(files$name))) {
+    stop("Snapshot manifest file names must be unique.", call. = FALSE)
+  }
 
   files[required]
 }
 
-cache_snapshot_files <- function(files, cache = TRUE) {
+cache_snapshot_files <- function(files, cache = TRUE, cache_key = NULL) {
+  validate_flag(cache, "cache")
   if (!isTRUE(cache)) {
     return(files$url)
   }
@@ -100,13 +115,58 @@ cache_snapshot_files <- function(files, cache = TRUE) {
   cache_dir <- snapshot_cache_dir()
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
-  vapply(seq_len(nrow(files)), function(i) {
-    dest <- file.path(cache_dir, basename(files$name[i]))
-    if (!file.exists(dest)) {
-      utils::download.file(files$url[i], destfile = dest, mode = "wb", quiet = TRUE)
+  destinations <- file.path(cache_dir, basename(files$name))
+  if (is.null(cache_key) || !length(cache_key) ||
+      is.na(cache_key[[1]]) || !nzchar(cache_key[[1]])) {
+    cache_key <- paste(files$url, collapse = "\n")
+  } else {
+    cache_key <- as.character(cache_key[[1]])
+  }
+
+  key_file <- file.path(cache_dir, "manifest-id")
+  stored_key <- if (file.exists(key_file)) {
+    paste(readLines(key_file, warn = FALSE), collapse = "\n")
+  } else {
+    ""
+  }
+  refresh <- !identical(stored_key, cache_key) ||
+    any(!file.exists(destinations))
+
+  if (refresh) {
+    temporary <- vapply(seq_len(nrow(files)), function(i) {
+      tempfile(
+        paste0(basename(files$name[[i]]), "-"),
+        tmpdir = cache_dir
+      )
+    }, character(1))
+    on.exit(unlink(temporary), add = TRUE)
+
+    for (i in seq_len(nrow(files))) {
+      status <- utils::download.file(
+        files$url[[i]],
+        destfile = temporary[[i]],
+        mode = "wb",
+        quiet = TRUE
+      )
+      if (!identical(status, 0L) || !file.exists(temporary[[i]]) ||
+          is.na(file.size(temporary[[i]])) ||
+          file.size(temporary[[i]]) == 0) {
+        stop(
+          "Failed to download snapshot file: ",
+          files$url[[i]],
+          call. = FALSE
+        )
+      }
     }
-    dest
-  }, character(1))
+
+    copied <- file.copy(temporary, destinations, overwrite = TRUE)
+    if (!all(copied)) {
+      stop("Failed to update the local snapshot cache.", call. = FALSE)
+    }
+    writeLines(cache_key, key_file, useBytes = TRUE)
+  }
+
+  destinations
 }
 
 snapshot_cache_dir <- function() {

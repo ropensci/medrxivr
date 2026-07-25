@@ -4,12 +4,20 @@
 #' @keywords internal
 
 internet_check <- function() {
-  if (curl::has_internet() == FALSE) { # nocov start
+  if (!isTRUE(curl::has_internet())) { # nocov start
     stop(paste0(
-      "No internet connect detected - ",
+      "No internet connection detected - ",
       "please connect to the internet and try again"
-    ))
+    ), call. = FALSE)
   } # nocov end
+}
+
+validate_flag <- function(x, name) {
+  if (!is.logical(x) || length(x) != 1L || is.na(x)) {
+    stop(sprintf("`%s` must be TRUE or FALSE.", name), call. = FALSE)
+  }
+
+  invisible(x)
 }
 
 #' Convert API data to data frame

@@ -11,7 +11,9 @@ test_that("Server not recognised", {
 
 test_that("API content paginates, cleans records, and can include metadata", {
   raw <- sample_raw_api_data()
+  calls <- 0L
   fake_reader <- function(url) {
+    calls <<- calls + 1L
     cursor <- tail(strsplit(url, "/", fixed = TRUE)[[1]], 1)
     row <- if (identical(cursor, "0")) 1L else 2L
     list(
@@ -42,6 +44,7 @@ test_that("API content paginates, cleans records, and can include metadata", {
   )
 
   expect_equal(nrow(mx_data), 2L)
+  expect_equal(calls, 2L)
   expect_true(all(c("link_page", "link_pdf", "status", "count") %in% names(mx_data)))
   expect_equal(mx_data$title, c("dementia trial", "asthma cohort"))
 })

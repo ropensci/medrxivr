@@ -21,7 +21,7 @@ mx_export <- function(data,
     AUTHOR = gsub(";", " and ", data$authors),
     URL = data$link_page,
     DOI = data$doi,
-    YEAR = lubridate::year(data$date),
+    YEAR = as.integer(format(as.Date(data$date), "%Y")),
     NOTE = paste0(
       "Category: ",
       data$category,

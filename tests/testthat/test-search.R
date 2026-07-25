@@ -3,6 +3,9 @@ test_that("Search validates required inputs", {
   expect_error(mx_search(data = sample_preprint_data()), "search terms")
   expect_error(mx_search(data = list(other = data.frame()), query = "dementia"), "data.frame element")
   expect_error(mx_search(data = data.frame(title = "dementia"), query = "dementia"), "date")
+  expect_error(mx_search(data = sample_preprint_data(), query = character()), "at least one")
+  expect_error(mx_search(data = sample_preprint_data(), query = "dementia", fields = "missing"), "not found")
+  expect_error(mx_search(data = sample_preprint_data(), query = "dementia", report = NA), "TRUE or FALSE")
 })
 
 test_that("Search handles string, vector, list, date, and deduplication inputs", {

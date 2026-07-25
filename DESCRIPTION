@@ -36,18 +36,13 @@ Language: en-US
 URL: https://docs.ropensci.org/medrxivr/, https://github.com/ropensci/medrxivr
 BugReports: https://github.com/ropensci/medrxivr/issues
 Imports: 
-    methods,
     dplyr,
     curl,
     jsonlite,
     httr,
     stringr,
-    rlang,
     bib2df,
     tibble,
-    progress,
-    lubridate,
-    purrr,
     data.table
 Suggests: 
     testthat (>= 2.1.0),
