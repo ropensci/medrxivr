@@ -20,6 +20,8 @@ validate_flag <- function(x, name) {
   invisible(x)
 }
 
+.api_retry_attempts <- 5L
+
 #' Convert API data to data frame
 #'
 #' @param url API endpoint from which to extract and format data
@@ -32,7 +34,7 @@ validate_flag <- function(x, name) {
 api_to_df <- function(url) { # nocov start
   details <- httr::RETRY(
     verb = "GET",
-    times = 3,
+    times = .api_retry_attempts,
     url = url,
     httr::timeout(30)
   )
@@ -191,7 +193,7 @@ clean_api_df <- function(df) {
 skip_if_api_message <- function() { # nocov start
   details <- httr::RETRY(
     verb = "GET",
-    times = 3,
+    times = .api_retry_attempts,
     url = "https://api.biorxiv.org/details/medrxiv/2020-06-21/2020-08-28/45",
     httr::timeout(30)
   )

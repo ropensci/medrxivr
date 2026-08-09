@@ -14,6 +14,10 @@ name: Update snapshot
 permissions:
   contents: write
 
+concurrency:
+  group: medrxivr-snapshot
+  cancel-in-progress: false
+
 jobs:
   update-snapshot:
     runs-on: ubuntu-24.04
