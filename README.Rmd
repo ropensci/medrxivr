@@ -29,9 +29,9 @@ library(medrxivr)
 
 <!-- badges: end -->
 
-An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and bioRxiv, both of which are operated by the Cold Spring Harbor Laboratory.
+An increasingly important source of health-related bibliographic content are preprints - preliminary versions of research articles that have yet to undergo peer review. The two preprint repositories most relevant to health-related sciences are [medRxiv](https://www.medrxiv.org/) and bioRxiv, both of which are operated by [openRxiv](https://openrxiv.org)..
 
-The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [Cold Spring Harbour Laboratory (CSHL) API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
+The goal of the `medrxivr` R package is two-fold. In the first instance, it provides programmatic access to the [bioRxiv/medRxiv API](https://api.biorxiv.org/), allowing users to easily download medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication date, author list, etc) into R. The package also provides access to a maintained static snapshot of the medRxiv repository (see [Data sources](#medrxiv-data)). Secondly, `medrxivr` provides functions to search the downloaded preprint records using regular expressions and Boolean logic, as well as helper functions that allow users to export their search results to a .BIB file for easy import to a reference manager and to download the full-text PDFs of preprints matching their search criteria.
 
 ## Installation
 
@@ -63,14 +63,14 @@ library(medrxivr)
   
 ``` {r}
 # Get a copy of the database from the live medRxiv API endpoint
-preprint_data <- mx_api_content()  
+preprint_data <- mx_api_content()
 ```
   
   - `mx_snapshot()` provides access to a static snapshot of the medRxiv database. The package reads a manifest from the `snapshot` release assets for this repository, downloads the referenced compressed CSV files, and caches them locally. This method does not rely on the live API during ordinary use and is usually faster than re-extracting records from the API. The function prints the latest record date included in the snapshot; discrepancies between the most recent static snapshot and the live database can be assessed using `mx_crosscheck()`.
   
 ``` {r}
 # Get a copy of the database from the static snapshot
-preprint_data <- mx_snapshot()  
+preprint_data <- mx_snapshot()
 ```
   
 The relationship between the two methods for the medRxiv database is summarised in the figure below:
@@ -100,25 +100,20 @@ Once you have created a local copy of either the medRxiv or bioRxiv preprint dat
 preprint_data <- mx_snapshot()
 
 # Perform a simple search
-results <- mx_search(data = preprint_data,
-                     query ="dementia")
+results <- mx_search(data = preprint_data, query = "dementia")
 
 # Perform an advanced search
-topic1  <- c("dementia","vascular","alzheimer's")  # Combined with Boolean OR
-topic2  <- c("lipids","statins","cholesterol")     # Combined with Boolean OR
-myquery <- list(topic1, topic2)                    # Combined with Boolean AND
+topic1 <- c("dementia", "vascular", "alzheimer's") # Combined with Boolean OR
+topic2 <- c("lipids", "statins", "cholesterol") # Combined with Boolean OR
+myquery <- list(topic1, topic2) # Combined with Boolean AND
 
-results <- mx_search(data = preprint_data,
-                     query = myquery)
-
+results <- mx_search(data = preprint_data, query = myquery)
 ```
 
 You can also explore which search terms are contributing most to your search by setting `report = TRUE`:
 
 ```{r, eval = TRUE, message = TRUE}
-results <- mx_search(data = preprint_data,
-                     query = myquery,
-                     report = TRUE)
+results <- mx_search(data = preprint_data, query = myquery, report = TRUE)
 ```
 
 ## Further functionality
@@ -128,9 +123,7 @@ results <- mx_search(data = preprint_data,
 Pass the results of your search above (the `results` object) to the `mx_export()` to export references for preprints matching your search results to a .BIB file so that they can be easily imported into a reference manager (e.g. Zotero, Mendeley).
 
 ```{r, eval = FALSE}
-mx_export(data = results,
-          file = "mx_search_results.bib")
-
+mx_export(data = results, file = "mx_search_results.bib")
 ```
 
 ### Download PDFs for records returned by your search
@@ -138,10 +131,11 @@ mx_export(data = results,
 Pass the results of your search above (the `results` object) to the `mx_download()` function to download a copy of the PDF for each record found by your search.
 
 ```{r}
-mx_download(results,        # Object returned by mx_search(), above
-            "pdf/",         # Directory to save PDFs to 
-            create = TRUE)  # Create the directory if it doesn't exist
-
+mx_download(
+  results, # Object returned by mx_search(), above
+  "pdf/", # Directory to save PDFs to
+  create = TRUE
+) # Create the directory if it doesn't exist
 ```
 
 ## Accessing the raw API data
@@ -152,7 +146,6 @@ To access the raw data returned by the API, the `clean` argument should  set to 
 
 ``` {r}
 mx_api_content(to_date = "2019-07-01", clean = FALSE)
-
 ```
 
 See [this article](https://docs.ropensci.org/medrxivr/articles/medrxiv-api.html#accessing-the-raw-api-data) for more details.
@@ -169,7 +162,7 @@ See here for the [snapshot release assets](https://github.com/ropensci/medrxivr/
 
 The focus of `medrxivr` is on providing tools to allow users to import and then search medRxiv and bioRxiv data. Below are a list of complementary packages that provide distinct but related functionality when working with medRxiv and bioRxiv data:
 
-* [`rbiorxiv`](https://github.com/nicholasmfraser/rbiorxiv) by [Nicholas Fraser](https://github.com/nicholasmfraser) provides access to the same medRxiv and bioRxiv _content_ data as `medrxivr`, but also provides access to the _usage_ data (e.g. downloads per month) that the Cold Spring Harbour Laboratory API offers. This is useful if you wish to explore, for example, [how the number of PDF downloads from bioRxiv has grown over time.](https://github.com/nicholasmfraser/rbiorxiv#pdf-downloads-over-time)
+* [`rbiorxiv`](https://github.com/nicholasmfraser/rbiorxiv) by [Nicholas Fraser](https://github.com/nicholasmfraser) provides access to the same medRxiv and bioRxiv _content_ data as `medrxivr`, but also provides access to the _usage_ data (e.g. downloads per month) that the bioRxiv/medRxiv API offers. This is useful if you wish to explore, for example, [how the number of PDF downloads from bioRxiv has grown over time.](https://github.com/nicholasmfraser/rbiorxiv#pdf-downloads-over-time)
 
 ## Code of conduct
 
