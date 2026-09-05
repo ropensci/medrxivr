@@ -21,12 +21,10 @@ An increasingly important source of health-related bibliographic content
 are preprints - preliminary versions of research articles that have yet
 to undergo peer review. The two preprint repositories most relevant to
 health-related sciences are [medRxiv](https://www.medrxiv.org/) and
-bioRxiv, both of which are operated by the Cold Spring Harbor
-Laboratory.
+bioRxiv, both of which are operated by [openRxiv](https://openrxiv.org).
 
 The goal of the `medrxivr` R package is two-fold. In the first instance,
-it provides programmatic access to the [Cold Spring Harbour Laboratory
-(CSHL) API](https://api.biorxiv.org/), allowing users to easily download
+it provides programmatic access to the [bioRxiv/medRxiv API](https://api.biorxiv.org/), allowing users to easily download
 medRxiv and bioRxiv preprint metadata (e.g. title, abstract, publication
 date, author list, etc) into R. The package also provides access to a
 maintained static snapshot of the medRxiv repository (see [Data
@@ -217,7 +215,7 @@ when working with medRxiv and bioRxiv data:
   Fraser](https://github.com/nicholasmfraser) provides access to the
   same medRxiv and bioRxiv *content* data as `medrxivr`, but also
   provides access to the *usage* data (e.g. downloads per month) that
-  the Cold Spring Harbour Laboratory API offers. This is useful if you
+  the bioRxiv/medRxiv API offers. This is useful if you
   wish to explore, for example, [how the number of PDF downloads from
   bioRxiv has grown over
   time.](https://github.com/nicholasmfraser/rbiorxiv#pdf-downloads-over-time)
